@@ -138,6 +138,4 @@ class WarningFieldValidator extends Validator
 
         return $this;
     }
-
 }
-
