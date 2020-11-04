@@ -30,6 +30,16 @@ class MultiValidator extends Validator
         $this->ajax = $ajax;
     }
 
+    public function getValidators()
+    {
+        return $this->validators;
+    }
+
+    public function addValidator(Validator $validator)
+    {
+        $this->validators[] = $validator;
+    }
+
     /**
      * Sends the form to each validator
      *
