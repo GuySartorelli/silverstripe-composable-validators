@@ -52,21 +52,21 @@ class RequiredBlocksValidator extends Validator
                     }
                     $requiredConfig = $elementClassesToCheck[$element->ClassName];
                     // If we need to check for this block in specific fields but not this one, skip for now.
-                    if (!empty($requiredConfig['AreaFieldName']) && !in_array($fieldName, $requiredConfig['AreaFieldName'])) {
+                    if (!empty($requiredConfig['areafieldname']) && !in_array($fieldName, $requiredConfig['areafieldname'])) {
                         continue;
                     }
                     $relevantFields = $this->getRelevantFields($elementalAreaFields, $requiredConfig);
 
                     // Validate against minimum and maximum number of blocks.
-                    if (isset($requiredConfig['Min']) || isset($requiredConfig['Max'])) {
+                    if (isset($requiredConfig['min']) || isset($requiredConfig['max'])) {
                         $numberOfBlocks = $this->getNumberOfBlocks($element->ClassName, $relevantFields);
-                        if (isset($requiredConfig['Min']) && $numberOfBlocks < $requiredConfig['Min']) {
+                        if (isset($requiredConfig['min']) && $numberOfBlocks < $requiredConfig['min']) {
                             foreach ($relevantFields as $field)
                             {
                                 $errors[$field->Name][$element->ClassName][] = self::TOO_FEW_ERROR;
                             }
                         }
-                        if (isset($requiredConfig['Max']) && $numberOfBlocks > $requiredConfig['Max']) {
+                        if (isset($requiredConfig['max']) && $numberOfBlocks > $requiredConfig['max']) {
                             foreach ($relevantFields as $field)
                             {
                                 $errors[$field->Name][$element->ClassName][] = self::TOO_MANY_ERROR;
@@ -82,7 +82,7 @@ class RequiredBlocksValidator extends Validator
         // Add an error for each missing elemental block type if the config for the class states a minimum.
         if (!empty($elementClassesToCheck)) {
             foreach ($elementClassesToCheck as $className => $requiredConfig) {
-                if (isset($requiredConfig['Min'])) {
+                if (isset($requiredConfig['min'])) {
                     $relevantFields = $this->getRelevantFields($elementalAreaFields, $requiredConfig);
                     foreach ($relevantFields as $field)
                     {
@@ -103,12 +103,12 @@ class RequiredBlocksValidator extends Validator
                         $message .= PHP_EOL;
                         switch ($errorType) {
                             case self::TOO_FEW_ERROR:
-                                $min = $this->required[$blockClass]['Min'];
+                                $min = $this->required[$blockClass]['min'];
                                 $isAre = $this->isAre($min);
                                 $message .= "Too few '$blockPlural'. At least $min $isAre required.";
                                 break;
                             case self::TOO_MANY_ERROR:
-                                $max = $this->required[$blockClass]['Max'];
+                                $max = $this->required[$blockClass]['max'];
                                 $isAre = $this->isAre($max);
                                 $message .= "Too many '$blockPlural'. Up to $max $isAre allowed.";
                                 break;
@@ -132,9 +132,9 @@ class RequiredBlocksValidator extends Validator
     protected function getRelevantFields($elementalAreaFields, $requiredConfig)
     {
         $relevantFields = $elementalAreaFields;
-        if (!empty($requiredConfig['AreaFieldName'])) {
+        if (!empty($requiredConfig['areafieldname'])) {
             $relevantFields = $relevantFields->filter([
-                'Name' => $requiredConfig['AreaFieldName'],
+                'Name' => $requiredConfig['areafieldname'],
             ]);
         }
         return $relevantFields;
@@ -157,7 +157,7 @@ class RequiredBlocksValidator extends Validator
     protected function normaliseRequiredConfig($required)
     {
         $defaultConfig = [
-            'Min' => 1,
+            'min' => 1,
         ];
         $newConfig = [];
         foreach ($required as $blockClass => $config) {
@@ -165,16 +165,19 @@ class RequiredBlocksValidator extends Validator
                 // If only a block class name is provided, set the default config.
                 $newConfig[$config] = $defaultConfig;
                 unset($required[$blockClass]);
+                continue;
             } elseif (!is_string($blockClass) || !is_array($config)) {
                 throw new \InvalidArgumentException('Invalid required blocks array.');
             }
-            // Set the default config if none is supplied.
-            if (empty($config)) {
-                $required[$blockClass] = $defaultConfig;
+            $config = array_change_key_case($config, CASE_LOWER);
+            // Set the default config if none is supplied or only an AreaFieldName is supplied.
+            $configKeys = array_keys($config);
+            if (empty($config) || (count($configKeys) === 1 && $configKeys[0] === 'areafieldname')) {
+                $required[$blockClass] = Priority::mergeArray($config, $defaultConfig);
             }
             // Ensure 'AreaFieldName' config is an array.
-            if (isset($config['AreaFieldName']) && !is_array($config['AreaFieldName'])) {
-                $required[$blockClass]['AreaFieldName'] = [$config['AreaFieldName']];
+            if (isset($config['areafieldname']) && !is_array($config['areafieldname'])) {
+                $required[$blockClass]['areafieldname'] = [$config['areafieldname']];
             }
         }
 
