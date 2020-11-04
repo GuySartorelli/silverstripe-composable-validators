@@ -25,7 +25,7 @@ class MultiValidator extends Validator
 
     public function __construct(array $validators = [], $ajax = true)
     {
-        Requirements::javascript('app/client/dist/js/MultiValidator.js');
+        Requirements::javascript('app/client/dist/MultiValidator.js');
         $this->validators = $validators;
         $this->ajax = $ajax;
     }
