@@ -1,0 +1,6 @@
+---
+Name: extensions
+---
+SilverStripe\Forms\Form:
+  extensions:
+    - App\Extensions\FormExtension

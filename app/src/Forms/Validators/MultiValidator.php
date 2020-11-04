@@ -1,7 +1,10 @@
 <?php
 namespace App\Validators;
 
+use SilverStripe\CMS\Controllers\CMSMain;
 use SilverStripe\Forms\Validator;
+use SilverStripe\ORM\ValidationResult;
+use SilverStripe\View\Requirements;
 
 class MultiValidator extends Validator
 {
@@ -14,18 +17,43 @@ class MultiValidator extends Validator
     private $validators;
 
     /**
+     * Whether ajax validation should be used.
+     *
+     * @var bool
+     */
+    private $ajax;
+
+    public function __construct(array $validators = [], $ajax = true)
+    {
+        Requirements::javascript('app/client/dist/js/MultiValidator.js');
+        $this->validators = $validators;
+        $this->ajax = $ajax;
+    }
+
+    /**
      * Sends the form to each validator
      *
      * @param \SilverStripe\Forms\Form $form
      * @return \App\Validators\MultiValidator
      */
-
     public function setForm($form)
     {
         foreach ($this->validators as $validator) {
             $validator->setForm($form);
         }
-        return $this;
+        if ($this->ajax) {
+            $action = 'httpSubmission';
+            $request = $form->getRequestHandler()->getRequest();
+            if ($form->getController() instanceof CMSMain) {
+                $id = $request->param('ID') ?: $request->postVar('ID') ?: '';
+                if ($id) {
+                    $action = "$id/$action";
+                }
+            }
+            $form->addExtraClass('js-multi-validator-ajax');
+            $form->setAttribute('data-validation-link', $form->getRequestHandler()->Link($action));
+        }
+        return parent::setForm($form);
     }
 
     /**
@@ -36,8 +64,14 @@ class MultiValidator extends Validator
      * {@inheritDoc}
      * @see \SilverStripe\Forms\Validator::validate()
      */
-    public function validate()
+    public function validate($isValidAjax = false)
     {
+        // The FormRequestHandler will attempt to validate prior to passing to our validation handler.
+        // If that happens, pretend the form passed validation.
+        if (!$this->isValidRequest($isValidAjax)) {
+            return new ValidationResult();
+        }
+        // Validate against all validators.
         $this->resetResult();
         if ($this->getEnabled()) {
             foreach ($this->validators as $validator) {
@@ -45,6 +79,12 @@ class MultiValidator extends Validator
             }
         }
         return $this->result;
+    }
+
+    protected function isValidRequest($validAjax)
+    {
+        $request = $this->form->getRequestHandler()->getRequest();
+        return !$request->isAjax() || $validAjax || $request->allParams()['Action'] !== 'httpSubmission';
     }
 
     /**
@@ -59,12 +99,5 @@ class MultiValidator extends Validator
     public function php($data)
     {
         // Do nothing
-    }
-
-
-
-    public function __construct($validators)
-    {
-        $this->validators = $validators;
     }
 }
