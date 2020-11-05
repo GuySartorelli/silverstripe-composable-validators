@@ -4,6 +4,7 @@ namespace App\Forms\Validators;
 
 use DNADesign\Elemental\Controllers\ElementalAreaController;
 use DNADesign\Elemental\Forms\ElementalAreaField;
+use DNADesign\Elemental\Models\ElementalArea;
 use SilverStripe\Config\MergeStrategy\Priority;
 use SilverStripe\Forms\Validator;
 use SilverStripe\ORM\ArrayList;
@@ -19,6 +20,7 @@ class RequiredBlocksValidator extends Validator
 
     const TOO_FEW_ERROR = 'toofew';
     const TOO_MANY_ERROR = 'toomany';
+    const POSITION_ERROR = 'outofposition';
 
     public function __construct($required = [])
     {
@@ -45,6 +47,9 @@ class RequiredBlocksValidator extends Validator
             /** @var ElementalArea $area */
             $area = $field->getArea();
             if ($area) {
+                // Get block positioning
+                $blockPositions = $this->getBlockPositions($area);
+
                 // Check submitted form data for each element in the area.
                 foreach ($area->Elements() as $element) {
                     if (!array_key_exists($element->ClassName, $elementClassesToCheck)) {
@@ -73,6 +78,14 @@ class RequiredBlocksValidator extends Validator
                             }
                         }
                     }
+
+                    // Validate against position.
+                    if (isset($requiredConfig['pos'])) {
+                        if (!in_array($requiredConfig['pos'], $blockPositions[$element->ClassName])) {
+                            $errors[$field->Name][$element->ClassName][] = self::POSITION_ERROR;
+                        }
+                    }
+
                     // Don't check this block class again.
                     unset($elementClassesToCheck[$element->ClassName]);
                 }
@@ -87,6 +100,9 @@ class RequiredBlocksValidator extends Validator
                     foreach ($relevantFields as $field)
                     {
                         $errors[$field->Name][$element->ClassName][] = self::TOO_FEW_ERROR;
+                        if (isset($requiredConfig['pos'])) {
+                            $errors[$field->Name][$element->ClassName][] = self::POSITION_ERROR;
+                        }
                     }
                 }
             }
@@ -112,6 +128,19 @@ class RequiredBlocksValidator extends Validator
                                 $isAre = $this->isAre($max);
                                 $message .= "Too many '$blockPlural'. Up to $max $isAre allowed.";
                                 break;
+                            case self::POSITION_ERROR:
+                                $pos = $this->required[$blockClass]['pos'];
+                                if ($pos < 0) {
+                                    $pos *= -1;
+                                    $ordinal = $this->ordinal($pos);
+                                    $pos = $pos == 1 ? 'at the bottom' : "$ordinal from the bottom";
+                                } else {
+                                    $pos++;
+                                    $ordinal = $this->ordinal($pos);
+                                    $pos = $pos == 1 ? 'at the top' : "$ordinal from the top";
+                                }
+                                $message .= "If a '$blockSingular' exists, it must be $pos.";
+                                break;
                             default:
                                 $message .= "Unknown error for '$blockSingular'.";
                                 break;
@@ -127,6 +156,23 @@ class RequiredBlocksValidator extends Validator
         }
 
         return empty($errors);
+    }
+
+    protected function getBlockPositions(ElementalArea $area)
+    {
+        $total = $area->Elements()->Count();
+        $positions = [];
+        $pos = 0;
+        foreach ($area->Elements() as $element) {
+            if (!isset($positions[$element->ClassName])) {
+                $positions[$element->ClassName] = [];
+            }
+            // Get the positive (from top) and negative (from bottom) positions.
+            $positions[$element->ClassName][] = $pos;
+            $positions[$element->ClassName][] = $pos - $total;
+            $pos++;
+        }
+        return $positions;
     }
 
     protected function getRelevantFields($elementalAreaFields, $requiredConfig)
@@ -152,6 +198,23 @@ class RequiredBlocksValidator extends Validator
     protected function isAre($count)
     {
         return $count == 1 ? 'is' : 'are';
+    }
+
+    protected function ordinal($num)
+    {
+        $ones = $num % 10;
+        $tens = floor($num / 10) % 10;
+        if ($tens == 1) {
+            $suff = "th";
+        } else {
+            switch ($ones) {
+                case 1 : $suff = "st"; break;
+                case 2 : $suff = "nd"; break;
+                case 3 : $suff = "rd"; break;
+                default : $suff = "th";
+            }
+        }
+        return $num . $suff;
     }
 
     protected function normaliseRequiredConfig($required)
