@@ -110,52 +110,57 @@ class RequiredBlocksValidator extends Validator
 
         // Add error messages to fields.
         if (!empty($errors)) {
-            foreach ($errors as $fieldName => $blockErrors) {
-                $message = 'The following elemental block validation errors must be resolved:';
-                foreach ($blockErrors as $blockClass => $errorTypes) {
-                    foreach ($errorTypes as $errorType) {
-                        $blockSingular = $blockClass::singleton()->singular_name();
-                        $blockPlural = $blockClass::singleton()->plural_name();
-                        $message .= PHP_EOL;
-                        switch ($errorType) {
-                            case self::TOO_FEW_ERROR:
-                                $min = $this->required[$blockClass]['min'];
-                                $isAre = $this->isAre($min);
-                                $message .= "Too few '$blockPlural'. At least $min $isAre required.";
-                                break;
-                            case self::TOO_MANY_ERROR:
-                                $max = $this->required[$blockClass]['max'];
-                                $isAre = $this->isAre($max);
-                                $message .= "Too many '$blockPlural'. Up to $max $isAre allowed.";
-                                break;
-                            case self::POSITION_ERROR:
-                                $pos = $this->required[$blockClass]['pos'];
-                                if ($pos < 0) {
-                                    $pos *= -1;
-                                    $ordinal = $this->ordinal($pos);
-                                    $pos = $pos == 1 ? 'at the bottom' : "$ordinal from the bottom";
-                                } else {
-                                    $pos++;
-                                    $ordinal = $this->ordinal($pos);
-                                    $pos = $pos == 1 ? 'at the top' : "$ordinal from the top";
-                                }
-                                $message .= "If a '$blockSingular' exists, it must be $pos.";
-                                break;
-                            default:
-                                $message .= "Unknown error for '$blockSingular'.";
-                                break;
-                        }
-                    }
-                }
-                $this->validationError(
-                    $fieldName,
-                    $message,
-                    'required'
-                );
-            }
+            $this->setErrorMessages($errors);
         }
 
         return empty($errors);
+    }
+
+    protected function setErrorMessages($errors)
+    {
+        foreach ($errors as $fieldName => $blockErrors) {
+            $message = 'The following elemental block validation errors must be resolved:';
+            foreach ($blockErrors as $blockClass => $errorTypes) {
+                foreach ($errorTypes as $errorType) {
+                    $blockSingular = $blockClass::singleton()->singular_name();
+                    $blockPlural = $blockClass::singleton()->plural_name();
+                    $message .= PHP_EOL;
+                    switch ($errorType) {
+                        case self::TOO_FEW_ERROR:
+                            $min = $this->required[$blockClass]['min'];
+                            $isAre = $this->isAre($min);
+                            $message .= "Too few '$blockPlural'. At least $min $isAre required.";
+                            break;
+                        case self::TOO_MANY_ERROR:
+                            $max = $this->required[$blockClass]['max'];
+                            $isAre = $this->isAre($max);
+                            $message .= "Too many '$blockPlural'. Up to $max $isAre allowed.";
+                            break;
+                        case self::POSITION_ERROR:
+                            $pos = $this->required[$blockClass]['pos'];
+                            if ($pos < 0) {
+                                $pos *= -1;
+                                $ordinal = $this->ordinal($pos);
+                                $pos = $pos == 1 ? 'at the bottom' : "$ordinal from the bottom";
+                            } else {
+                                $pos++;
+                                $ordinal = $this->ordinal($pos);
+                                $pos = $pos == 1 ? 'at the top' : "$ordinal from the top";
+                            }
+                            $message .= "If a '$blockSingular' exists, it must be $pos.";
+                            break;
+                        default:
+                            $message .= "Unknown error for '$blockSingular'.";
+                            break;
+                    }
+                }
+            }
+            $this->validationError(
+                $fieldName,
+                $message,
+                'required'
+            );
+        }
     }
 
     protected function getBlockPositions(ElementalArea $area)
