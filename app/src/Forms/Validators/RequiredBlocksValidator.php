@@ -29,7 +29,6 @@ class RequiredBlocksValidator extends Validator
 
     public function php($data)
     {
-        $idPrefixLength = strlen(sprintf(ElementalAreaController::FORM_NAME_TEMPLATE, ''));
         $elementalAreaFields = new ArrayList();
         $elementClassesToCheck = $this->required;
         $errors = [];
