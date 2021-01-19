@@ -76,8 +76,7 @@ class MultiValidator extends Validator
      */
     public function validate($isValidAjax = false)
     {
-        // The FormRequestHandler will attempt to validate prior to passing to our validation handler.
-        // If that happens, pretend the form passed validation.
+        // Only validate requests we consider valid.
         if (!$this->isValidRequest($isValidAjax)) {
             return new ValidationResult();
         }
@@ -88,13 +87,29 @@ class MultiValidator extends Validator
                 $this->result->combineAnd($validator->validate());
             }
         }
+        if ($isValidAjax) {
+            $this->getRequest()->getSession()->clear("FormInfo.{$this->form->FormName()}.result");
+        }
         return $this->result;
     }
 
     protected function isValidRequest($validAjax)
     {
-        $request = $this->form->getRequestHandler()->getRequest();
+        $request = $this->getRequest();
+        // Not valid if action is validation exempt.
+        if (!empty($clickedAction = $request->requestVars()['_original_action'])) {
+            $clickedButton = $this->form->Actions()->dataFieldByName($clickedAction);
+            if ($clickedButton && $clickedButton->getValidationExempt()) {
+                return false;
+            }
+        }
+        // Not valid if the FormRequestHandler attempts to validate prior to passing to our validation handler.
         return !$request->isAjax() || $validAjax || $request->allParams()['Action'] !== 'httpSubmission';
+    }
+
+    protected function getRequest()
+    {
+        return $this->form->getRequestHandler()->getRequest();
     }
 
     /**

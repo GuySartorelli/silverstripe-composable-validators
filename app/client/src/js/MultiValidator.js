@@ -113,6 +113,9 @@
         const validateUrl = this.data('validation-link');
         const serialised = this.serializeArray();
         serialised.push({name:'action_app_ajaxValidate', value:'1'});
+        if (button) {
+          serialised.push({ name: '_original_action', value: button.getAttribute('name') });
+        }
         $.ajax({
           type: 'POST',
           url: validateUrl,
