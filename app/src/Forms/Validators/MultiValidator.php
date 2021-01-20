@@ -97,7 +97,8 @@ class MultiValidator extends Validator
     {
         $request = $this->getRequest();
         // Not valid if action is validation exempt.
-        if (!empty($clickedAction = $request->requestVars()['_original_action'])) {
+        if (isset($request->requestVars()['_original_action'])) {
+            $clickedAction = $request->requestVars()['_original_action'];
             $clickedButton = $this->form->Actions()->dataFieldByName($clickedAction);
             if ($clickedButton && $clickedButton->getValidationExempt()) {
                 return false;
