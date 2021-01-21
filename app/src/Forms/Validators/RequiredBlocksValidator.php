@@ -2,7 +2,6 @@
 
 namespace App\Forms\Validators;
 
-use DNADesign\Elemental\Controllers\ElementalAreaController;
 use DNADesign\Elemental\Forms\ElementalAreaField;
 use DNADesign\Elemental\Models\ElementalArea;
 use SilverStripe\Config\MergeStrategy\Priority;
@@ -98,9 +97,9 @@ class RequiredBlocksValidator extends Validator
                     $relevantFields = $this->getRelevantFields($elementalAreaFields, $requiredConfig);
                     foreach ($relevantFields as $field)
                     {
-                        $errors[$field->Name][$element->ClassName][] = self::TOO_FEW_ERROR;
+                        $errors[$field->Name][$className][] = self::TOO_FEW_ERROR;
                         if (isset($requiredConfig['pos'])) {
-                            $errors[$field->Name][$element->ClassName][] = self::POSITION_ERROR;
+                            $errors[$field->Name][$className][] = self::POSITION_ERROR;
                         }
                     }
                 }
