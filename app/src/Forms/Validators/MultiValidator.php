@@ -30,16 +30,31 @@ class MultiValidator extends Validator
         $this->ajax = $ajax;
     }
 
+    /**
+     * Returns all validators in this MultiValidator.
+     *
+     * @return \SilverStripe\Forms\Validator[]
+     */
     public function getValidators()
     {
         return $this->validators;
     }
 
+    /**
+     * Adds a validator to this MultiValidator.
+     *
+     * @param \SilverStripe\Forms\Validator $validator
+     */
     public function addValidator(Validator $validator)
     {
         $this->validators[] = $validator;
     }
 
+    /**
+     * Returns all validators in this MultiValidator that are instances of a given type.
+     *
+     * @return \SilverStripe\Forms\Validator[]
+     */
     public function getValidatorsByType($type)
     {
         $validators = [];
