@@ -40,6 +40,17 @@ class MultiValidator extends Validator
         $this->validators[] = $validator;
     }
 
+    public function getValidatorsByType($type)
+    {
+        $validators = [];
+        foreach ($this->validators as $validator) {
+            if ($validator instanceof $type) {
+                $validators[] = $validator;
+            }
+        }
+        return $validators;
+    }
+
     /**
      * Sends the form to each validator
      *
