@@ -81,4 +81,18 @@ class RequiredFieldsValidator extends RequiredFields
 
         return $valid;
     }
+
+    /**
+     * Adds multiple required fields to required fields stack.
+     *
+     * @param string[] $fields
+     *
+     * @return $this
+     */
+    public function addRequiredFields($fields)
+    {
+        $this->required = array_merge($this->required, $fields);
+
+        return $this;
+    }
 }
