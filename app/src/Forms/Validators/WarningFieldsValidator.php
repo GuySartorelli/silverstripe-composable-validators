@@ -13,7 +13,7 @@ use SilverStripe\Forms\GridField\GridField;
  * Similar to {@link \SilverStripe\Forms\RequiredFields} but produces a warning rather than a validation error.
  * Doesn't validate each form fields - use RequiredFields or SimpleValidator in a MultiValidator for that.
  */
-class WarningFieldValidator extends Validator
+class WarningFieldsValidator extends Validator
 {
 
     /**
@@ -96,8 +96,8 @@ class WarningFieldValidator extends Validator
             }
 
             if ($formField && $error) {
-                $errorMessage = ($formField->Title() ?: $fieldName)
-                    . ' is required and must be completed for this item to display.';
+                $name = strip_tags('"' . ($formField->Title() ? $formField->Title() : $fieldName) . '"');
+                $errorMessage = "$name has no value and will not display";
                 $this->result->addFieldMessage($fieldName, $errorMessage, ValidationResult::TYPE_WARNING);
 
                 $warning = true;
