@@ -3,7 +3,9 @@ namespace App\Validators;
 
 use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\FormField;
+use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\RequiredFields;
+use SilverStripe\ORM\ValidationResult;
 
 /**
  * An implementation of {@link RequiredFields} that doesn't validate fields internally.
@@ -40,11 +42,13 @@ class RequiredFieldsValidator extends RequiredFields
                 $formField = $fields->dataFieldByName($fieldName);
             }
 
-            // submitted data for file upload fields come back as an array
+            // submitted data for grid field and file upload fields come back as an array
             $value = isset($data[$fieldName]) ? $data[$fieldName] : null;
 
             if (is_array($value)) {
                 if ($formField instanceof FileField && isset($value['error']) && $value['error']) {
+                    $error = true;
+                } else if ($formField instanceof GridField && $formField->getList()->count() === 0) {
                     $error = true;
                 } else {
                     $error = (count($value)) ? false : true;
