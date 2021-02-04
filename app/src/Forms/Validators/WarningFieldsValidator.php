@@ -2,19 +2,18 @@
 
 namespace App\Validators;
 
+use App\Traits\ChecksIfFieldHasValue;
 use SilverStripe\Forms\Validator;
 use SilverStripe\ORM\ArrayLib;
-use SilverStripe\Forms\FormField;
-use SilverStripe\Forms\FileField;
 use SilverStripe\ORM\ValidationResult;
-use SilverStripe\Forms\GridField\GridField;
 
 /**
- * Similar to {@link \SilverStripe\Forms\RequiredFields} but produces a warning rather than a validation error.
- * Doesn't validate each form fields - use RequiredFields or SimpleValidator in a MultiValidator for that.
+ * Similar to {@link \App\Validators\RequiredFieldsValidator} but produces a warning rather than a validation error.
+ * This is for use within a {@link MultiValidator} in conjunction with a {@link SimpleValidator}.
  */
 class WarningFieldsValidator extends Validator
 {
+    use ChecksIfFieldHasValue;
 
     /**
      * List of fields which get a warning if empty.
@@ -65,35 +64,8 @@ class WarningFieldsValidator extends Validator
                 continue;
             }
 
-            if ($fieldName instanceof FormField) {
-                $formField = $fieldName;
-                $fieldName = $fieldName->getName();
-            } else {
-                $formField = $fields->dataFieldByName($fieldName);
-            }
-
-            $value = isset($data[$fieldName]) ? $data[$fieldName] : null;
-
-            // If there are no items in a gridfield's list, or there is on item that isn't saved,
-            // the value is considered empty.
-            if ($formField instanceof GridField) {
-                $value = $formField->getList()->count() ?: null;
-                if ($value === 1) {
-                    $value = $formField->getList()->first()->ID != 0 ?? null;
-                }
-            }
-
-            // submitted data for file upload fields come back as an array
-            if (is_array($value)) {
-                if ($formField instanceof FileField && isset($value['error']) && $value['error']) {
-                    $error = true;
-                } else {
-                    $error = (count($value)) ? false : true;
-                }
-            } else {
-                // assume a string or integer
-                $error = (strlen($value)) ? false : true;
-            }
+            $formField = $this->getFormField($fields, $fieldName);
+            $error = $this->fieldHasValue($data, $formField, $fieldName);
 
             if ($formField && $error) {
                 $name = strip_tags('"' . ($formField->Title() ? $formField->Title() : $fieldName) . '"');

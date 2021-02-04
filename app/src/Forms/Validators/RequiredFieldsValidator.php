@@ -1,6 +1,7 @@
 <?php
 namespace App\Validators;
 
+use App\Traits\ChecksIfFieldHasValue;
 use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\GridField\GridField;
@@ -9,10 +10,12 @@ use SilverStripe\ORM\ValidationResult;
 
 /**
  * An implementation of {@link RequiredFields} that doesn't validate fields internally.
- * This is for use within a {@link MultiValidator} which does the internal validation.
+ * This is for use within a {@link MultiValidator} in conjunction with a {@link SimpleValidator}.
  */
 class RequiredFieldsValidator extends RequiredFields
 {
+    use ChecksIfFieldHasValue;
+
     /**
      * Validates that the required fields have values.
      * Almost a direct copy from {@link RequiredFields::php()}
@@ -35,28 +38,8 @@ class RequiredFieldsValidator extends RequiredFields
                 continue;
             }
 
-            if ($fieldName instanceof FormField) {
-                $formField = $fieldName;
-                $fieldName = $fieldName->getName();
-            } else {
-                $formField = $fields->dataFieldByName($fieldName);
-            }
-
-            // submitted data for grid field and file upload fields come back as an array
-            $value = isset($data[$fieldName]) ? $data[$fieldName] : null;
-
-            if (is_array($value)) {
-                if ($formField instanceof FileField && isset($value['error']) && $value['error']) {
-                    $error = true;
-                } else if ($formField instanceof GridField && $formField->getList()->count() === 0) {
-                    $error = true;
-                } else {
-                    $error = (count($value)) ? false : true;
-                }
-            } else {
-                // assume a string or integer
-                $error = (strlen($value)) ? false : true;
-            }
+            $formField = $this->getFormField($fields, $fieldName);
+            $error = $this->fieldHasValue($data, $formField, $fieldName);
 
             if ($formField && $error) {
                 $errorMessage = _t(
