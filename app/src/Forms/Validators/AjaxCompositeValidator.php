@@ -13,14 +13,7 @@ class AjaxCompositeValidator extends CompositeValidator
      *
      * @var bool
      */
-    private $ajax;
-
-    public function __construct(array $validators = [], $ajax = true)
-    {
-        parent::__construct($validators);
-        Requirements::javascript('app/client/dist/AjaxCompositeValidator.js');
-        $this->ajax = $ajax;
-    }
+    private $ajax = true;
 
     /**
      * Sends the form to each validator
@@ -31,6 +24,7 @@ class AjaxCompositeValidator extends CompositeValidator
     public function setForm($form)
     {
         if ($this->ajax) {
+            Requirements::javascript('app/client/dist/AjaxCompositeValidator.js');
             $action = 'httpSubmission';
             $request = $form->getRequestHandler()->getRequest();
             if ($form->getController() instanceof CMSMain) {
@@ -116,5 +110,15 @@ class AjaxCompositeValidator extends CompositeValidator
     public function php($data)
     {
         // Do nothing
+    }
+
+    public function setAjax(bool $ajax)
+    {
+        $this->ajax = $ajax;
+    }
+
+    public function getAjax()
+    {
+        return $this->ajax;
     }
 }
