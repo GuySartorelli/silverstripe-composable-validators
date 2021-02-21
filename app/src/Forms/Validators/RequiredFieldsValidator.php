@@ -6,11 +6,10 @@ use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\RequiredFields;
-use SilverStripe\ORM\ValidationResult;
 
 /**
  * An implementation of {@link RequiredFields} that doesn't validate fields internally.
- * This is for use within a {@link MultiValidator} in conjunction with a {@link SimpleValidator}.
+ * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleValidator}.
  */
 class RequiredFieldsValidator extends RequiredFields
 {

@@ -2,19 +2,11 @@
 namespace App\Validators;
 
 use SilverStripe\CMS\Controllers\CMSMain;
-use SilverStripe\Forms\Validator;
-use SilverStripe\ORM\ValidationResult;
+use SilverStripe\Forms\CompositeValidator;
 use SilverStripe\View\Requirements;
 
-class MultiValidator extends Validator
+class AjaxCompositeValidator extends CompositeValidator
 {
-
-    /**
-     * All applicable validators.
-     *
-     * @var \SilverStripe\Forms\Validator[]
-     */
-    private $validators;
 
     /**
      * Whether ajax validation should be used.
@@ -25,58 +17,19 @@ class MultiValidator extends Validator
 
     public function __construct(array $validators = [], $ajax = true)
     {
-        Requirements::javascript('app/client/dist/MultiValidator.js');
-        $this->validators = $validators;
+        parent::__construct($validators);
+        Requirements::javascript('app/client/dist/AjaxCompositeValidator.js');
         $this->ajax = $ajax;
-    }
-
-    /**
-     * Returns all validators in this MultiValidator.
-     *
-     * @return \SilverStripe\Forms\Validator[]
-     */
-    public function getValidators()
-    {
-        return $this->validators;
-    }
-
-    /**
-     * Adds a validator to this MultiValidator.
-     *
-     * @param \SilverStripe\Forms\Validator $validator
-     */
-    public function addValidator(Validator $validator)
-    {
-        $this->validators[] = $validator;
-    }
-
-    /**
-     * Returns all validators in this MultiValidator that are instances of a given type.
-     *
-     * @return \SilverStripe\Forms\Validator[]
-     */
-    public function getValidatorsByType($type)
-    {
-        $validators = [];
-        foreach ($this->validators as $validator) {
-            if ($validator instanceof $type) {
-                $validators[] = $validator;
-            }
-        }
-        return $validators;
     }
 
     /**
      * Sends the form to each validator
      *
      * @param \SilverStripe\Forms\Form $form
-     * @return \App\Validators\MultiValidator
+     * @return \App\Validators\AjaxCompositeValidator
      */
     public function setForm($form)
     {
-        foreach ($this->validators as $validator) {
-            $validator->setForm($form);
-        }
         if ($this->ajax) {
             $action = 'httpSubmission';
             $request = $form->getRequestHandler()->getRequest();
@@ -102,21 +55,33 @@ class MultiValidator extends Validator
      */
     public function validate($isValidAjax = false)
     {
-        // Only validate requests we consider valid.
-        if (!$this->isValidRequest($isValidAjax)) {
-            return new ValidationResult();
+        $this->resetResult();
+        // This CompositeValidator has been disabled in full or it is not an expected request
+        if (!$this->getEnabled() || !$this->isValidRequest($isValidAjax)) {
+            return $this->result;
         }
         // Validate against all validators.
-        $this->resetResult();
-        if ($this->getEnabled()) {
-            foreach ($this->validators as $validator) {
-                $this->result->combineAnd($validator->validate());
-            }
+        $this->php($this->form->getData());
+        foreach ($this->getValidators() as $validator) {
+            $this->result->combineAnd($validator->validate());
+
         }
         if ($isValidAjax) {
             $this->getRequest()->getSession()->clear("FormInfo.{$this->form->FormName()}.result");
         }
         return $this->result;
+    }
+
+    /**
+     * @param Validator[] $validator
+     * @return CompositeValidator
+     */
+    public function addValidators(array $validators): CompositeValidator
+    {
+        foreach ($validators as $validator) {
+            $this->addValidator($validator);
+        }
+        return $this;
     }
 
     protected function isValidRequest($validAjax)
