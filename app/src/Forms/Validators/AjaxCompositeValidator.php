@@ -115,6 +115,7 @@ class AjaxCompositeValidator extends CompositeValidator
     public function setAjax(bool $ajax)
     {
         $this->ajax = $ajax;
+        return $this;
     }
 
     public function getAjax()
