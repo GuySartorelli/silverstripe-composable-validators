@@ -118,7 +118,11 @@ class AjaxCompositeValidator extends CompositeValidator
      */
     public function php($data)
     {
+<<<<<<< HEAD
+        // Do nothing
+=======
         return true;
+>>>>>>> ee478160... fix: Prevent form fields from being validated twice TUM001-48
     }
 
     public function setAjax(bool $ajax)
