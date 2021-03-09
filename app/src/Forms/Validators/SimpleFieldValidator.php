@@ -1,21 +1,22 @@
 <?php
 namespace App\Validators;
 
+use SilverStripe\CMS\Controllers\CMSMain;
 use SilverStripe\Forms\Validator;
-use SilverStripe\Forms\FormField;
+use SilverStripe\View\Requirements;
 
 /**
  * A validator to ensure that all form fields are internally valid.
  *
- * This is intended for use with MultiValidator and validators that only check
- * the fields that they are responsible for, such as HasOneValidator.
+ * This is intended for use with CompositeValidator and validators that only check
+ * the fields that they are responsible for.
  *
  * This class is to avoid the use of, say, RequiredFields::create([]), which
  * relies on an implementation detail to ensure that fields are validated.
  */
-class SimpleValidator extends Validator
-{
 
+class SimpleFieldValidator extends Validator
+{
     /**
      * Check all fields to ensure they are internally valid.
      *
