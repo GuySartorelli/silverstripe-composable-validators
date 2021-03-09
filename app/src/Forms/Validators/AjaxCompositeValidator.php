@@ -64,7 +64,6 @@ class AjaxCompositeValidator extends CompositeValidator
             return $this->result;
         }
         // Validate against all validators.
-        $this->php($this->form->getData());
         foreach ($this->getValidators() as $validator) {
             $this->result->combineAnd($validator->validate());
 
