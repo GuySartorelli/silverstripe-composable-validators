@@ -4,3 +4,7 @@ Name: extensions
 SilverStripe\Forms\Form:
   extensions:
     - App\Extensions\FormExtension
+
+SilverStripe\Forms\FormField:
+  extensions:
+    - App\Extensions\FormFieldExtension

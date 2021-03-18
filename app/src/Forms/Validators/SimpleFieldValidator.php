@@ -1,9 +1,7 @@
 <?php
 namespace App\Validators;
 
-use SilverStripe\CMS\Controllers\CMSMain;
 use SilverStripe\Forms\Validator;
-use SilverStripe\View\Requirements;
 
 /**
  * A validator to ensure that all form fields are internally valid.
@@ -30,6 +28,9 @@ class SimpleFieldValidator extends Validator
         $fields = $this->form->Fields();
 
         foreach ($fields as $field) {
+            if ($field->getOmitSimpleValidation()) {
+                continue;
+            }
             $valid = ($field->validate($this) && $valid);
         }
 
