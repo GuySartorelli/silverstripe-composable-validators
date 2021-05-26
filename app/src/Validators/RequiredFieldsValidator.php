@@ -10,7 +10,7 @@ use SilverStripe\Forms\RequiredFields;
 
 /**
  * An implementation of {@link RequiredFields} that doesn't validate fields internally.
- * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleValidator}.
+ * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleFieldsValidator}.
  */
 class RequiredFieldsValidator extends RequiredFields
 {

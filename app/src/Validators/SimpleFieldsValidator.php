@@ -14,7 +14,7 @@ use SilverStripe\Forms\Validator;
  * relies on an implementation detail to ensure that fields are validated.
  */
 
-class SimpleFieldValidator extends Validator
+class SimpleFieldsValidator extends Validator
 {
     /**
      * Check all fields to ensure they are internally valid.

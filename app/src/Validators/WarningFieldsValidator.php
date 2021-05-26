@@ -9,7 +9,7 @@ use SilverStripe\ORM\ValidationResult;
 
 /**
  * Similar to {@link \App\Validators\RequiredFieldsValidator} but produces a warning rather than a validation error.
- * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleValidator}.
+ * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleFieldsValidator}.
  */
 class WarningFieldsValidator extends Validator
 {

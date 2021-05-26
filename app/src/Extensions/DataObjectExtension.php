@@ -3,7 +3,7 @@
 namespace Signify\ComposableValidators\Extensions;
 
 use Signify\ComposableValidators\AjaxCompositeValidator;
-use Signify\ComposableValidators\SimpleFieldValidator;
+use Signify\ComposableValidators\SimpleFieldsValidator;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\CompositeValidator;
 
@@ -13,7 +13,7 @@ class DataObjectExtension extends Extension
     {
         if (!$compositeValidator instanceof AjaxCompositeValidator) {
             $validators = $compositeValidator->getValidators();
-            $validators[] = SimpleFieldValidator::create();
+            $validators[] = SimpleFieldsValidator::create();
             $compositeValidator = AjaxCompositeValidator::create($validators);
         }
     }
