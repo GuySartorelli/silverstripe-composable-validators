@@ -37,19 +37,6 @@ class WarningFieldsValidator extends Validator
         parent::__construct();
     }
 
-    /**
-     * Clears all the validation from this object.
-     *
-     * @return $this
-     */
-    public function removeValidation()
-    {
-        parent::removeValidation();
-        $this->warning_fields = array();
-
-        return $this;
-    }
-
     public function php($data)
     {
         $warning = false;
@@ -84,6 +71,20 @@ class WarningFieldsValidator extends Validator
     }
 
     /**
+     * Adds multiple warning fields to warning fields stack.
+     *
+     * @param string[] $fields
+     *
+     * @return $this
+     */
+    public function addWarningFields($fields)
+    {
+        $this->warning_fields = array_merge($this->warning_fields, $fields);
+
+        return $this;
+    }
+
+    /**
      * Adds a single warning field to warning fields stack.
      *
      * @param string $field
@@ -107,6 +108,19 @@ class WarningFieldsValidator extends Validator
     public function removeWarningField($field)
     {
         unset($this->warning_fields[$field]);
+
+        return $this;
+    }
+
+    /**
+     * Clears all the validation from this object.
+     *
+     * @return $this
+     */
+    public function removeValidation()
+    {
+        parent::removeValidation();
+        $this->warning_fields = array();
 
         return $this;
     }

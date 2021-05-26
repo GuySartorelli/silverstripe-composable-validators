@@ -79,4 +79,59 @@ class HasOneValidator extends Validator
         }
         return $valid;
     }
+
+    /**
+     * Adds multiple has one fields to fields stack.
+     *
+     * @param string[] $fields
+     *
+     * @return $this
+     */
+    public function addHasOneFields($fields)
+    {
+        $this->fields = array_merge($this->fields, $fields);
+
+        return $this;
+    }
+
+    /**
+     * Adds a single has one field to fields stack.
+     *
+     * @param string $field
+     *
+     * @return $this
+     */
+    public function addHasOneField($field)
+    {
+        $this->fields[$field] = $field;
+
+        return $this;
+    }
+
+    /**
+     * Removes a has one field
+     *
+     * @param string $field
+     *
+     * @return $this
+     */
+    public function removeHasOneField($field)
+    {
+        unset($this->fields[$field]);
+
+        return $this;
+    }
+
+    /**
+     * Clears all the validation from this object.
+     *
+     * @return $this
+     */
+    public function removeValidation()
+    {
+        parent::removeValidation();
+        $this->fields = array();
+
+        return $this;
+    }
 }
