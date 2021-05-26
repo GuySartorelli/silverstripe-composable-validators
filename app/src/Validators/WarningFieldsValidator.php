@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Validators;
+namespace Signify\ComposableValidators\Validators;
 
-use App\Traits\ChecksIfFieldHasValue;
+use Signify\ComposableValidators\ChecksIfFieldHasValue;
 use SilverStripe\Forms\Validator;
 use SilverStripe\ORM\ArrayLib;
 use SilverStripe\ORM\ValidationResult;

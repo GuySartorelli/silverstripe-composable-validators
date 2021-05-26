@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validators;
+namespace Signify\ComposableValidators\Validators;
 
 use DNADesign\Elemental\Forms\ElementalAreaField;
 use DNADesign\Elemental\Models\ElementalArea;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace Signify\ComposableValidators\Traits;
 
 trait ChecksIfFieldHasValue
 {

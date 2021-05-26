@@ -1,10 +1,10 @@
 ---
-Name: extensions
+Name: signify-composable-validators-extensions
 ---
 SilverStripe\Forms\Form:
   extensions:
-    - App\Extensions\FormExtension
+    - Signify\ComposableValidators\Extensions\FormExtension
 
 SilverStripe\Forms\FormField:
   extensions:
-    - App\Extensions\FormFieldExtension
+    - Signify\ComposableValidators\Extensions\FormFieldExtension

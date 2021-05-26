@@ -1,5 +1,6 @@
 <?php
-namespace App\Validators;
+
+namespace Signify\ComposableValidators\Validators;
 
 use SilverStripe\CMS\Controllers\CMSMain;
 use SilverStripe\Forms\CompositeValidator;

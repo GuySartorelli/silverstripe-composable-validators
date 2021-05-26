@@ -1,5 +1,6 @@
 <?php
-namespace App\Extensions;
+
+namespace Signify\ComposableValidators\Extensions;
 
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Extension;

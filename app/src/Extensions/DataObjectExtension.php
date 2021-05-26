@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Extensions;
+namespace Signify\ComposableValidators\Extensions;
 
-use App\Validators\AjaxCompositeValidator;
-use App\Validators\SimpleFieldValidator;
+use Signify\ComposableValidators\AjaxCompositeValidator;
+use Signify\ComposableValidators\SimpleFieldValidator;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\CompositeValidator;
 

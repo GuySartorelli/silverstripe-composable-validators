@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Extensions;
+namespace Signify\ComposableValidators\Extensions;
 
 use SilverStripe\Core\Extension;
 

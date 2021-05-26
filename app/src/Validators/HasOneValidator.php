@@ -1,5 +1,6 @@
 <?php
-namespace App\Validators;
+
+namespace Signify\ComposableValidators\Validators;
 
 use SilverStripe\Forms\Validator;
 use SilverStripe\Forms\FormField;
@@ -7,7 +8,7 @@ use SilverStripe\Forms\FormField;
 /**
  * Ensure that has-one fields actually have a value.
  *
- * Requires a class like SimpleValidator to check all fields for internal
+ * Requires a class like SimpleFieldsValidator to check all fields for internal
  * consistency.
  *
  * This class is essentially a RequiredFields for $has_one fields.
@@ -32,7 +33,7 @@ class HasOneValidator extends Validator
      * Validate that specified has-one fields actually has-one.
      *
      * This DOES NOT validate the rest of the form. Use SimpleValidator  with
-     * MultiValidator for that.
+     * CompositeValidator for that.
      *
      * Most of this code comes from RequiredFields::php().
      *
