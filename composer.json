@@ -1,5 +1,7 @@
 {
   "name": "signify-nz/silverstripe-composable-validators",
+  "type": "silverstripe-vendormodule",
+  "license": "BSD-3-Clause",
   "description": "Adds composable form validators with reusable validation logic.",
   "homepage": "https://github.com/signify-nz/silverstripe-composable-validators",
   "keywords": [
@@ -14,10 +16,8 @@
     "form",
     "forms",
     "cms",
-    "frontend",
+    "frontend"
   ],
-  "type": "silverstripe-vendormodule",
-  "license": "BSD-3-Clause",
   "authors": [
     {
       "name": "Signify Ltd",
