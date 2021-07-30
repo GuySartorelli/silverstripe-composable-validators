@@ -3,9 +3,6 @@
 namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ChecksIfFieldHasValue;
-use SilverStripe\Forms\FileField;
-use SilverStripe\Forms\FormField;
-use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\RequiredFields;
 
 /**
