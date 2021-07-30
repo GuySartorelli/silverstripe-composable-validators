@@ -3,19 +3,17 @@
 namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ChecksIfFieldHasValue;
-use SilverStripe\Forms\RequiredFields;
 
 /**
  * An implementation of {@link RequiredFields} that doesn't validate fields internally.
  * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleFieldsValidator}.
  */
-class RequiredFieldsValidator extends RequiredFields
+class RequiredFieldsValidator extends MultiFieldValidator
 {
     use ChecksIfFieldHasValue;
 
     /**
      * Validates that the required fields have values.
-     * Almost a direct copy from {@link RequiredFields::php()}
      *
      * @param array $data
      *
@@ -26,11 +24,11 @@ class RequiredFieldsValidator extends RequiredFields
         $valid = true;
         $fields = $this->form->Fields();
 
-        if (!$this->required) {
+        if (!$this->fields) {
             return $valid;
         }
 
-        foreach ($this->required as $fieldName) {
+        foreach ($this->fields as $fieldName) {
             if (!$fieldName) {
                 continue;
             }
@@ -67,16 +65,17 @@ class RequiredFieldsValidator extends RequiredFields
     }
 
     /**
-     * Adds multiple required fields to required fields stack.
+     * Returns true if the named field is "required".
      *
-     * @param string[] $fields
+     * Used by {@link FormField} to return a value for FormField::Required(),
+     * to do things like show *s on the form template.
      *
-     * @return $this
+     * @param string $fieldName
+     *
+     * @return boolean
      */
-    public function addRequiredFields($fields)
+    public function fieldIsRequired($fieldName)
     {
-        $this->required = array_merge($this->required, $fields);
-
-        return $this;
+        return isset($this->fields[$fieldName]);
     }
 }

@@ -3,50 +3,26 @@
 namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ChecksIfFieldHasValue;
-use SilverStripe\Forms\Validator;
-use SilverStripe\ORM\ArrayLib;
 use SilverStripe\ORM\ValidationResult;
 
 /**
  * Similar to {@link \App\Validators\RequiredFieldsValidator} but produces a warning rather than a validation error.
  * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleFieldsValidator}.
  */
-class WarningFieldsValidator extends Validator
+class WarningFieldsValidator extends MultiFieldValidator
 {
     use ChecksIfFieldHasValue;
-
-    /**
-     * List of fields which get a warning if empty.
-     *
-     * @var array
-     */
-    protected $warning_fields;
-
-    public function __construct()
-    {
-        $warning_fields = func_get_args();
-        if (isset($warning_fields[0]) && is_array($warning_fields[0])) {
-            $warning_fields = $warning_fields[0];
-        }
-        if (!empty($warning_fields)) {
-            $this->warning_fields = ArrayLib::valuekey($warning_fields);
-        } else {
-            $this->warning_fields = array();
-        }
-
-        parent::__construct();
-    }
 
     public function php($data)
     {
         $warning = false;
         $fields = $this->form->Fields();
 
-        if (!$this->warning_fields) {
+        if (!$this->fields) {
             return true;
         }
 
-        foreach ($this->warning_fields as $fieldName) {
+        foreach ($this->fields as $fieldName) {
             if (!$fieldName) {
                 continue;
             }
@@ -68,60 +44,5 @@ class WarningFieldsValidator extends Validator
         }
 
         return true;
-    }
-
-    /**
-     * Adds multiple warning fields to warning fields stack.
-     *
-     * @param string[] $fields
-     *
-     * @return $this
-     */
-    public function addWarningFields($fields)
-    {
-        $this->warning_fields = array_merge($this->warning_fields, $fields);
-
-        return $this;
-    }
-
-    /**
-     * Adds a single warning field to warning fields stack.
-     *
-     * @param string $field
-     *
-     * @return $this
-     */
-    public function addWarningField($field)
-    {
-        $this->warning_fields[$field] = $field;
-
-        return $this;
-    }
-
-    /**
-     * Removes a warning field
-     *
-     * @param string $field
-     *
-     * @return $this
-     */
-    public function removeWarningField($field)
-    {
-        unset($this->warning_fields[$field]);
-
-        return $this;
-    }
-
-    /**
-     * Clears all the validation from this object.
-     *
-     * @return $this
-     */
-    public function removeValidation()
-    {
-        parent::removeValidation();
-        $this->warning_fields = array();
-
-        return $this;
     }
 }
