@@ -4,6 +4,7 @@ namespace Signify\ComposableValidators\Validators;
 
 use SilverStripe\CMS\Controllers\CMSMain;
 use SilverStripe\Forms\CompositeValidator;
+use SilverStripe\Forms\Validator;
 use SilverStripe\View\Requirements;
 
 /**
@@ -85,6 +86,23 @@ class AjaxCompositeValidator extends CompositeValidator
             $this->addValidator($validator);
         }
         return $this;
+    }
+
+    /**
+     * Get a validator if one by that type exists - otherwise, create and add a new one.
+     *
+     * @param string $validatorClass The class of the validator to get or create.
+     * @return Validator The existing or new validator.
+     */
+    public function getOrAddValidatorByType(string $validatorClass)
+    {
+        $validators = $this->getValidatorsByType($validatorClass);
+        $validator = reset($validators);
+        if (!$validator) {
+            $validator = $validatorClass::create();
+            $this->addValidator($validator);
+        }
+        return $validator;
     }
 
     protected function isValidRequest($validAjax)
