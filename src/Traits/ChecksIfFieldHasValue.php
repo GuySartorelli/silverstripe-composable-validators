@@ -30,6 +30,7 @@ trait ChecksIfFieldHasValue
             return $extendedHas;
         }
 
+        // If the value is an array, there are a few different things it could represent. Check each in turn.
         if (is_array($value)) {
             if ($formField instanceof FileField && isset($value['error']) && $value['error']) {
                 return true;
