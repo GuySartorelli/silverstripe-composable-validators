@@ -8,6 +8,11 @@ use SilverStripe\Config\MergeStrategy\Priority;
 use SilverStripe\Forms\Validator;
 use SilverStripe\ORM\ArrayList;
 
+// This validator needn't exist if the elemental classes don't.
+if (!class_exists(ElementalAreaField::class) || !class_exists(ElementalArea::class)) {
+    return;
+}
+
 class RequiredBlocksValidator extends Validator
 {
 
