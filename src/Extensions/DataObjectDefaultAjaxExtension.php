@@ -7,7 +7,7 @@ use Signify\ComposableValidators\Validators\SimpleFieldsValidator;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\CompositeValidator;
 
-class DataObjectExtension extends Extension
+class DataObjectDefaultAjaxExtension extends Extension
 {
     public function updateCMSCompositeValidator(CompositeValidator &$compositeValidator)
     {
