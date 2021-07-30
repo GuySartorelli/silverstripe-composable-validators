@@ -52,15 +52,9 @@
     $elem.text(msg);
     if (msg) {
       $elem.addClass('validation validation-bar');
-      if (!isBackendForm()) {
-        $elem.addClass('form__message form__message--required');
-      }
       $elem.show();
     } else {
       $elem.removeClass('validation');
-      if (!isBackendForm()) {
-        $elem.removeClass('form__message form__message--required');
-      }
       $elem.hide();
     }
   }
@@ -122,10 +116,33 @@
     });
   }
 
+  function finallySubmit($form, event, button) {
+    if (isBackendForm()) {
+      // If we're in the CMS and we've been provided a button action, we need to tell the
+      // container to submit the form. This ensures that the correct sequence of events occurs.
+      // Relying on bubbling this event can result in errors.
+      if (button) {
+        const cmsContainer = $form.closest('.cms-container');
+        if (cmsContainer.length) {
+          cmsContainer.submitForm($form, button);
+          event.preventDefault();
+        }
+      }
+      // I'm honestly not sure by what magic it happens but the form submits correctly on the
+      // backend.
+    } else {
+      // On the front-end we have to make the form submit.
+      $form.get(0).submitWithoutEvent();
+    }
+  }
+
   /**
    * Form submit handler for ajax validation.
    */
   function onFormSubmit(event, button, entwine, jquery = $) {
+    // Don't allow the form to submit on its own - because we're using AJAX we have to do things
+    // asyncronously and unfortunately I can't find a way to asyncronously preventDefault.
+    event.preventDefault();
     if (!button) {
       // Get button that spawned the submit event.
       const delegatedEvent = event.delegatedEvent ?? event;
@@ -133,7 +150,6 @@
       const $clicked = jquery(originalEvent.submitter ?? originalEvent.target);
       if ($clicked.hasClass('element-editor__hover-bar-area')) {
         // Add elemental block button clicked. Don't validate or submit form.
-        event.preventDefault();
         return false;
       }
       if ($clicked.attr('name')?.startsWith('action_')) {
@@ -145,14 +161,22 @@
     jquery(button).attr('disabled', true);
     const $form = entwine !== undefined ? entwine : jquery(this);
     clearValidation($form);
-    let hasErrors = false;
 
     // Perform these actions if the validation POST request is successful.
     function successFn(data) {
+      let hasErrors = false;
       if (data !== true) {
-        displayValidationErrors(data, $form);
-        hasErrors = true;
+        if (data.length) {
+          displayValidationErrors(data, $form);
+          hasErrors = true;
+        }
       }
+      if (hasErrors) {
+        jquery(button).attr('disabled', false);
+        // Don't submit the form if there are errors.
+        return false;
+      }
+      return finallySubmit($form, event, button, entwine);
     }
 
     // Perform these actions if there is an error in the validation POST request.
@@ -175,38 +199,33 @@
       data: serialised,
       success: successFn,
       error: errorFn,
-      async: false,
     });
 
-    if (hasErrors) {
-      jquery(button).attr('disabled', false);
-      // Don't submit the form if there are errors.
-      event.preventDefault();
-      return false;
-    }
-    if (isBackendForm()) {
-      // If we're in the CMS and we've been provided a button action, we need to tell the
-      // container to submit the form. This ensures that the correct sequence of events occurs.
-      // Relying on bubbling this event can result in errors.
-      if (button) {
-        const cmsContainer = $form.closest('.cms-container');
-        if (cmsContainer.length) {
-          cmsContainer.submitForm($form, button);
-          event.preventDefault();
-          return false;
-        }
-      }
-      // If we're in the CMS and haven't been given a button, let SilverStripe handle the
-      // event directly.
-      /* eslint-disable-next-line no-underscore-dangle */
-      entwine._super(event, button);
-    }
-    return true;
+    return false;
   }
 
   if (!isBackendForm()) {
     // This is a front end form. Entwine won't work but isn't needed.
     $('form.js-multi-validator-ajax').on('submit', onFormSubmit);
+    // Ensure that calling validate() on the form will trigger a submit event
+    // See https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit_event
+    $('form.js-multi-validator-ajax').each((i, elem) => {
+      /* eslint-disable-next-line no-param-reassign */
+      elem.submitWithoutEvent = elem.submit;
+      /* eslint-disable-next-line no-param-reassign */
+      elem.submit = function submit() {
+        let event;
+        if (typeof Event === 'function') {
+          event = new Event('submit', { bubbles: true, cancelable: true });
+        } else {
+          event = document.createEvent('Event');
+          event.initEvent('submit', true, true);
+        }
+        // We can't know what button was used to submit the form but we can guess.
+        event.submitter = $(elem).find('button[type="submit"], input[type="submit"]').get(0);
+        elem.dispatchEvent(event);
+      };
+    });
     return;
   }
 
