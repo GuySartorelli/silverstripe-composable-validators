@@ -24,6 +24,12 @@ trait ChecksIfFieldHasValue
         // submitted data for grid field and file upload fields come back as an array
         $value = isset($data[$fieldName]) ? $data[$fieldName] : null;
 
+        // Allow projects to add their own definitions of fields with values (e.g. for custom fields)
+        $extendedHas = $this->extend('updateFieldHasValue', $value);
+        if ($extendedHas !== null) {
+            return $extendedHas;
+        }
+
         if (is_array($value)) {
             if ($formField instanceof FileField && isset($value['error']) && $value['error']) {
                 return true;
