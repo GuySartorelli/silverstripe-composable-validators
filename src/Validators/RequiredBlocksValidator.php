@@ -256,4 +256,8 @@ class RequiredBlocksValidator extends Validator
         return $allConfig;
     }
 
+    public function canBeCached(): bool
+    {
+        return count($this->required) === 0;
+    }
 }
