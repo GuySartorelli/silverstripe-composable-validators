@@ -7,7 +7,6 @@ use SilverStripe\Core\Extension;
 
 class FormExtension extends Extension
 {
-
     public function app_ajaxValidate($data, $form)
     {
         $msg = null;
