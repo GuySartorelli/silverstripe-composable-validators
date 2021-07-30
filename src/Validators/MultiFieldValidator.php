@@ -93,4 +93,43 @@ abstract class MultiFieldValidator extends Validator
 
         return $this;
     }
+
+    /**
+     * Add the fields from another {@link MultiFieldValidator}.
+     *
+     * @param MultiFieldValidator $validator
+     * @return $this
+     */
+    public function appendFields(MultiFieldValidator $validator)
+    {
+        $this->fields = $this->fields + ArrayLib::valuekey(
+            $validator->getFields()
+        );
+
+        return $this;
+    }
+
+    public function canBeCached(): bool
+    {
+        return count($this->getFields()) === 0;
+    }
+
+    /**
+     * Debug helper
+     * @return string
+     */
+    public function debug()
+    {
+        if (!is_array($this->fields)) {
+            return false;
+        }
+
+        $result = "<ul>";
+        foreach ($this->fields as $name) {
+            $result .= "<li>$name</li>";
+        }
+
+        $result .= "</ul>";
+        return $result;
+    }
 }
