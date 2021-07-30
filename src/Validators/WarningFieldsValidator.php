@@ -2,7 +2,7 @@
 
 namespace Signify\ComposableValidators\Validators;
 
-use Signify\ComposableValidators\ChecksIfFieldHasValue;
+use Signify\ComposableValidators\Traits\ChecksIfFieldHasValue;
 use SilverStripe\Forms\Validator;
 use SilverStripe\ORM\ArrayLib;
 use SilverStripe\ORM\ValidationResult;
