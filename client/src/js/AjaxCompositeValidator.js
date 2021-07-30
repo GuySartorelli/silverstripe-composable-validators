@@ -111,6 +111,7 @@
    */
   function clearValidation($form) {
     setFormErrorMsg($form, '');
+    $form.removeClass('validationerror');
     $form.find('.js-ajax-validation').remove();
     const $tabs = $form.find('a.ui-tabs-anchor');
     $tabs.each((index, elem) => {
