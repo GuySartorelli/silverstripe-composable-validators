@@ -29,7 +29,7 @@ class SimpleFieldsValidator extends Validator
         $fields = $this->form->Fields();
 
         foreach ($fields as $field) {
-            if ($field->getOmitSimpleValidation()) {
+            if ($field->getOmitFieldValidation()) {
                 continue;
             }
             $valid = ($field->validate($this) && $valid);

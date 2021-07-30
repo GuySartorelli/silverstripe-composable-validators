@@ -6,16 +6,16 @@ use SilverStripe\Core\Extension;
 
 class FormFieldExtension extends Extension
 {
-    private $omitSimpleValidation = false;
+    private $omitFieldValidation = false;
 
-    public function setOmitSimpleValidation(bool $omit)
+    public function setOmitFieldValidation(bool $omit)
     {
-        $this->omitSimpleValidation = $omit;
+        $this->omitFieldValidation = $omit;
         return $this->owner;
     }
 
-    public function getOmitSimpleValidation()
+    public function getOmitFieldValidation()
     {
-        return $this->omitSimpleValidation;
+        return $this->omitFieldValidation;
     }
 }
