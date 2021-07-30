@@ -160,6 +160,7 @@
     }
     jquery(button).attr('disabled', true);
     const $form = entwine !== undefined ? entwine : jquery(this);
+    $form.addClass('js-validating');
     clearValidation($form);
 
     // Perform these actions if the validation POST request is successful.
@@ -171,8 +172,10 @@
           hasErrors = true;
         }
       }
+      $form.removeClass('js-validating');
       if (hasErrors) {
         jquery(button).attr('disabled', false);
+        jquery(button).removeClass('loading');
         // Don't submit the form if there are errors.
         return false;
       }
