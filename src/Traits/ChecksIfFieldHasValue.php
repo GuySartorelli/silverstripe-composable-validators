@@ -2,6 +2,10 @@
 
 namespace Signify\ComposableValidators\Traits;
 
+use SilverStripe\Forms\FileField;
+use SilverStripe\Forms\FormField;
+use SilverStripe\Forms\GridField\GridField;
+
 trait ChecksIfFieldHasValue
 {
     protected function getFormField($fields, &$fieldName)
