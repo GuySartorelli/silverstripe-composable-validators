@@ -2,8 +2,8 @@
 
 namespace Signify\ComposableValidators\Extensions;
 
-use Signify\ComposableValidators\AjaxCompositeValidator;
-use Signify\ComposableValidators\SimpleFieldsValidator;
+use Signify\ComposableValidators\Validators\AjaxCompositeValidator;
+use Signify\ComposableValidators\Validators\SimpleFieldsValidator;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\CompositeValidator;
 
