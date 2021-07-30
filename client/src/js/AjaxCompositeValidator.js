@@ -79,7 +79,7 @@
     for (let i = 0; i < data.length; i += 1) {
       const error = data[i];
       // Get the field before which to insert the validation error message.
-      const id = `${idPrefix}${error.fieldName.replace(new RegExp(/_+/), '_')}`;
+      const id = `${idPrefix}${error.fieldName.replace(new RegExp(/_{2,}/g), '_')}`;
       const $holder = $(`#${id}${holderSuffix}`);
       let $field = null;
       if (isBackendForm() && $holder.length) {
