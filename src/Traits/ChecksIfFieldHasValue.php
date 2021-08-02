@@ -11,12 +11,9 @@ trait ChecksIfFieldHasValue
     protected function getFormField($fields, &$fieldName)
     {
         if ($fieldName instanceof FormField) {
-            $formField = $fieldName;
             $fieldName = $fieldName->getName();
-            return $formField;
-        } else {
-            return $fields->dataFieldByName($fieldName);
         }
+        return $fields->dataFieldByName($fieldName);
     }
 
     protected function fieldHasValue($data, $formField, $fieldName)
