@@ -34,9 +34,7 @@ class RequiredFieldsValidator extends MultiFieldValidator
             }
 
             $formField = $this->getFormField($fields, $fieldName);
-            $error = $this->fieldHasValue($data, $formField, $fieldName);
-
-            if ($formField && $error) {
+            if ($formField && !$this->fieldHasValue($data, $formField, $fieldName)) {
                 $errorMessage = _t(
                     'SilverStripe\\Forms\\Form.FIELDISREQUIRED',
                     '{name} is required',

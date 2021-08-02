@@ -28,9 +28,7 @@ class WarningFieldsValidator extends MultiFieldValidator
             }
 
             $formField = $this->getFormField($fields, $fieldName);
-            $error = $this->fieldHasValue($data, $formField, $fieldName);
-
-            if ($formField && $error) {
+            if ($formField && !$this->fieldHasValue($data, $formField, $fieldName)) {
                 $name = strip_tags('"' . ($formField->Title() ? $formField->Title() : $fieldName) . '"');
                 $errorMessage = "$name has no value and will not display";
                 $this->result->addFieldMessage($fieldName, $errorMessage, ValidationResult::TYPE_WARNING);
