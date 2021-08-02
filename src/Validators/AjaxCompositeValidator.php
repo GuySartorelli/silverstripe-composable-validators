@@ -36,7 +36,7 @@ class AjaxCompositeValidator extends CompositeValidator
     public function setForm($form)
     {
         if ($this->ajax) {
-            Requirements::javascript('app/client/dist/AjaxCompositeValidator.js', ['defer' => true]);
+            Requirements::javascript('signify-nz/silverstripe-composable-validators:client/dist/AjaxCompositeValidator.js', ['defer' => true]);
             $action = 'httpSubmission';
             $request = $form->getRequestHandler()->getRequest();
             if ($form->getController() instanceof CMSMain) {
