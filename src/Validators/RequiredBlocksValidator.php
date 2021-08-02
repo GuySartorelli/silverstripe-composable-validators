@@ -26,7 +26,7 @@ class RequiredBlocksValidator extends Validator
     const TOO_MANY_ERROR = 'toomany';
     const POSITION_ERROR = 'outofposition';
 
-    public function __construct($required = [])
+    public function __construct(array $required = [])
     {
         $this->required = $this->normaliseRequiredConfig($required);
     }
@@ -119,7 +119,7 @@ class RequiredBlocksValidator extends Validator
         return empty($errors);
     }
 
-    protected function setErrorMessages($errors)
+    protected function setErrorMessages(array $errors)
     {
         foreach ($errors as $fieldName => $blockErrors) {
             $message = 'The following elemental block validation errors must be resolved:';
@@ -130,17 +130,17 @@ class RequiredBlocksValidator extends Validator
                     $message .= PHP_EOL;
                     switch ($errorType) {
                         case self::TOO_FEW_ERROR:
-                            $min = $this->required[$blockClass]['min'];
+                            $min = (int)$this->required[$blockClass]['min'];
                             $isAre = $this->isAre($min);
                             $message .= "Too few '$blockPlural'. At least $min $isAre required.";
                             break;
                         case self::TOO_MANY_ERROR:
-                            $max = $this->required[$blockClass]['max'];
+                            $max = (int)$this->required[$blockClass]['max'];
                             $isAre = $this->isAre($max);
                             $message .= "Too many '$blockPlural'. Up to $max $isAre allowed.";
                             break;
                         case self::POSITION_ERROR:
-                            $pos = $this->required[$blockClass]['pos'];
+                            $pos = (int)$this->required[$blockClass]['pos'];
                             if ($pos < 0) {
                                 $pos *= -1;
                                 $ordinal = $this->ordinal($pos);
@@ -166,7 +166,7 @@ class RequiredBlocksValidator extends Validator
         }
     }
 
-    protected function getBlockPositions(ElementalArea $area)
+    protected function getBlockPositions(ElementalArea $area): array
     {
         $total = $area->Elements()->Count();
         $positions = [];
@@ -183,7 +183,7 @@ class RequiredBlocksValidator extends Validator
         return $positions;
     }
 
-    protected function getRelevantFields($elementalAreaFields, $requiredConfig)
+    protected function getRelevantFields(ArrayList $elementalAreaFields, array $requiredConfig): ArrayList
     {
         $relevantFields = $elementalAreaFields;
         if (!empty($requiredConfig['areafieldname'])) {
@@ -194,7 +194,7 @@ class RequiredBlocksValidator extends Validator
         return $relevantFields;
     }
 
-    protected function getNumberOfBlocks($blockClass, $relevantFields)
+    protected function getNumberOfBlocks(string $blockClass, array $relevantFields): int
     {
         $count = 0;
         foreach ($relevantFields as $field) {
@@ -203,12 +203,12 @@ class RequiredBlocksValidator extends Validator
         return $count;
     }
 
-    protected function isAre($count)
+    protected function isAre(int $count): string
     {
         return $count == 1 ? 'is' : 'are';
     }
 
-    protected function ordinal($num)
+    protected function ordinal(int $num): string
     {
         $ones = $num % 10;
         $tens = floor($num / 10) % 10;
@@ -225,7 +225,7 @@ class RequiredBlocksValidator extends Validator
         return $num . $suff;
     }
 
-    protected function normaliseRequiredConfig($required)
+    protected function normaliseRequiredConfig(array $required): array
     {
         $defaultConfig = [
             'min' => 1,

@@ -14,7 +14,7 @@ class FormFieldExtension extends Extension
         return $this->owner;
     }
 
-    public function getOmitFieldValidation()
+    public function getOmitFieldValidation(): bool
     {
         return $this->omitFieldValidation;
     }

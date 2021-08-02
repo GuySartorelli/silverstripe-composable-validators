@@ -3,6 +3,7 @@
 namespace Signify\ComposableValidators\Validators;
 
 use SilverStripe\CMS\Controllers\CMSMain;
+use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Forms\CompositeValidator;
 use SilverStripe\Forms\Validator;
 use SilverStripe\View\Requirements;
@@ -58,7 +59,7 @@ class AjaxCompositeValidator extends CompositeValidator
      * {@inheritDoc}
      * @see \SilverStripe\Forms\Validator::validate()
      */
-    public function validate($isValidAjax = false)
+    public function validate(bool $isValidAjax = false)
     {
         $this->resetResult();
         // This CompositeValidator has been disabled in full or it is not an expected request
@@ -94,7 +95,7 @@ class AjaxCompositeValidator extends CompositeValidator
      * @param string $validatorClass The class of the validator to get or create.
      * @return Validator The existing or new validator.
      */
-    public function getOrAddValidatorByType(string $validatorClass)
+    public function getOrAddValidatorByType(string $validatorClass): Validator
     {
         $validators = $this->getValidatorsByType($validatorClass);
         $validator = reset($validators);
@@ -105,7 +106,7 @@ class AjaxCompositeValidator extends CompositeValidator
         return $validator;
     }
 
-    protected function isValidRequest($validAjax)
+    protected function isValidRequest(bool $validAjax): bool
     {
         $request = $this->getRequest();
         // Not valid if action is validation exempt.
@@ -120,7 +121,7 @@ class AjaxCompositeValidator extends CompositeValidator
         return !$request->isAjax() || $validAjax || $request->allParams()['Action'] !== 'httpSubmission';
     }
 
-    protected function getRequest()
+    protected function getRequest(): ?HTTPRequest
     {
         return $this->form->getRequestHandler()->getRequest();
     }
@@ -145,7 +146,7 @@ class AjaxCompositeValidator extends CompositeValidator
         return $this;
     }
 
-    public function getAjax()
+    public function getAjax(): bool
     {
         return $this->ajax;
     }

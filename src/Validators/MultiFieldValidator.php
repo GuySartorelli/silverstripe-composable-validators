@@ -34,7 +34,7 @@ abstract class MultiFieldValidator extends Validator
      *
      * @return string[] $fields
      */
-    public function getFields()
+    public function getFields(): array
     {
         return array_values($this->fields);
     }
@@ -46,7 +46,7 @@ abstract class MultiFieldValidator extends Validator
      *
      * @return $this
      */
-    public function addFields($fields)
+    public function addFields(array $fields)
     {
         $this->fields = array_merge($this->fields, ArrayLib::valuekey($fields));
         return $this;
@@ -59,7 +59,7 @@ abstract class MultiFieldValidator extends Validator
      *
      * @return $this
      */
-    public function addField($field)
+    public function addField(string $field)
     {
         $this->fields[$field] = $field;
         return $this;
@@ -72,7 +72,7 @@ abstract class MultiFieldValidator extends Validator
      *
      * @return $this
      */
-    public function removeField($field)
+    public function removeField(string $field)
     {
         unset($this->fields[$field]);
         return $this;

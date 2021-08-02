@@ -2,6 +2,7 @@
 
 namespace Signify\ComposableValidators\Traits;
 
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\GridField\GridField;
@@ -9,12 +10,12 @@ use SilverStripe\Forms\TreeDropdownField;
 
 trait ChecksIfFieldHasValue
 {
-    protected function getFormField($fields, &$fieldName)
+    protected function getFormField(FieldList $fields, string $fieldName): ?FormField
     {
         return $fields->dataFieldByName($fieldName);
     }
 
-    protected function fieldHasValue($data, $formField)
+    protected function fieldHasValue(array $data, FormField $formField): bool
     {
         $fieldName = $formField->getName();
         // submitted data for grid field and file upload fields come back as an array
