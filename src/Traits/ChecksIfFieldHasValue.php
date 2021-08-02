@@ -50,7 +50,7 @@ trait ChecksIfFieldHasValue
                 return !is_null($v);
             });
             // If there are any non-NULL responses, then return the lowest one of them.
-            // If any explicitly deny the permission, then we don't get access
+            // If any explicitly say there is no value, then there is no value.
             if ($results) {
                 return min($results);
             }
