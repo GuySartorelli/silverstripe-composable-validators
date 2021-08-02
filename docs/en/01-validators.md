@@ -79,7 +79,7 @@ public function php($data)
 }
 ```
 
-You may also want to omit certain `FormField` subclasses from validation during AJAX validation calls, and only validate them during the final form submission. This can be useful if (as in the case of the [undefinedoffset/silverstripe-nocaptcha](https://github.com/UndefinedOffset/silverstripe-nocaptcha) module's `NocaptchaField`) the field cannot be validated more than once with the same value.
+You may also want to omit certain `FormField` subclasses from validation during AJAX validation calls (assuming you're using the `AjaxCompositeValidator`), and only validate them during the final form submission. This can be useful if (as in the case of the [undefinedoffset/silverstripe-nocaptcha](https://github.com/UndefinedOffset/silverstripe-nocaptcha) module's `NocaptchaField`) the field cannot be validated more than once with the same value.
 
 You can do this by setting the class name for that `FormField` in the `SimpleFieldsValidator`'s `ignore_field_classes_on_ajax` config array.
 ```yml
