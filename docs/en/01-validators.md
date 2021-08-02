@@ -21,7 +21,8 @@ You can also opt to just return a new `AjaxCompositeValidator` from that method 
 
 Ajax validation can also be disabled at any stage, if there is a cause for doing so.
 ```PHP
-## This example assumes use of the validator in the CMS, with the DataObjectDefaultAjaxExtension extension applied.
+// This example assumes use of the validator in the CMS, with the DataObjectDefaultAjaxExtension extension applied.
+// If this was for frontend use, you would be well-advised to explicitly include a SimpleFieldsValidator.
 public function getCMSCompositeValidator(): CompositeValidator
 {
     $validator = parent::getCMSCompositeValidator();
