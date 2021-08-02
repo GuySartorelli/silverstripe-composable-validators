@@ -14,8 +14,9 @@ trait ChecksIfFieldHasValue
         return $fields->dataFieldByName($fieldName);
     }
 
-    protected function fieldHasValue($data, $formField, $fieldName)
+    protected function fieldHasValue($data, $formField)
     {
+        $fieldName = $formField->getName();
         // submitted data for grid field and file upload fields come back as an array
         $value = isset($data[$fieldName]) ? $data[$fieldName] : null;
 
