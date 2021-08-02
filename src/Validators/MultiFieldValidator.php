@@ -81,6 +81,21 @@ abstract class MultiFieldValidator extends Validator
     }
 
     /**
+     * Removes multiple fields from the validator.
+     *
+     * @param string[] $fields
+     *
+     * @return $this
+     */
+    public function removeFields(array $fields)
+    {
+        foreach ($fields as $field) {
+            unset($this->fields[$field]);
+        }
+        return $this;
+    }
+
+    /**
      * Clears all the validation from this object.
      *
      * @return $this
