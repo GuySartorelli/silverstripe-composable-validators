@@ -10,11 +10,25 @@ use SilverStripe\Forms\TreeDropdownField;
 
 trait ChecksIfFieldHasValue
 {
+    /**
+     * Get the form field from a field list.
+     *
+     * @param FieldList $fields
+     * @param string $fieldName
+     * @return FormField|null
+     */
     protected function getFormField(FieldList $fields, string $fieldName): ?FormField
     {
         return $fields->dataFieldByName($fieldName);
     }
 
+    /**
+     * Check if a field has a value in the given data array.
+     *
+     * @param array $data
+     * @param FormField $formField
+     * @return boolean
+     */
     protected function fieldHasValue(array $data, FormField $formField): bool
     {
         $fieldName = $formField->getName();
