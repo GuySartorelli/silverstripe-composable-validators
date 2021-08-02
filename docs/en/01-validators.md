@@ -6,6 +6,8 @@ All of these validators can be used in the CMS _and_ in the front-end.
 ## AjaxCompositeValidator
 **Important:** See the [extensions docs](./02-extensions.md) for extensions that are highly recommended if you intend to use this validator.
 
+Note that to use this validator on the frontend, you will need to expose `jQuery` as a global variable. To avoid providing outdated or redundant copies of jQuery this module doesn't come packaged with it.
+
 As of Silverstripe 4.7.0, all `DataObject`s have a [CompositeValidator](https://api.silverstripe.org/4/SilverStripe/Forms/CompositeValidator.html) automatically for CMS forms. The `AjaxCompositeValidator` is a subclass of that validator and provides AJAX validation that takes affect prior to form submission. When you click a form action that isn't validation exempt, an AJAX request is made to validate the form _prior_ to form submission. If there are any validation errors, form submission will be blocked and validation messages displayed.
 
 This is useful for situations where data can be lost with the normal Silverstripe validation pipeline (e.g. validating fields on a page that has an [elemental area](https://github.com/silverstripe/silverstripe-elemental) - see [this issue](https://github.com/silverstripe/silverstripe-elemental/issues/764)), and is also faster as it doesn't need to reload the form after validating to display the error messages.
