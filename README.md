@@ -2,7 +2,7 @@
 
 Provides number of reusable composable validators (including AJAX validation) for use both in the CMS and in frontend forms.
 
-Make sure you check out the [extensions documentation](docs/en/02-extensions.md) at a minimum.
+Make sure you check out the [extensions documentation](docs/en/02-extensions.md) at a minimum - some of these should be applied in almost all projects using this module.
 
 For a list of available validators, see the [validators documentation](docs/en/01-validators.md).
 
