@@ -15,7 +15,6 @@ if (!class_exists(ElementalAreaField::class) || !class_exists(ElementalArea::cla
 
 class RequiredBlocksValidator extends Validator
 {
-
     /**
      * List of required blocks and their requirement configuration.
      * @var array
