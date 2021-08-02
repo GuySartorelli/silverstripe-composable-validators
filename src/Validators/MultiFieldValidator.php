@@ -62,7 +62,6 @@ abstract class MultiFieldValidator extends Validator
     public function addField($field)
     {
         $this->fields[$field] = $field;
-
         return $this;
     }
 
@@ -76,7 +75,6 @@ abstract class MultiFieldValidator extends Validator
     public function removeField($field)
     {
         unset($this->fields[$field]);
-
         return $this;
     }
 
@@ -104,7 +102,6 @@ abstract class MultiFieldValidator extends Validator
     {
         parent::removeValidation();
         $this->fields = array();
-
         return $this;
     }
 
