@@ -72,6 +72,14 @@
 
     for (let i = 0; i < data.length; i += 1) {
       const error = data[i];
+      // Errors can be for the form in general.
+      if (!error.fieldName) {
+        const $message = $('<div/>').html(convertNewLineToBR(error.message))
+          .addClass(`js-ajax-validation message ${error.messageType}`);
+        $message.insertAfter($form.find(`#${idPrefix}error`));
+        /* eslint-disable-next-line no-continue */
+        continue;
+      }
       // Get the field before which to insert the validation error message.
       const id = `${idPrefix}${error.fieldName.replace(new RegExp(/_{2,}/g), '_')}`;
       const $holder = $(`#${id}${holderSuffix}`);
