@@ -68,7 +68,7 @@ class AjaxCompositeValidator extends CompositeValidator
         }
         // Validate against all validators.
         foreach ($this->getValidators() as $validator) {
-            $this->result->combineAnd($validator->validate());
+            $this->result->combineAnd($validator->validate($isValidAjax));
 
         }
         if ($isValidAjax) {

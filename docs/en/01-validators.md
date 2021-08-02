@@ -44,10 +44,11 @@ public function getCMSCompositeValidator(): CompositeValidator
 ```
 
 ## SimpleFieldsValidator
-This validator simply calls validate on all all fields in the form, ensuring the internal validation of form fields. It should _always_ be included in an `AjaxCompositeValidator` unless some other validator being used also performs that function (such as Silverstripe's own `RequiredFields` validator - though you shuold generally use this module's `RequiredFieldsValidator` instead).
+This validator simply calls validate on all all fields in the form, ensuring the internal validation of form fields. It should _always_ be included in an `AjaxCompositeValidator` unless some other validator being used also performs that function (such as Silverstripe's own `RequiredFields` validator - though you should generally use this module's `RequiredFieldsValidator` instead).
 
 ### Usage
 In most situations this validator will require no configuration at all.
+
 However, this validator comes with [an extension](02-extensions.md#formfieldextension) which adds `setOmitSimpleValidation()` and `getOmitSimpleValidation()` methods to all `FormField`s. This can be used if, for specific use cases, internal field validation should be conditional. In that case you can set `OmitSimpleValidation` to false, and handle the conditional validation of the field in a separate validator.
 
 ```PHP
@@ -77,6 +78,17 @@ public function php($data)
     return $valid;
 }
 ```
+
+You may also want to omit certain `FormField` subclasses from validation during AJAX validation calls, and only validate them during the final form submission. This can be useful if (as in the case of the [undefinedoffset/silverstripe-nocaptcha](https://github.com/UndefinedOffset/silverstripe-nocaptcha) module's `NocaptchaField`) the field can only be validated once.
+
+You can do this by setting the class name for that `FormField` in the `SimpleFieldsValidator`'s `ignore_field_classes_on_ajax` config array.
+```yml
+Signify\ComposableValidators\Validators\SimpleFieldsValidator:
+  ignore_field_classes_on_ajax:
+    - UndefinedOffset\NoCaptcha\Forms\NocaptchaField
+```
+
+That specific class is already added by default, but you can add others if you find similar situations.
 
 ## MultiFieldValidator
 This abstract validator is the superclass of both the `RequiredFieldsValidator` and `WarningFieldsValidator`. It is useful for any validator that can be fed an array of field names that need to be validated.

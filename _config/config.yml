@@ -1,0 +1,7 @@
+---
+Name: signify-composable-validators-config
+---
+# Don't validate the NocaptchaField during AJAX validation as it can only be validated once.
+Signify\ComposableValidators\Validators\SimpleFieldsValidator:
+  ignore_field_classes_on_ajax:
+    - UndefinedOffset\NoCaptcha\Forms\NocaptchaField
