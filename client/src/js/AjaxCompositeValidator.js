@@ -176,12 +176,37 @@
       let hasErrors = false;
       if (data !== true) {
         if (data.length) {
-          displayValidationErrors(data, $form);
           hasErrors = true;
         }
       }
+
+      // Confirm recaptcha v2 is completed if present.
+      const $recaptchaField = $form.find('div.g-recaptcha');
+      if ($recaptchaField.length > 0 && typeof grecaptcha === 'object') {
+        const widgetId = $recaptchaField.data('widgetid');
+        // If there's no widgetId this is probably recaptcha v3.
+        if (widgetId !== null && widgetId !== undefined) {
+          // If there's no response, the user hasn't completed the captcha.
+          /* eslint-disable-next-line no-undef */
+          if (!grecaptcha.getResponse(widgetId)) {
+            if (data === true) {
+              /* eslint-disable-next-line no-param-reassign */
+              data = [];
+            }
+            data.push({
+              fieldName: null,
+              message: 'Please answer the captcha.',
+              messageType: 'required',
+            });
+            hasErrors = true;
+          }
+        }
+      }
+
+      // Finish validation, display errors or submit form.
       $form.removeClass('js-validating');
       if (hasErrors) {
+        displayValidationErrors(data, $form);
         jquery(button).attr('disabled', false);
         jquery(button).removeClass('loading');
         // Don't submit the form if there are errors.
