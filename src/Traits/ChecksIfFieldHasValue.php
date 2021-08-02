@@ -5,6 +5,7 @@ namespace Signify\ComposableValidators\Traits;
 use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\TreeDropdownField;
 
 trait ChecksIfFieldHasValue
 {
@@ -25,6 +26,11 @@ trait ChecksIfFieldHasValue
         $extendedHas = $this->extendedHas('updateFieldHasValue', $value);
         if ($extendedHas !== null) {
             return $extendedHas;
+        }
+
+        // TreeDropdownFields give a value of '0' when no item is selected.
+        if ($formField instanceof TreeDropdownField && $value === '0') {
+            return false;
         }
 
         // If the value is an array, there are a few different things it could represent. Check each in turn.
