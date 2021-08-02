@@ -43,6 +43,7 @@ trait ChecksIfFieldHasValue
                 return (count($value)) ? true : false;
             }
         }
+
         // assume a string or integer
         return (strlen($value)) ? true : false;
     }
