@@ -14,7 +14,7 @@ composer require signify-nz/silverstripe-composable-validators
 
 ## [Available Validators](docs/en/01-validators.md)
 - [AjaxCompositeValidator](docs/en/01-validators.md#ajaxcompositevalidator)
-- [SimpleFieldsValidator](docs/en/01-validators.md#simplefieldvalidator)
+- [SimpleFieldsValidator](docs/en/01-validators.md#simplefieldsvalidator)
 - [MultiFieldValidator](docs/en/01-validators.md#multifieldvalidator)
 - [RequiredFieldsValidator](docs/en/01-validators.md#requiredfieldsvalidator)
 - [WarningFieldsValidator](docs/en/01-validators.md#warningfieldsvalidator)
