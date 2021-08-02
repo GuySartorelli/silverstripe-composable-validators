@@ -48,8 +48,7 @@ abstract class MultiFieldValidator extends Validator
      */
     public function addFields($fields)
     {
-        $this->fields = array_merge($this->fields, $fields);
-
+        $this->fields = array_merge($this->fields, ArrayLib::valuekey($fields));
         return $this;
     }
 
