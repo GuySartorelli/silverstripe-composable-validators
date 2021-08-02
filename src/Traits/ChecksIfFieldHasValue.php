@@ -30,15 +30,15 @@ trait ChecksIfFieldHasValue
         // If the value is an array, there are a few different things it could represent. Check each in turn.
         if (is_array($value)) {
             if ($formField instanceof FileField && isset($value['error']) && $value['error']) {
-                return true;
+                return false;
             } else if ($formField instanceof GridField && $formField->getList()->count() === 0) {
-                return true;
+                return false;
             } else {
-                return (count($value)) ? false : true;
+                return (count($value)) ? true : false;
             }
         }
         // assume a string or integer
-        return (strlen($value)) ? false : true;
+        return (strlen($value)) ? true : false;
     }
 
     private function extendedHas($methodName, $value)
