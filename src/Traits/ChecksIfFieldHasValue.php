@@ -22,7 +22,7 @@ trait ChecksIfFieldHasValue
         $value = isset($data[$fieldName]) ? $data[$fieldName] : null;
 
         // Allow projects to add their own definitions of fields with values (e.g. for custom fields)
-        $extendedHas = $this->extend('updateFieldHasValue', $value);
+        $extendedHas = $this->extendedHas('updateFieldHasValue', $value);
         if ($extendedHas !== null) {
             return $extendedHas;
         }
@@ -39,5 +39,22 @@ trait ChecksIfFieldHasValue
         }
         // assume a string or integer
         return (strlen($value)) ? false : true;
+    }
+
+    private function extendedHas($methodName, $value)
+    {
+        $results = $this->extend($methodName, $value);
+        if ($results && is_array($results)) {
+            // Remove NULLs
+            $results = array_filter($results, function ($v) {
+                return !is_null($v);
+            });
+            // If there are any non-NULL responses, then return the lowest one of them.
+            // If any explicitly deny the permission, then we don't get access
+            if ($results) {
+                return min($results);
+            }
+        }
+        return null;
     }
 }
