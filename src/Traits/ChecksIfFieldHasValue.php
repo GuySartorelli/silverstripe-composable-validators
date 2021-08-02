@@ -11,9 +11,6 @@ trait ChecksIfFieldHasValue
 {
     protected function getFormField($fields, &$fieldName)
     {
-        if ($fieldName instanceof FormField) {
-            $fieldName = $fieldName->getName();
-        }
         return $fields->dataFieldByName($fieldName);
     }
 
