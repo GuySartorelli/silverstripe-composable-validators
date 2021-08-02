@@ -26,6 +26,14 @@ For whatever reason, the "delete", "archive", and "restore" actions in Silverstr
 
 **These extensions are necessary** if you're using the `AjaxCompositeValidator`, but aren't applied by default in case they cause issues in some projects.
 
+## GridFieldMessagesExtension
+```yml
+SilverStripe\Forms\GridField\GridField:
+  extensions:
+    - Signify\ComposableValidators\Extensions\GridFieldMessagesExtension
+```
+Ensures validation messages display for a GridField. Unfortunately this is [an issue](https://github.com/silverstripe/silverstripe-framework/issues/10014) that has not yet been resolved - and this extension will remain here even for a while after is has been, for anyone who isn't running the most up-to-date version of Framework.
+
 # Default extensions
 These extensions are already applied by default. They shouldn't interfere with any project or vendor code, and are necessary for certain features to function correctly.
 
