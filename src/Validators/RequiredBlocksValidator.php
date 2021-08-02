@@ -33,7 +33,7 @@ class RequiredBlocksValidator extends Validator
 
     public function php($data)
     {
-        $elementalAreaFields = new ArrayList();
+        $elementalAreaFields = ArrayList::create();
         $elementClassesToCheck = $this->required;
         $errors = [];
 

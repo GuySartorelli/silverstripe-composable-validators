@@ -16,7 +16,7 @@ class FormExtension extends Extension
         } else {
             $msg = $result->getMessages();
         }
-        $response = new HTTPResponse(json_encode($msg));
+        $response = HTTPResponse::create(json_encode($msg));
         $response->addHeader('Content-Type', 'application/json');
         return $response;
     }
