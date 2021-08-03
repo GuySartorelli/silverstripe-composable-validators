@@ -200,4 +200,4 @@ RequiredBlocksValidator::create([
 ```
 
 ### Known Issues
-The `ElementalArea` field holder template doesn't currently render validation error messages. A [pull request](https://github.com/silverstripe/silverstripe-elemental/pull/921) has been created to remedy this, but in the meantime you must either it inside a `AjaxCompositeValidator` (which will display the message regardless of the template) or override the `ElementalAreaField_holder.ss` template in your project.
+The `ElementalArea` field holder template doesn't currently render validation error messages. A [pull request](https://github.com/silverstripe/silverstripe-elemental/pull/921) has been created to remedy this, but in the meantime you must either use the `RequiredBlocksValidator` inside an `AjaxCompositeValidator` (which will display the message regardless of the template) or override the `ElementalAreaField_holder.ss` template in your project.
