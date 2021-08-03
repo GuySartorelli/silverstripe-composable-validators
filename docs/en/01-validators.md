@@ -12,7 +12,7 @@ As of Silverstripe 4.7.0, all `DataObject`s have a [CompositeValidator](https://
 
 This is useful for situations where data can be lost with the normal Silverstripe validation pipeline (e.g. validating fields on a page that has an [elemental area](https://github.com/silverstripe/silverstripe-elemental) - see [this issue](https://github.com/silverstripe/silverstripe-elemental/issues/764)), and is also faster as it doesn't need to reload the form after validating to display the error messages.
 
-This validator is also extremely useful for front-end forms, as it provides client-side-esque validation without having to re-write all of your validation logic.
+This validator is also extremely useful for front-end forms, as it provides client-side-esque validation without having to re-write all of your validation logic. It even checks for Google Recaptcha v2, and will produce an error if it identifies that a Recaptcha v2 exists for the form but was not completed.
 
 ### Usage
 If the [DataObjectDefaultAjaxExtension](./02-extensions.md#dataobjectdefaultajaxextension) extension has been applied, calling `parent::getCMSCompositeValidator` inside the `getCMSCompositeValidator` method will return an `AjaxCompositeValidator`, which can then be manipulated.
