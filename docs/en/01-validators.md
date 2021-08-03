@@ -44,6 +44,9 @@ public function getCMSCompositeValidator(): CompositeValidator
 }
 ```
 
+### Known Issues
+Some actions (such as delete, archive, and restore) should be allowed even if the data is not valid (we should be allowed to delete an object _especially_ if its data is invalid), but those actions are not validation exempt by default. [Two extensions](./02-extensions.md#dataobjectvalidationexemptionextension-and-gridfielditemrequestvalidationexemptionextension) are provided with this module to remedy this and we strongly recommend applying them.
+
 ## SimpleFieldsValidator
 This validator simply calls validate on all all fields in the form, ensuring the internal validation of form fields. It should _always_ be included in an `AjaxCompositeValidator` unless some other validator being used also performs that function (such as Silverstripe's own `RequiredFields` validator - though you should generally use this module's `RequiredFieldsValidator` instead).
 
@@ -132,6 +135,10 @@ Note that the field name passed should _always_ be the name of the `FormField`. 
 
 ## RequiredFieldsValidator
 This is a composable replacement for [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It doesn't perform the internal field validation that validator does, with the assumption that it will be paired with a `SimpleFieldsValidator`. Its usage is identical to `MultiFieldValidator`.
+
+### Known Issues
+While this validator can be used to require data in `GridField`s, as of writing this documentation GridFields don't display validation errors. This [has been raised](https://github.com/silverstripe/silverstripe-framework/issues/10014) in Silverstripe's issue tracker but in the meantime [an extension](./02-extensions.md#gridfieldmessagesextension) is included with this module to fix this problem - and the `AjaxCompositeValidator` will display validation error messages against GridFields even without that extension.  
+This applies to the `WarningFieldsValidator` as well.
 
 ## WarningFieldsValidator
 Similar to `RequiredFieldsValidator` except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. Its usage is identical to `MultiFieldValidator`.
