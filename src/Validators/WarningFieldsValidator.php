@@ -3,6 +3,7 @@
 namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ChecksIfFieldHasValue;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\ValidationResult;
 
 /**
@@ -18,29 +19,45 @@ class WarningFieldsValidator extends MultiFieldValidator
         $warning = false;
         $fields = $this->form->Fields();
 
+        // Always return true, to avoid blocking the values from being saved.
         if (!$this->fields) {
             return true;
         }
 
+        // Validate each field.
         foreach ($this->fields as $fieldName) {
             if (!$fieldName) {
                 continue;
             }
-
-            $formField = $this->getFormField($fields, $fieldName);
-            if ($formField && !$this->fieldHasValue($data, $formField)) {
-                $name = strip_tags('"' . ($formField->Title() ? $formField->Title() : $fieldName) . '"');
-                $errorMessage = "$name has no value and will not display";
-                $this->result->addFieldMessage($fieldName, $errorMessage, ValidationResult::TYPE_WARNING);
-
-                $warning = true;
-            }
+            $warning = $this->validateField($data, $fields, $fieldName) || $warning;
         }
 
+        // Use session validation to ensure the warning displays after form submission.
         if ($warning) {
             $this->form->setSessionValidationResult($this->result);
         }
 
+        // Always return true, to avoid blocking the values from being saved.
         return true;
+    }
+
+    /**
+     * Check if the field has a value, and prepare a warning if not.
+     *
+     * @param array $data
+     * @param FieldList $fields
+     * @param string $fieldName
+     * @return boolean True if a warning is prepared for the field.
+     */
+    protected function validateField($data, FieldList $fields, string $fieldName): bool
+    {
+        $formField = $this->getFormField($fields, $fieldName);
+        if ($formField && !$this->fieldHasValue($data, $formField)) {
+            $name = strip_tags('"' . ($formField->Title() ? $formField->Title() : $fieldName) . '"');
+            $errorMessage = "$name has no value and will not display";
+            $this->result->addFieldMessage($fieldName, $errorMessage, ValidationResult::TYPE_WARNING);
+            return true;
+        }
+        return false;
     }
 }
