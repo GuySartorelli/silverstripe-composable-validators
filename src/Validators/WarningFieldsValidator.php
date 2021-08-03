@@ -19,11 +19,6 @@ class WarningFieldsValidator extends MultiFieldValidator
         $warning = false;
         $fields = $this->form->Fields();
 
-        // Always return true, to avoid blocking the values from being saved.
-        if (!$this->fields) {
-            return true;
-        }
-
         // Validate each field.
         foreach ($this->fields as $fieldName) {
             if (!$fieldName) {

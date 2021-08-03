@@ -25,10 +25,6 @@ class RequiredFieldsValidator extends MultiFieldValidator
         $valid = true;
         $fields = $this->form->Fields();
 
-        if (!$this->fields) {
-            return $valid;
-        }
-
         // Validate each field.
         foreach ($this->fields as $fieldName) {
             if (!$fieldName) {

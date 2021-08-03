@@ -12,7 +12,7 @@ abstract class MultiFieldValidator extends Validator
      *
      * @var array
      */
-    protected $fields;
+    protected $fields = [];
 
     public function __construct()
     {
@@ -22,8 +22,6 @@ abstract class MultiFieldValidator extends Validator
         }
         if (!empty($fields)) {
             $this->fields = ArrayLib::valuekey($fields);
-        } else {
-            $this->fields = array();
         }
 
         parent::__construct();
