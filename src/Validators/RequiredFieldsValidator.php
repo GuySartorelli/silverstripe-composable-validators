@@ -3,6 +3,7 @@
 namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ChecksIfFieldHasValue;
+use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Forms\FieldList;
 
 /**
@@ -85,6 +86,16 @@ class RequiredFieldsValidator extends MultiFieldValidator
      */
     public function fieldIsRequired($fieldName)
     {
-        return isset($this->fields[$fieldName]);
+        $required = isset($this->fields[$fieldName]);
+        // Ensure UploadFields have the correct aria-required attribute if they're required.
+        if ($required && $this->form && $this->form->Fields()) {
+            if (!$field = $this->form->Fields()->fieldByName($fieldName)) {
+                $field = $this->form->Fields()->dataFieldByName($fieldName);
+            }
+            if ($field && $field instanceof UploadField) {
+                $field->setAttribute('aria-required', 'true');
+            }
+        }
+        return $required;
     }
 }
