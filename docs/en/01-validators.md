@@ -136,6 +136,8 @@ Note that the field name passed should _always_ be the name of the `FormField`. 
 ## RequiredFieldsValidator
 This is a composable replacement for [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It doesn't perform the internal field validation that validator does, with the assumption that it will be paired with a `SimpleFieldsValidator`. Its usage is identical to `MultiFieldValidator`.
 
+Displays a validation error if the field(s) has no value.
+
 ### Known Issues
 While this validator can be used to require data in `GridField`s, as of writing this documentation GridFields don't display validation errors. This [has been raised](https://github.com/silverstripe/silverstripe-framework/issues/10014) in Silverstripe's issue tracker but in the meantime [an extension](./02-extensions.md#gridfieldmessagesextension) is included with this module to fix this problem - and the `AjaxCompositeValidator` will display validation error messages against GridFields even without that extension.  
 This applies to the `WarningFieldsValidator` as well.
@@ -144,6 +146,8 @@ This applies to the `WarningFieldsValidator` as well.
 Similar to `RequiredFieldsValidator` except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. Its usage is identical to `MultiFieldValidator`.
 
 This can be very useful for alerting users about data that is technically valid but may not provide the results they expect.
+
+Displays a validation warning if the field(s) has no value.
 
 ## DependentRequiredFieldsValidator
 Allows you to define fields as being required conditionally based on the values of other fields. It uses [SearchFilters](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) to provide a variety of ways to compare values, depending on what causes the fields to be required.
