@@ -30,7 +30,8 @@
   },
   "require": {
     "silverstripe/vendor-plugin": "^1.0",
-    "silverstripe/framework": "^4.7.0"
+    "silverstripe/framework": "^4.7.0",
+    "signify-nz/signify-searchfilter-arraylist": "^1.0.0 || dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^5.7",
@@ -49,5 +50,11 @@
       "Signify\\ComposableValidators\\": "src/",
       "Signify\\ComposableValidators\\Tests\\": "tests/"
     }
-  }
+  },
+  "repositories": [
+      {
+          "type": "vcs",
+          "url": "git@github.com:signify-nz/silverstripe-searchfilter-arraylist.git"
+      }
+  ]
 }
