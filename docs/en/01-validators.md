@@ -145,6 +145,29 @@ Similar to `RequiredFieldsValidator` except instead of blocking the item from sa
 
 This can be very useful for alerting users about data that is technically valid but may not provide the results they expect.
 
+## DependentRequiredFieldsValidator
+Allows you to define fields as being required conditionally based on the values of other fields. It uses [SearchFilters](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) to provide a variety of ways to compare values, depending on what causes the fields to be required.
+
+In the below example, we have fields with various levels of dependency on whether they are required or not.
+- ExactValueField will only be required if the value of DependencyField exactly equals someExactValue. It is implicitly case sensitive by not including the `nocase` modifier, and implicitly an exact match by not declaring a SearchFilter.
+- StartsEndsWithField will only be required if the value of DependencyField starts with the string "some" and _does not_ end with the string "s" - both case insensitive.
+```php
+DependentRequiredFieldsValidator::create([
+    'ExactValueField' => ['DependencyField' => 'SomeExactValue'],
+    'StartsEndsWithField' => [
+        'DependencyField:StartsWith:nocase' => 'some',
+        'DependencyField:EndsWith:not:nocase' => 's',
+    ],
+]);
+```
+**Note:** All of the dependencies must be met for a field to be considered required. So in the example above, if `DependencyField` had the value "someValues" the `StartsEndsWithField` would not be marked required, because only one of its dependencies is met.
+
+This validator has all of the same methods provided by `MultiFieldValidator` except that `addField` requires two arguments (the field to mark as required, and its dependency array), and `addFields` requires an array similar to that in the example above.
+
+The conditional checking functionality is powered by [signify-nz/silverstripe-searchfilter-arraylist](https://github.com/signify-nz/silverstripe-searchfilter-arraylist), which does provide some extensibility. You may want to check the documentation of that module.
+
+All of the `SearchFilter`s and modifiers documented in [Silverstripe's SearchFilter documentation](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) should be supported - if you find that isn't the case, please [raise an issue](https://github.com/signify-nz/silverstripe-searchfilter-arraylist/issues) (or, better yet, a pull request) against the `signify-nz/silverstripe-searchfilter-arraylist` module.
+
 ## RequiredBlocksValidator
 This validator checks for optional minimum and maximum numbers of a given [elemental block](https://github.com/silverstripe/silverstripe-elemental) class.
 

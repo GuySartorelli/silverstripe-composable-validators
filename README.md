@@ -22,6 +22,8 @@ Abstract class - useful for validators that can be fed an array of field names o
 - **[RequiredFieldsValidator](docs/en/01-validators.md#requiredfieldsvalidator)**  
 Like Silverstripe's [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html) validator, but more convenient for use in a `CompositeValidator`.
 - **[WarningFieldsValidator](docs/en/01-validators.md#warningfieldsvalidator)**  
-Useful for alerting users about data that is technically valid but may not provide the results they expect
+Displays a warning if some field(s) doesn't have a value. Useful for alerting users about data that is technically valid but may not provide the results they expect
+- **[DependentRequiredFieldsValidator](docs/en/01-validators.md#dependentrequiredfieldsvalidator)**  
+Uses [SearchFilters](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) to define fields as required conditionally, based on the values of other fields (e.g. only required if `OtherField` has a value greater than 25).
 - **[RequiredBlocksValidator](docs/en/01-validators.md#requiredblocksvalidator)**  
 Require a specific [elemental block(s)](https://github.com/silverstripe/silverstripe-elemental) to exist in the `ElementalArea`, with optional minimum and maximum numbers of blocks and optional positional validation.
