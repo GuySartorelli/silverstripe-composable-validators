@@ -4,8 +4,10 @@ namespace Signify\ComposableValidators\Validators;
 
 use DNADesign\Elemental\Forms\ElementalAreaField;
 use DNADesign\Elemental\Models\ElementalArea;
+use NumberFormatter;
 use SilverStripe\Config\MergeStrategy\Priority;
 use SilverStripe\Forms\Validator;
+use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 
 // This validator needn't exist if the elemental classes don't.
@@ -140,7 +142,10 @@ class RequiredBlocksValidator extends Validator
     protected function setErrorMessages(array $errors)
     {
         foreach ($errors as $fieldName => $blockErrors) {
-            $message = 'The following elemental block validation errors must be resolved:';
+            $message = _t(
+                self::class . '.VALIDATION_ERRORS',
+                'The following elemental block validation errors must be resolved:'
+            );
             foreach ($blockErrors as $blockClass => $errorTypes) {
                 foreach ($errorTypes as $errorType) {
                     $blockSingular = $blockClass::singleton()->singular_name();
@@ -149,29 +154,65 @@ class RequiredBlocksValidator extends Validator
                     switch ($errorType) {
                         case self::TOO_FEW_ERROR:
                             $min = (int)$this->required[$blockClass]['min'];
-                            $isAre = $this->isAre($min);
-                            $message .= "Too few '$blockPlural'. At least $min $isAre required.";
+                            $message .= _t(
+                                self::class . '.TOO_FEW',
+                                "Too few '{pluralBlock}', at least {count} is required.|Too few '{pluralBlock}', at least {count} are required.",
+                                [
+                                    'pluralBlock' => $blockPlural,
+                                    'count' => $min,
+                                ]
+                            );
                             break;
                         case self::TOO_MANY_ERROR:
                             $max = (int)$this->required[$blockClass]['max'];
-                            $isAre = $this->isAre($max);
-                            $message .= "Too many '$blockPlural'. Up to $max $isAre allowed.";
+                            $message .= _t(
+                                self::class . '.TOO_MANY',
+                                "Too many '{pluralBlock}', only {count} is allowed.|Too many '{pluralBlock}', up to {count} are allowed.",
+                                [
+                                    'pluralBlock' => $blockPlural,
+                                    'count' => $max,
+                                ]
+                            );
                             break;
                         case self::POSITION_ERROR:
                             $pos = (int)$this->required[$blockClass]['pos'];
+                            // If $pos is less than 0, this is counting from the bottom up.
                             if ($pos < 0) {
+                                // Determine the block distance from the bottom by getting the absolute value of $pos.
                                 $pos *= -1;
                                 $ordinal = $this->ordinal($pos);
-                                $pos = $pos == 1 ? 'at the bottom' : "$ordinal from the bottom";
+                                $pos = $pos == 1 ? '.POSITION_ABSOLUTE' : 'POSITION_ORDINAL';
+                                $message .= _t(
+                                    self::class . $pos,
+                                    "If a '{singularBlock}' exists, it must be {ordinal} from the {topOrBottom}",
+                                    [
+                                        'ordinal' => $ordinal,
+                                        'singularBlock' => $blockSingular,
+                                        'topOrBottom' => _t(self::class . '.BOTTOM', 'bottom'),
+                                    ]
+                                );
                             } else {
+                                // Positions from the top are 0-indexed. Add 1 to get the true position.
                                 $pos++;
                                 $ordinal = $this->ordinal($pos);
-                                $pos = $pos == 1 ? 'at the top' : "$ordinal from the top";
+                                $pos = $pos == 1 ? '.POSITION_ABSOLUTE' : 'POSITION_ORDINAL';
+                                $message .= _t(
+                                    self::class . $pos,
+                                    "If a '{singularBlock}' exists, it must be {ordinal} from the {topOrBottom}",
+                                    [
+                                        'ordinal' => $ordinal,
+                                        'singularBlock' => $blockSingular,
+                                        'topOrBottom' => _t(self::class . '.TOP', 'top'),
+                                    ]
+                                );
                             }
-                            $message .= "If a '$blockSingular' exists, it must be $pos.";
                             break;
                         default:
-                            $message .= "Unknown error for '$blockSingular'.";
+                            $message .= _t(
+                                self::class . '.UNKNOWN_ERROR',
+                                "Unknown error for '{singularBlock}'.",
+                                ['singularBlock' => $blockSingular]
+                            );
                             break;
                     }
                 }
@@ -212,7 +253,7 @@ class RequiredBlocksValidator extends Validator
         return $relevantFields;
     }
 
-    protected function getNumberOfBlocks(string $blockClass, array $relevantFields): int
+    protected function getNumberOfBlocks(string $blockClass, ArrayList $relevantFields): int
     {
         $count = 0;
         foreach ($relevantFields as $field) {
@@ -221,26 +262,10 @@ class RequiredBlocksValidator extends Validator
         return $count;
     }
 
-    protected function isAre(int $count): string
-    {
-        return $count == 1 ? 'is' : 'are';
-    }
-
     protected function ordinal(int $num): string
     {
-        $ones = $num % 10;
-        $tens = floor($num / 10) % 10;
-        if ($tens == 1) {
-            $suff = "th";
-        } else {
-            switch ($ones) {
-                case 1 : $suff = "st"; break;
-                case 2 : $suff = "nd"; break;
-                case 3 : $suff = "rd"; break;
-                default : $suff = "th";
-            }
-        }
-        return $num . $suff;
+        $formatter = new NumberFormatter(i18n::get_locale(), NumberFormatter::ORDINAL);
+        return $formatter->format($num);
     }
 
     protected function normaliseRequiredConfig(array $required): array

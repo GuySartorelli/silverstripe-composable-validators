@@ -11,3 +11,20 @@ en:
     DEPENDENCY_SilverStripe\ORM\Filters\StartsWithFilter: 'the value for {dependency} starts with {value}'
     DEPENDENCY_VALUE_OR: ' or '
     FIELD_IS_REQUIRED: '{name} is required when {dependencies}'
+  Signify\ComposableValidators\Validators\RequiredBlocksValidator:
+    BOTTOM: 'bottom'
+    POSITION_ABSOLUTE: "If a '{singularBlock}' exists, it must be {ordinal} from the {topOrBottom}"
+    POSITION_ORDINAL: "If a '{singularBlock}' exists, it must be at the {topOrBottom}"
+    TOO_FEW:
+      one: "Too few '{pluralBlock}', at least {count} is required."
+      other: "Too few '{pluralBlock}', at least {count} are required."
+    TOO_MANY:
+      one: "Too many '{pluralBlock}', only {count} is required."
+      other: "Too many '{pluralBlock}', up to {count} are allowed."
+    TOP: 'top'
+    UNKNOWN_ERROR: "Unknown error for '{singularBlock}'."
+    VALIDATION_ERRORS: 'The following elemental block validation errors must be resolved:'
+  Signify\ComposableValidators\Validators\RequiredFieldsValidator:
+    FIELD_IS_REQUIRED: '{name} is required'
+  Signify\ComposableValidators\Validators\WarningFieldsValidator:
+    WARNING: '{name} has no value and will not display or be used'
