@@ -64,6 +64,10 @@ class RequiredBlocksValidator extends Validator
                     if (!empty($requiredConfig['areafieldname']) && !in_array($fieldName, $requiredConfig['areafieldname'])) {
                         continue;
                     }
+                    // Make sure an errors array exists
+                    if (!isset($errors[$field->Name][$element->ClassName])) {
+                        $errors[$field->Name][$element->ClassName] = [];
+                    }
                     $relevantFields = $this->getRelevantFields($elementalAreaFields, $requiredConfig);
 
                     // Validate against minimum and maximum number of blocks.
