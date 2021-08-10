@@ -130,10 +130,10 @@ class RequiredBlocksValidator extends Validator
         }
     }
 
-    protected function validatePosition(array $requiredConfig, array $blockPosition, array &$errors)
+    protected function validatePosition(array $requiredConfig, array $blockPositions, array &$errors)
     {
         if (isset($requiredConfig['pos'])) {
-            if (!in_array($requiredConfig['pos'], $blockPosition)) {
+            if (!in_array($requiredConfig['pos'], $blockPositions)) {
                 $errors[] = self::POSITION_ERROR;
             }
         }
