@@ -9,7 +9,7 @@
   }
 
   function convertNewLineToBR(text) {
-    return text.replace('\n', '<br>');
+    return text.replace(/\n/g, '<br>');
   }
 
   /**
