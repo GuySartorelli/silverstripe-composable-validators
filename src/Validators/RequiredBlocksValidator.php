@@ -65,28 +65,20 @@ class RequiredBlocksValidator extends Validator
                     $relevantFields = $this->getRelevantFields($elementalAreaFields, $requiredConfig);
 
                     // Validate against minimum and maximum number of blocks.
-                    if (isset($requiredConfig['min']) || isset($requiredConfig['max'])) {
-                        $numberOfBlocks = $this->getNumberOfBlocks($element->ClassName, $relevantFields);
-                        if (isset($requiredConfig['min']) && $numberOfBlocks < $requiredConfig['min']) {
-                            foreach ($relevantFields as $field)
-                            {
-                                $errors[$field->Name][$element->ClassName][] = self::TOO_FEW_ERROR;
-                            }
-                        }
-                        if (isset($requiredConfig['max']) && $numberOfBlocks > $requiredConfig['max']) {
-                            foreach ($relevantFields as $field)
-                            {
-                                $errors[$field->Name][$element->ClassName][] = self::TOO_MANY_ERROR;
-                            }
-                        }
-                    }
+                    $numberOfBlocks = $this->getNumberOfBlocks($element->ClassName, $relevantFields);
+                    $this->validateMinMax(
+                        $requiredConfig,
+                        $numberOfBlocks,
+                        $relevantFields,
+                        $errors[$field->Name][$element->ClassName]
+                    );
 
                     // Validate against position.
-                    if (isset($requiredConfig['pos'])) {
-                        if (!in_array($requiredConfig['pos'], $blockPositions[$element->ClassName])) {
-                            $errors[$field->Name][$element->ClassName][] = self::POSITION_ERROR;
-                        }
-                    }
+                    $this->validatePosition(
+                        $requiredConfig,
+                        $blockPositions[$element->ClassName],
+                        $errors[$field->Name][$element->ClassName]
+                    );
 
                     // Don't check this block class again.
                     unset($elementClassesToCheck[$element->ClassName]);
@@ -116,6 +108,33 @@ class RequiredBlocksValidator extends Validator
         }
 
         return empty($errors);
+    }
+
+    protected function validateMinMax(array $requiredConfig, int $numberOfBlocks, ArrayList $relevantFields, array &$errors)
+    {
+        if (isset($requiredConfig['min']) || isset($requiredConfig['max'])) {
+            if (isset($requiredConfig['min']) && $numberOfBlocks < $requiredConfig['min']) {
+                foreach ($relevantFields as $field)
+                {
+                    $errors[] = self::TOO_FEW_ERROR;
+                }
+            }
+            if (isset($requiredConfig['max']) && $numberOfBlocks > $requiredConfig['max']) {
+                foreach ($relevantFields as $field)
+                {
+                    $errors[] = self::TOO_MANY_ERROR;
+                }
+            }
+        }
+    }
+
+    protected function validatePosition(array $requiredConfig, array $blockPosition, array &$errors)
+    {
+        if (isset($requiredConfig['pos'])) {
+            if (!in_array($requiredConfig['pos'], $blockPosition)) {
+                $errors[] = self::POSITION_ERROR;
+            }
+        }
     }
 
     protected function setErrorMessages(array $errors)
