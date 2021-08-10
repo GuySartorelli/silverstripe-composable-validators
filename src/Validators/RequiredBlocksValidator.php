@@ -86,9 +86,19 @@ class RequiredBlocksValidator extends Validator
                         $errors[$field->Name][$element->ClassName]
                     );
 
+                    // Remove errors array if empty.
+                    if (empty($errors[$field->Name][$element->ClassName])) {
+                        unset($errors[$field->Name][$element->ClassName]);
+                    }
+
                     // Don't check this block class again.
                     unset($elementClassesToCheck[$element->ClassName]);
                 }
+            }
+
+            // Remove errors array if empty.
+            if (empty($errors[$field->Name])) {
+                unset($errors[$field->Name]);
             }
         }
 
