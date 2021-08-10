@@ -54,7 +54,7 @@ class RequiredFieldsValidator extends MultiFieldValidator
                 '{name} is required',
                 array(
                     'name' => strip_tags(
-                        '"' . ($formField->Title() ? $formField->Title() : $fieldName) . '"'
+                        '"' . $this->getFieldLabel($formField) . '"'
                     )
                 )
             );
