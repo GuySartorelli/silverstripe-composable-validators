@@ -79,7 +79,7 @@ class DependentRequiredFieldsValidator extends Validator
             $this->validationError(
                 $fieldName,
                 $errorMessage,
-                "required"
+                'required'
             );
 
             return false;

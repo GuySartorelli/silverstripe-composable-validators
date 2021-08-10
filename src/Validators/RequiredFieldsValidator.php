@@ -66,7 +66,7 @@ class RequiredFieldsValidator extends MultiFieldValidator
             $this->validationError(
                 $fieldName,
                 $errorMessage,
-                "required"
+                'required'
             );
 
             return false;
