@@ -1,0 +1,13 @@
+en:
+  Signify\ComposableValidators\Validators\DependentRequiredFieldsValidator:
+    DEPENDENCIES_DELIMITER: ', and '
+    DEPENDENCY_SilverStripe\ORM\Filters\EndsWithFilter: 'the value for {dependency} ends with {value}'
+    DEPENDENCY_SilverStripe\ORM\Filters\ExactMatchFilter: 'the value for {dependency} is {value}'
+    DEPENDENCY_SilverStripe\ORM\Filters\GreaterThanFilter: 'the value for {dependency} is greater than {value}'
+    DEPENDENCY_SilverStripe\ORM\Filters\GreaterThanOrEqualFilter: 'the value for {dependency} is greater than or equal to {value}'
+    DEPENDENCY_SilverStripe\ORM\Filters\LessThanFilter: 'the value for {dependency} is less than {value}'
+    DEPENDENCY_SilverStripe\ORM\Filters\LessThanOrEqualFilter: 'the value for {dependency} is less than or equal to {value}'
+    DEPENDENCY_SilverStripe\ORM\Filters\PartialMatchFilter: 'the value for {dependency} contains {value}'
+    DEPENDENCY_SilverStripe\ORM\Filters\StartsWithFilter: 'the value for {dependency} starts with {value}'
+    DEPENDENCY_VALUE_OR: ' or '
+    FIELD_IS_REQUIRED: '{name} is required when {dependencies}'

@@ -7,6 +7,7 @@ use Signify\ComposableValidators\Traits\ChecksIfFieldHasValue;
 use Signify\SearchFilterArrayList\SearchFilterableArrayList;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Validator;
+use SilverStripe\ORM\Filters\SearchFilter;
 
 class DependentRequiredFieldsValidator extends Validator
 {
@@ -47,7 +48,7 @@ class DependentRequiredFieldsValidator extends Validator
 
             // Only validate the field if it is required, based on the conditional filter.
             if ($isRequired) {
-                $valid = $this->validateField($data, $fields, $fieldName) && $valid;
+                $valid = $this->validateField($data, $fields, $fieldName, $filter) && $valid;
             }
         }
 
@@ -60,24 +61,19 @@ class DependentRequiredFieldsValidator extends Validator
      * @param array $data
      * @param FieldList $fields
      * @param string $fieldName
+     * @param array $filter
      * @return boolean True if the field has a value.
      */
-    protected function validateField($data, FieldList $fields, string $fieldName): bool
+    protected function validateField($data, FieldList $fields, string $fieldName, array $filter): bool
     {
         $formField = $this->getFormField($fields, $fieldName);
         if ($formField && !$this->fieldHasValue($data, $formField)) {
-            $errorMessage = _t(
-                'SilverStripe\\Forms\\Form.FIELDISREQUIRED',
-                '{name} is required',
-                array(
-                    'name' => strip_tags(
-                        '"' . ($formField->Title() ? $formField->Title() : $fieldName) . '"'
-                    )
-                )
-            );
-
-            if ($msg = $formField->getCustomValidationMessage()) {
-                $errorMessage = $msg;
+            if (!$errorMessage = $formField->getCustomValidationMessage()) {
+                $errorMessage = $this->buildValidationMessage(
+                    $fields,
+                    $this->getFieldLabel($formField),
+                    $filter
+                );
             }
 
             $this->validationError(
@@ -89,6 +85,80 @@ class DependentRequiredFieldsValidator extends Validator
             return false;
         }
         return true;
+    }
+
+    /**
+     * Build the validation error message for a field based on its dependency filter.
+     *
+     * @param FieldList $fields
+     * @param string $title
+     * @param array $filter
+     * @return string
+     */
+    protected function buildValidationMessage(FieldList $fields, string $title, array $filter): string
+    {
+        $arrayList = SearchFilterableArrayList::create();
+        $dependencies = [];
+        foreach ($filter as $filterKey => $filterValue) {
+            $filter = $arrayList->createSearchFilter($filterKey, $filterValue);
+            $filterClass = get_class($filter);
+            $dependencyField = $this->getFormField($fields, $filter->getName());
+            $dependencies[] = _t(
+                self::class . ".DEPENDENCY_$filterClass",
+                "[ERROR: '$filterClass' has no appropriate dependency translation string]",
+                [
+                    // TODO find a way to get the field label instead of the field name for the validation error.
+                    'dependency' => strip_tags('"' . $this->getFieldLabel($dependencyField) . '"'),
+                    'value' => $this->makeValuesString($filter),
+                ]
+            );
+        }
+
+        $delimiter = _t(self::class . '.DEPENDENCIES_DELIMITER', ', and ');
+        return _t(
+            self::class . '.FIELD_IS_REQUIRED',
+            '{name} is required when {dependencies}',
+            [
+                'name' => strip_tags('"' . $title . '"'),
+                'dependencies' => implode($delimiter, $dependencies),
+            ]
+        );
+    }
+
+    /**
+     * Make a containing all values for a given dependency filter.
+     *
+     * @param SearchFilter $filter
+     * @return string
+     */
+    protected function makeValuesString(SearchFilter $filter): string
+    {
+        $stringArray = [];
+        $values = (array)$filter->getValue();
+        foreach ($values as $value) {
+            if (is_string($value)) {
+                $stringArray[] = "'$value'";
+                continue;
+            }
+            if (is_numeric($value)) {
+                $stringArray[] = (string)$value;
+                continue;
+            }
+            switch ($value) {
+                case true:
+                    $value = 'TRUE';
+                    break;
+                case false:
+                    $value = 'FALSE';
+                    break;
+                case null:
+                    $value = 'NULL';
+                    break;
+            }
+            $stringArray[] = $value;
+        }
+        $valueDelimiter =  _t( self::class . '.DEPENDENCY_VALUE_OR', ' or ');
+        return implode($valueDelimiter, $stringArray);
     }
 
     /**
