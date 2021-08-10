@@ -22,6 +22,11 @@ trait ChecksIfFieldHasValue
         return $fields->dataFieldByName($fieldName);
     }
 
+    protected function getFieldLabel(FormField $field): string
+    {
+        return $field->Title() ? $field->Title() : $field->getName();
+    }
+
     /**
      * Check if a field has a value in the given data array.
      *
