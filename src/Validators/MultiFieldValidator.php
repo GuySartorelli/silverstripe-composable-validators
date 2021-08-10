@@ -99,7 +99,7 @@ abstract class MultiFieldValidator extends Validator
     public function removeValidation()
     {
         parent::removeValidation();
-        $this->fields = array();
+        $this->fields = [];
         return $this;
     }
 

@@ -52,11 +52,11 @@ class RequiredFieldsValidator extends MultiFieldValidator
             $errorMessage = _t(
                 'SilverStripe\\Forms\\Form.FIELDISREQUIRED',
                 '{name} is required',
-                array(
+                [
                     'name' => strip_tags(
                         '"' . $this->getFieldLabel($formField) . '"'
                     )
-                )
+                ]
             );
 
             if ($msg = $formField->getCustomValidationMessage()) {
