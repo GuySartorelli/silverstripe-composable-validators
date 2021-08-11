@@ -6,7 +6,7 @@ use SilverStripe\Core\Extension;
 
 class FormFieldExtension extends Extension
 {
-    private $omitFieldValidation = false;
+    private $omitFieldValidation = [];
 
     /**
      * Determine whether this field should be ommitted in SimpleFieldValidator validation.
@@ -16,7 +16,7 @@ class FormFieldExtension extends Extension
      */
     public function setOmitFieldValidation(bool $omit)
     {
-        $this->omitFieldValidation = $omit;
+        $this->omitFieldValidation[$this->owner->getName()] = $omit;
         return $this->owner;
     }
 
@@ -27,6 +27,9 @@ class FormFieldExtension extends Extension
      */
     public function getOmitFieldValidation(): bool
     {
-        return $this->omitFieldValidation;
+        if (isset($this->omitFieldValidation[$this->owner->getName()])) {
+            return $this->omitFieldValidation[$this->owner->getName()];
+        }
+        return false;
     }
 }
