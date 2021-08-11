@@ -9,6 +9,9 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\Forms\Validator;
 
+/**
+ * A validator that checks whether fields have values.
+ */
 abstract class FieldHasValueValidator extends Validator
 {
     /**
@@ -23,6 +26,12 @@ abstract class FieldHasValueValidator extends Validator
         return $fields->dataFieldByName($fieldName);
     }
 
+    /**
+     * Get the appropriate field label for use in validation messages.
+     *
+     * @param FormField $field
+     * @return string
+     */
     protected function getFieldLabel(FormField $field): string
     {
         return $field->Title() ? $field->Title() : $field->getName();
@@ -67,7 +76,17 @@ abstract class FieldHasValueValidator extends Validator
         return (strlen($value)) ? true : false;
     }
 
-    private function extendedHas($methodName, $formField, $value)
+    /**
+     * Call an extension method and if any Extension returns a boolean value, return that value.
+     * If any Extension returns false, that takes priority over any Extensions returning true. This
+     * way any Extension saying the field is invalid will ensure a validation error message displays.
+     *
+     * @param string $methodName
+     * @param FormField $formField
+     * @param mixed $value
+     * @return boolean|null
+     */
+    private function extendedHas(string $methodName, FormField $formField, $value)
     {
         $results = $this->extend($methodName, $formField, $value);
         if ($results && is_array($results)) {

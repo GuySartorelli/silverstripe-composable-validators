@@ -9,6 +9,11 @@ use SilverStripe\Forms\CompositeValidator;
 
 class DataObjectDefaultAjaxExtension extends Extension
 {
+    /**
+     * Replaces CompositeValidator with AjaxCompositeValidator and ensures a SimpleFieldsValidator is added.
+     *
+     * @param CompositeValidator $compositeValidator
+     */
     public function updateCMSCompositeValidator(CompositeValidator &$compositeValidator)
     {
         if (!$compositeValidator instanceof AjaxCompositeValidator) {

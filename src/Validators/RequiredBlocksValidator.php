@@ -13,6 +13,14 @@ use SilverStripe\ORM\ArrayList;
 // This validator needn't exist if the elemental classes don't.
 if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class)) {
 
+    /**
+     * A validator used to define that elemental blocks of specific classes are required.
+     * A minimum and/or maximum number of blocks of each class can be set, as well as the
+     * positions within the elemental area in which those blocks must sit.
+     *
+     * This validator is best used within an AjaxCompositeValidator in conjunction with
+     * a SimpleFieldsValidator.
+     */
     class RequiredBlocksValidator extends Validator
     {
         /**
@@ -30,6 +38,12 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
             $this->required = $this->normaliseRequiredConfig($required);
         }
 
+        /**
+         * Validates that the required blocks exist in the configured positions.
+         *
+         * @param array $data
+         * @return boolean
+         */
         public function php($data)
         {
             $elementalAreaFields = ArrayList::create();
@@ -126,6 +140,14 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
             return empty($errors);
         }
 
+        /**
+         * Validate that the minimum or maximum number of blocks for this class has not been exceeded.
+         *
+         * @param int[] $requiredConfig
+         * @param integer $numberOfBlocks
+         * @param ArrayList $relevantFields
+         * @param string[] $errors
+         */
         protected function validateMinMax(
             array $requiredConfig,
             int $numberOfBlocks,
@@ -146,6 +168,13 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
             }
         }
 
+        /**
+         * Validate that blocks of this class are in the positions they must be in.
+         *
+         * @param int[] $requiredConfig
+         * @param int[] $blockPositions
+         * @param string[] $errors
+         */
         protected function validatePosition(array $requiredConfig, array $blockPositions, array &$errors)
         {
             if (isset($requiredConfig['pos'])) {
@@ -155,6 +184,11 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
             }
         }
 
+        /**
+         * Set error messages against the ElementalArea(s) which did not pass validation checks.
+         *
+         * @param array $errors
+         */
         protected function setErrorMessages(array $errors)
         {
             foreach ($errors as $fieldName => $blockErrors) {
@@ -244,6 +278,13 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
             }
         }
 
+        /**
+         * Get the positions of all elemental blocks within the elemental area.
+         * Both the positive 0-indexed position (from top) and negative position (from bottom) are provided.
+         *
+         * @param ElementalArea $area
+         * @return array
+         */
         protected function getBlockPositions(ElementalArea $area): array
         {
             $total = $area->Elements()->Count();
@@ -261,6 +302,13 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
             return $positions;
         }
 
+        /**
+         * Get the names of ElementalAreas that need to be validated against.
+         *
+         * @param ArrayList $elementalAreaFields
+         * @param array $requiredConfig
+         * @return ArrayList
+         */
         protected function getRelevantFields(ArrayList $elementalAreaFields, array $requiredConfig): ArrayList
         {
             $relevantFields = $elementalAreaFields;
@@ -272,6 +320,13 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
             return $relevantFields;
         }
 
+        /**
+         * Get the number of blocks of a given class that are held in the relevant ElementalAreas.
+         *
+         * @param string $blockClass
+         * @param ArrayList $relevantFields
+         * @return integer
+         */
         protected function getNumberOfBlocks(string $blockClass, ArrayList $relevantFields): int
         {
             $count = 0;
@@ -281,12 +336,25 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
             return $count;
         }
 
+        /**
+         * Get the localised ordinal string for the number.
+         * e.g. in 'en' locales 1 becomes '1st'
+         *
+         * @param integer $num
+         * @return string
+         */
         protected function ordinal(int $num): string
         {
             $formatter = new NumberFormatter(i18n::get_locale(), NumberFormatter::ORDINAL);
             return $formatter->format($num);
         }
 
+        /**
+         * Set appropriate defaults and normalise the configuration for this validator.
+         *
+         * @param array $required
+         * @return array
+         */
         protected function normaliseRequiredConfig(array $required): array
         {
             $defaultConfig = [
@@ -318,6 +386,11 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
             return $allConfig;
         }
 
+        /**
+         * Declare that this validator can be cached if there are no fields to validate.
+         *
+         * @return boolean
+         */
         public function canBeCached(): bool
         {
             return count($this->required) === 0;

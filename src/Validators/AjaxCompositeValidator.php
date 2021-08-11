@@ -5,17 +5,15 @@ namespace Signify\ComposableValidators\Validators;
 use SilverStripe\CMS\Controllers\CMSMain;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Forms\CompositeValidator;
+use SilverStripe\Forms\Form;
 use SilverStripe\Forms\Validator;
 use SilverStripe\View\Requirements;
 
 /**
- * AjaxCompositeValidator can contain between 0 and many different types
- * of {@link SilverStripe\Forms\Validator}s. Each {@link SilverStripe\Forms\Validator} is
- * responsible for validating given form and generating a {@link SilverStripe\ORM\ValidationResult}.
+ * An implementation of CompositeValidator that can contain between 0 and many different types of Validators
+ * and trigger their validation via AJAX.
  *
- * Can be triggered with an AJAX request.
- *
- * @package app
+ * @inheritDoc
  */
 class AjaxCompositeValidator extends CompositeValidator
 {
@@ -29,8 +27,8 @@ class AjaxCompositeValidator extends CompositeValidator
     /**
      * Sends the form to each validator
      *
-     * @param \SilverStripe\Forms\Form $form
-     * @return \App\Validators\AjaxCompositeValidator
+     * @param Form $form
+     * @return AjaxCompositeValidator
      */
     public function setForm($form)
     {
@@ -54,14 +52,6 @@ class AjaxCompositeValidator extends CompositeValidator
         return parent::setForm($form);
     }
 
-    /**
-     * Validate the form data.
-     *
-     * This is the "front door" to validation, whereas php() is the "window".
-     *
-     * {@inheritDoc}
-     * @see \SilverStripe\Forms\Validator::validate()
-     */
     public function validate(bool $isValidAjax = false)
     {
         $this->resetResult();
@@ -80,6 +70,8 @@ class AjaxCompositeValidator extends CompositeValidator
     }
 
     /**
+     * Add multiple Validators at once.
+     *
      * @param Validator[] $validator
      * @return CompositeValidator
      */
@@ -108,6 +100,12 @@ class AjaxCompositeValidator extends CompositeValidator
         return $validator;
     }
 
+    /**
+     * Check whether this is a legitimate validation request.
+     *
+     * @param boolean $validAjax
+     * @return boolean
+     */
     protected function isValidRequest(bool $validAjax): bool
     {
         $request = $this->getRequest();
@@ -123,6 +121,11 @@ class AjaxCompositeValidator extends CompositeValidator
         return !$request->isAjax() || $validAjax || $request->allParams()['Action'] !== 'httpSubmission';
     }
 
+    /**
+     * Get the HTTPRequest used to submit the form or perform validation.
+     *
+     * @return HTTPRequest|null
+     */
     protected function getRequest(): ?HTTPRequest
     {
         return $this->form->getRequestHandler()->getRequest();
@@ -142,12 +145,23 @@ class AjaxCompositeValidator extends CompositeValidator
         return true;
     }
 
+    /**
+     * Set whether this validator is configured to use AJAX validation.
+     *
+     * @param boolean $ajax
+     * @return $this
+     */
     public function setAjax(bool $ajax)
     {
         $this->ajax = $ajax;
         return $this;
     }
 
+    /**
+     * True if this validator is configured to use AJAX validation.
+     *
+     * @return boolean
+     */
     public function getAjax(): bool
     {
         return $this->ajax;

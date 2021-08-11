@@ -7,11 +7,16 @@ use Signify\SearchFilterArrayList\SearchFilterableArrayList;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\Filters\SearchFilter;
 
+/**
+ * A validator used to ensure certain required fields have values if their dependencies are met.
+ *
+ * This validator is best used within an AjaxCompositeValidator in conjunction with
+ * a SimpleFieldsValidator.
+ */
 class DependentRequiredFieldsValidator extends FieldHasValueValidator
 {
-
     /**
-     * List of fields which will be validated.
+     * List of fields which will be validated and their dependencies.
      *
      * @var string[][]
      */
@@ -23,6 +28,12 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
         parent::__construct();
     }
 
+    /**
+     * Validates that the required fields have values if their dependencies are met.
+     *
+     * @param array $data
+     * @return boolean
+     */
     public function php($data)
     {
         $valid = true;
@@ -173,7 +184,6 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
      * Adds multiple fields to be validated.
      *
      * @param string[][] $fields
-     *
      * @return $this
      */
     public function addFields(array $fields)
@@ -192,7 +202,6 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
      * example ('StartsWithField' will be required only if the value of 'DependencyField' starts
      * with the string 'some'):
      * addDependentRequiredField('StartsWithField', ['DependencyField:StartsWith' => 'some']);
-     *
      * @return $this
      */
     public function addField(string $field, array $dependencies)
@@ -221,7 +230,6 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
      * Removes multiple fields from the validator.
      *
      * @param string[] $fields
-     *
      * @return $this
      */
     public function removeFields(array $fields)
@@ -245,7 +253,7 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
     }
 
     /**
-     * Add the fields from another {@link DependentRequiredFieldsValidator}.
+     * Add the fields from another DependentRequiredFieldsValidator.
      *
      * @param self $validator
      * @return $this
@@ -256,6 +264,11 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
         return $this;
     }
 
+    /**
+     * Declare that this validator can be cached if there are no fields to validate.
+     *
+     * @return boolean
+     */
     public function canBeCached(): bool
     {
         return count($this->getFields()) === 0;

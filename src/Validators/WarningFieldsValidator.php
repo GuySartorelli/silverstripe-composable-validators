@@ -7,13 +7,22 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\ValidationResult;
 
 /**
- * Similar to {@link \App\Validators\RequiredFieldsValidator} but produces a warning rather than a validation error.
- * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleFieldsValidator}.
+ * A validator used to display warnings if certain fields do not have values.
+ *
+ * This validator is best used within an AjaxCompositeValidator in conjunction with
+ * a SimpleFieldsValidator.
  */
 class WarningFieldsValidator extends FieldHasValueValidator
 {
     use ValidatesMultipleFields;
 
+    /**
+     * Validates that the required fields have values.
+     * If any field doesn't have a value, a warning message is displayed.
+     *
+     * @param array $data
+     * @return true
+     */
     public function php($data)
     {
         $warning = false;

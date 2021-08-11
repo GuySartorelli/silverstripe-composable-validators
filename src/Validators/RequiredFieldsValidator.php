@@ -7,8 +7,10 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Forms\FieldList;
 
 /**
- * An implementation of {@link RequiredFields} that doesn't validate fields internally.
- * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleFieldsValidator}.
+ * A validator used to ensure certain required fields have values.
+ *
+ * This validator is best used within an AjaxCompositeValidator in conjunction with
+ * a SimpleFieldsValidator.
  */
 class RequiredFieldsValidator extends FieldHasValueValidator
 {
@@ -18,7 +20,6 @@ class RequiredFieldsValidator extends FieldHasValueValidator
      * Validates that the required fields have values.
      *
      * @param array $data
-     *
      * @return boolean
      */
     public function php($data)
@@ -81,7 +82,6 @@ class RequiredFieldsValidator extends FieldHasValueValidator
      * to do things like show *s on the form template.
      *
      * @param string $fieldName
-     *
      * @return boolean
      */
     public function fieldIsRequired($fieldName)

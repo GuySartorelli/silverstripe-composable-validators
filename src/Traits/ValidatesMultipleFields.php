@@ -40,7 +40,6 @@ trait ValidatesMultipleFields
      * Adds multiple fields to be validated.
      *
      * @param string[] $fields
-     *
      * @return $this
      */
     public function addFields(array $fields)
@@ -53,7 +52,6 @@ trait ValidatesMultipleFields
      * Adds a single field to be validated.
      *
      * @param string $field
-     *
      * @return $this
      */
     public function addField(string $field)
@@ -66,7 +64,6 @@ trait ValidatesMultipleFields
      * Removes a field from the validator.
      *
      * @param string $field
-     *
      * @return $this
      */
     public function removeField(string $field)
@@ -79,7 +76,6 @@ trait ValidatesMultipleFields
      * Removes multiple fields from the validator.
      *
      * @param string[] $fields
-     *
      * @return $this
      */
     public function removeFields(array $fields)
@@ -114,6 +110,11 @@ trait ValidatesMultipleFields
         return $this;
     }
 
+    /**
+     * Declare that this validator can be cached if there are no fields to validate.
+     *
+     * @return boolean
+     */
     public function canBeCached(): bool
     {
         return count($this->getFields()) === 0;
@@ -121,6 +122,7 @@ trait ValidatesMultipleFields
 
     /**
      * Debug helper
+     *
      * @return string
      */
     public function debug()
