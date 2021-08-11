@@ -17,9 +17,11 @@ class DataObjectDefaultAjaxExtension extends Extension
     public function updateCMSCompositeValidator(CompositeValidator &$compositeValidator)
     {
         if (!$compositeValidator instanceof AjaxCompositeValidator) {
+            // Replace the CompositeValidator with an AjaxCompositeValidator
             $validators = $compositeValidator->getValidators();
-            $validators[] = SimpleFieldsValidator::create();
             $compositeValidator = AjaxCompositeValidator::create($validators);
+            // Ensure a SimpleFieldsValidator is added if one wasn't already there.
+            $compositeValidator->getOrAddValidatorByType(SimpleFieldsValidator::class);
         }
     }
 }
