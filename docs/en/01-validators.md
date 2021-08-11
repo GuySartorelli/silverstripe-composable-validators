@@ -242,6 +242,8 @@ RequiredBlocksValidator::create([
 ### Known Issues
 The `ElementalArea` field holder template doesn't currently render validation error messages. A [pull request](https://github.com/silverstripe/silverstripe-elemental/pull/921) has been created to remedy this, but in the meantime you must either use the `RequiredBlocksValidator` inside an `AjaxCompositeValidator` (which will display the message regardless of the template) or override the `ElementalAreaField_holder.ss` template in your project.
 
+This validator validates when the page (or other DataObject that has an ElementalArea) is saved or published - but not necessarily when the blocks within the ElementalArea are saved or published. This means content authors can work around the validation errors if they really want to.
+
 # Traits
 ## ValidatesMultipleFields
 This trait is used in both the `RequiredFieldsValidator` and `WarningFieldsValidator`. It is useful for any validator that can be fed an array of field names that need to be validated.
