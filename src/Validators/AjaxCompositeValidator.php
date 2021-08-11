@@ -35,7 +35,10 @@ class AjaxCompositeValidator extends CompositeValidator
     public function setForm($form)
     {
         if ($this->ajax) {
-            Requirements::javascript('signify-nz/silverstripe-composable-validators:client/dist/AjaxCompositeValidator.js', ['defer' => true]);
+            Requirements::javascript(
+                'signify-nz/silverstripe-composable-validators:client/dist/AjaxCompositeValidator.js',
+                ['defer' => true]
+            );
             Requirements::add_i18n_javascript('signify-nz/silverstripe-composable-validators/client/lang');
             $action = 'httpSubmission';
             $request = $form->getRequestHandler()->getRequest();
@@ -69,7 +72,6 @@ class AjaxCompositeValidator extends CompositeValidator
         // Validate against all validators.
         foreach ($this->getValidators() as $validator) {
             $this->result->combineAnd($validator->validate($isValidAjax));
-
         }
         if ($isValidAjax) {
             $this->getRequest()->getSession()->clear("FormInfo.{$this->form->FormName()}.result");

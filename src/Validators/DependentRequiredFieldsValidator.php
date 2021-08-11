@@ -157,7 +157,7 @@ class DependentRequiredFieldsValidator extends Validator
             }
             $stringArray[] = $value;
         }
-        $valueDelimiter =  _t( self::class . '.DEPENDENCY_VALUE_OR', ' or ');
+        $valueDelimiter =  _t(self::class . '.DEPENDENCY_VALUE_OR', ' or ');
         return implode($valueDelimiter, $stringArray);
     }
 
@@ -192,7 +192,8 @@ class DependentRequiredFieldsValidator extends Validator
      *
      * @param string $field Name of the field to add as a dependent required field.
      * @param string[] $dependencies A valid SearchFilter array.
-     * example ('StartsWithField' will be required only if the value of 'DependencyField' starts with the string 'some'):
+     * example ('StartsWithField' will be required only if the value of 'DependencyField' starts
+     * with the string 'some'):
      * addDependentRequiredField('StartsWithField', ['DependencyField:StartsWith' => 'some']);
      *
      * @return $this

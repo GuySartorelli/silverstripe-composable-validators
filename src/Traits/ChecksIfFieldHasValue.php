@@ -55,7 +55,7 @@ trait ChecksIfFieldHasValue
         if (is_array($value)) {
             if ($formField instanceof FileField && isset($value['error']) && $value['error']) {
                 return false;
-            } else if ($formField instanceof GridField && $formField->getList()->count() === 0) {
+            } elseif ($formField instanceof GridField && $formField->getList()->count() === 0) {
                 return false;
             } else {
                 return (count($value)) ? true : false;
