@@ -27,3 +27,4 @@ mix.options({
 });
 
 mix.js(`${srcFolder}/js/AjaxCompositeValidator.js`, distFolder);
+mix.sass(`${srcFolder}/scss/left-and-main.scss`, distFolder);

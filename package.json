@@ -9,18 +9,20 @@
     "lint-js": "eslint src/js"
   },
   "dependencies": {
-    "webpack": "^5.0.0",
+    "eslint-webpack-plugin": "^2.0.0",
     "laravel-mix": "^6.0.0",
-    "eslint-webpack-plugin": "^2.0.0"
+    "webpack": "^5.0.0"
   },
   "devDependencies": {
-    "postcss": "^8.0.0",
-    "source-map": "^0.7.3",
-    "@babel/eslint-parser": "^7.0.0",
     "@babel/core": "^7.0.0",
+    "@babel/eslint-parser": "^7.0.0",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.0",
     "eslint-webpack-plugin": "^2.0.0",
-    "eslint-plugin-import": "^2.20.0"
+    "postcss": "^8.0.0",
+    "sass": "^1.37.5",
+    "sass-loader": "^12.1.0",
+    "source-map": "^0.7.3"
   }
 }
