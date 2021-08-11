@@ -3,15 +3,12 @@
 namespace Signify\ComposableValidators\Validators;
 
 use InvalidArgumentException;
-use Signify\ComposableValidators\Traits\ChecksIfFieldHasValue;
 use Signify\SearchFilterArrayList\SearchFilterableArrayList;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\Validator;
 use SilverStripe\ORM\Filters\SearchFilter;
 
-class DependentRequiredFieldsValidator extends Validator
+class DependentRequiredFieldsValidator extends FieldHasValueValidator
 {
-    use ChecksIfFieldHasValue;
 
     /**
      * List of fields which will be validated.
@@ -248,7 +245,7 @@ class DependentRequiredFieldsValidator extends Validator
     }
 
     /**
-     * Add the fields from another {@link MultiFieldValidator}.
+     * Add the fields from another {@link DependentRequiredFieldsValidator}.
      *
      * @param self $validator
      * @return $this

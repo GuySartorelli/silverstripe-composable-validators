@@ -2,7 +2,7 @@
 
 namespace Signify\ComposableValidators\Validators;
 
-use Signify\ComposableValidators\Traits\ChecksIfFieldHasValue;
+use Signify\ComposableValidators\Traits\ValidatesMultipleFields;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Forms\FieldList;
 
@@ -10,9 +10,9 @@ use SilverStripe\Forms\FieldList;
  * An implementation of {@link RequiredFields} that doesn't validate fields internally.
  * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleFieldsValidator}.
  */
-class RequiredFieldsValidator extends MultiFieldValidator
+class RequiredFieldsValidator extends FieldHasValueValidator
 {
-    use ChecksIfFieldHasValue;
+    use ValidatesMultipleFields;
 
     /**
      * Validates that the required fields have values.

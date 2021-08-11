@@ -1,14 +1,15 @@
 <?php
 
-namespace Signify\ComposableValidators\Traits;
+namespace Signify\ComposableValidators\Validators;
 
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\TreeDropdownField;
+use SilverStripe\Forms\Validator;
 
-trait ChecksIfFieldHasValue
+abstract class FieldHasValueValidator extends Validator
 {
     /**
      * Get the form field from a field list.

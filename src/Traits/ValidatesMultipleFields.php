@@ -1,11 +1,10 @@
 <?php
 
-namespace Signify\ComposableValidators\Validators;
+namespace Signify\ComposableValidators\Traits;
 
-use SilverStripe\Forms\Validator;
 use SilverStripe\ORM\ArrayLib;
 
-abstract class MultiFieldValidator extends Validator
+trait ValidatesMultipleFields
 {
     /**
      * List of fields which will be validated.
@@ -104,12 +103,12 @@ abstract class MultiFieldValidator extends Validator
     }
 
     /**
-     * Add the fields from another {@link MultiFieldValidator}.
+     * Add the fields from another {@link ValidatesMultipleFields}.
      *
-     * @param MultiFieldValidator $validator
+     * @param ValidatesMultipleFields $validator
      * @return $this
      */
-    public function appendFields(MultiFieldValidator $validator)
+    public function appendFields(ValidatesMultipleFields $validator)
     {
         $this->fields = $this->fields + $validator->getFields();
         return $this;

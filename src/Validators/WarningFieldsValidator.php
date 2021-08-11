@@ -2,7 +2,7 @@
 
 namespace Signify\ComposableValidators\Validators;
 
-use Signify\ComposableValidators\Traits\ChecksIfFieldHasValue;
+use Signify\ComposableValidators\Traits\ValidatesMultipleFields;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\ValidationResult;
 
@@ -10,9 +10,9 @@ use SilverStripe\ORM\ValidationResult;
  * Similar to {@link \App\Validators\RequiredFieldsValidator} but produces a warning rather than a validation error.
  * This is for use within a {@link CompositeValidator} in conjunction with a {@link SimpleFieldsValidator}.
  */
-class WarningFieldsValidator extends MultiFieldValidator
+class WarningFieldsValidator extends FieldHasValueValidator
 {
-    use ChecksIfFieldHasValue;
+    use ValidatesMultipleFields;
 
     public function php($data)
     {
