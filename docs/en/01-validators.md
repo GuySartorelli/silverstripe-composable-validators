@@ -94,47 +94,53 @@ Signify\ComposableValidators\Validators\SimpleFieldsValidator:
 
 That specific class is already added by default, but you can add others if you find similar situations.
 
-## MultiFieldValidator
-This abstract validator is the superclass of both the `RequiredFieldsValidator` and `WarningFieldsValidator`. It is useful for any validator that can be fed an array of field names that need to be validated.
+## FieldHasValueValidator
+This abstract class is useful as a superclass for any validator that needs to check if fields have a value. This functionality is used in the `RequiredFieldsValidator`, `WarningFieldsValidator`, and `DependentRequiredFieldsValidator`.
 
-### Usage
-This usage applies to all validators that are subclasses of `MultiFieldValidator`. It is intentionally very similar to Silverstripe's `RequiredFields` usage.
+It also has methods for getting a FormField from a Fieldlist and getting the appropriate field label for use in validation messages.
 ```php
-// You can pass fields to be validated into the constructor as strings or as an array (or not pass any fields at all to the constructor).
-$validator = MultiFieldValidatorSubclass::create();
-$validator = MultiFieldValidatorSubclass::create('SomeField');
-$validator = MultiFieldValidatorSubclass::create('Somefield', 'SomeOtherField');
-$validator = MultiFieldValidatorSubclass::create([
-    'SomeField',
-    'SomeOtherField',
-]);
-
-// Add fields later either one at a time or all at once. The argument for addFields must be an array.
-$validator->addField('SomeNewField');
-$validator->addFields([
-    'SomeNewField',
-    'YetAnotherField',
-]);
-
-// Remove fields from the validator one at a time, many at once, or all at once. The argument for removeFields must be an array.
-$validator->removeField('SomeNewField');
-$validator->removeFields([
-    'SomeNewField',
-    'YetAnotherField',
-]);
-$validator->removeValidation();
-
-// Add the fields from another subclass of MultiFieldValidator.
-$requiredFieldsValidator = RequiredFieldsValidator::create('SomeNewField');
-$validator->appendFields($requiredFieldsValidator);
-
-// Get the names of all fields to be validated.
-$fields = $validator->getFields();
+// Get the actual FormField for the named field.
+$fields = $this->form->Fields();
+$formField = $this->getFormField($fields, $fieldName);
+// Check if the field has a value.
+$valid = !$this->fieldHasValue($data, $formField);
+// Use the appropriate field label for the validation message.
+$errorMessage = '"' . $this->getFieldLabel($formField) . '" is required';
+$this->validationError($fieldName, $errorMessage, 'required');
 ```
-Note that the field name passed should _always_ be the name of the `FormField`. This is especially important for fields representing a `has_one` relation where the name of an `UploadField` will omit the 'ID' (e.g. 'SomeImage', not 'SomeImageID'), but a `DropdownField`, `TreeDropdownField`, or `OptionSetField` will include the 'ID' (e.g. 'SomeImageID, not 'SomeImage').
+The `fieldHasValue` method should correctly identify whether a field has a value or not for all `FormField`s that come packaged in Silverstripe framework itself. It's possible however that some module, or your own code, has a value format that isn't correctly covered by this module. For those situations, you can extend the functionality by implementing `updateFieldHasValue` in an `Extension` class:
+
+```yml
+Signify\ComposableValidators\Validators\FieldHasValueValidator:
+  extensions:
+    - MyFieldValueExtension
+```
+```php
+class MyFieldValueExtension extends Extension
+{
+    /**
+     * Determine whether a specific field has a value. Implement this method when either your custom code,
+     * or some vendor code, has a field that isn't correctly handled by FieldHasValueValidator::fieldHasValue().
+     *
+     * @param FormField $formField
+     * @param mixed $value
+     */
+    public function updateFieldHasValue(FormField $formField, $value)
+    {
+        // Return true or false to explicitly declare that the field does or does not have a value.
+        if ($formField instanceof MyCustomFormField) {
+            return /* some boolean logic to determine if the field has a value */;
+        }
+
+        // Either return nothing or explicitly return null if you do not want to affect the default functionality.
+        return null;
+    }
+}
+```
+
 
 ## RequiredFieldsValidator
-This is a composable replacement for [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It doesn't perform the internal field validation that validator does, with the assumption that it will be paired with a `SimpleFieldsValidator`. Its usage is identical to `MultiFieldValidator`.
+This is a composable replacement for [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It doesn't perform the internal field validation that validator does, with the assumption that it will be paired with a `SimpleFieldsValidator`. Its usage is identical to `ValidatesMultipleFields`.
 
 Displays a validation error if the field(s) has no value.
 
@@ -143,7 +149,7 @@ While this validator can be used to require data in `GridField`s, as of writing 
 This applies to the `WarningFieldsValidator` as well.
 
 ## WarningFieldsValidator
-Similar to `RequiredFieldsValidator` except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. Its usage is identical to `MultiFieldValidator`.
+Similar to `RequiredFieldsValidator` except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. Its usage is identical to `ValidatesMultipleFields`.
 
 This can be very useful for alerting users about data that is technically valid but may not provide the results they expect.
 
@@ -166,7 +172,7 @@ DependentRequiredFieldsValidator::create([
 ```
 **Note:** All of the dependencies must be met for a field to be considered required. So in the example above, if `DependencyField` had the value "someValues" the `StartsEndsWithField` would not be marked required, because only one of its dependencies is met.
 
-This validator has all of the same methods provided by `MultiFieldValidator` except that `addField` requires two arguments (the field to mark as required, and its dependency array), and `addFields` requires an array similar to that in the example above.
+This validator has all of the same methods provided by `ValidatesMultipleFields` except that `addField` requires two arguments (the field to mark as required, and its dependency array), and `addFields` requires an array similar to that in the example above.
 
 The conditional checking functionality is powered by [signify-nz/silverstripe-searchfilter-arraylist](https://github.com/signify-nz/silverstripe-searchfilter-arraylist), which does provide some extensibility. You may want to check the documentation of that module.
 
@@ -235,3 +241,43 @@ RequiredBlocksValidator::create([
 
 ### Known Issues
 The `ElementalArea` field holder template doesn't currently render validation error messages. A [pull request](https://github.com/silverstripe/silverstripe-elemental/pull/921) has been created to remedy this, but in the meantime you must either use the `RequiredBlocksValidator` inside an `AjaxCompositeValidator` (which will display the message regardless of the template) or override the `ElementalAreaField_holder.ss` template in your project.
+
+# Traits
+## ValidatesMultipleFields
+This trait is used in both the `RequiredFieldsValidator` and `WarningFieldsValidator`. It is useful for any validator that can be fed an array of field names that need to be validated.
+
+### Usage
+This usage applies to all validators that use `ValidatesMultipleFields`. It is intentionally very similar to Silverstripe's `RequiredFields` usage.
+```php
+// You can pass fields to be validated into the constructor as strings or as an array (or not pass any fields at all to the constructor).
+$validator = SomeMultiFieldValidator::create();
+$validator = SomeMultiFieldValidator::create('SomeField');
+$validator = SomeMultiFieldValidator::create('Somefield', 'SomeOtherField');
+$validator = SomeMultiFieldValidator::create([
+    'SomeField',
+    'SomeOtherField',
+]);
+
+// Add fields later either one at a time or all at once. The argument for addFields must be an array.
+$validator->addField('SomeNewField');
+$validator->addFields([
+    'SomeNewField',
+    'YetAnotherField',
+]);
+
+// Remove fields from the validator one at a time, many at once, or all at once. The argument for removeFields must be an array.
+$validator->removeField('SomeNewField');
+$validator->removeFields([
+    'SomeNewField',
+    'YetAnotherField',
+]);
+$validator->removeValidation();
+
+// Add the fields from another validator that uses ValidatesMultipleFields.
+$requiredFieldsValidator = RequiredFieldsValidator::create('SomeNewField');
+$validator->appendFields($requiredFieldsValidator);
+
+// Get the names of all fields to be validated.
+$fields = $validator->getFields();
+```
+Note that the field name passed should _always_ be the name of the `FormField`. This is especially important for fields representing a `has_one` relation where the name of an `UploadField` will omit the 'ID' (e.g. 'SomeImage', not 'SomeImageID'), but a `DropdownField`, `TreeDropdownField`, or `OptionSetField` will include the 'ID' (e.g. 'SomeImageID, not 'SomeImage').
