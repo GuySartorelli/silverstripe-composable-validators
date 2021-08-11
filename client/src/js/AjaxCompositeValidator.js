@@ -13,6 +13,29 @@
   }
 
   /**
+   * Returns the ss.i18n substitution or the default string.
+   * @param {string} translationKey
+   * @param {string} defaultStr
+   * @param {object} substitutions
+   * @returns
+   */
+  function provideTranslationOrDefault(translationKey, defaultStr, substitutions = null) {
+    /* eslint-disable no-undef, no-underscore-dangle */
+    if (typeof ss !== 'undefined' && typeof ss.i18n !== 'undefined') {
+      return ss.i18n.inject(ss.i18n._t(translationKey, defaultStr), substitutions);
+    }
+    if (substitutions) {
+      const regex = new RegExp('{([A-Za-z0-9_]*)}', 'g');
+      /* eslint-disable-next-line no-param-reassign */
+      defaultStr = defaultStr.replace(regex, (match, key) => (
+        (substitutions[key]) ? substitutions[key] : match
+      ));
+    }
+    return defaultStr;
+    /* eslint-enable no-undef, no-underscore-dangle */
+  }
+
+  /**
    * Sets a message in the top right of the CMS.
    * @param {string} text
    * @param {string} type
@@ -66,7 +89,11 @@
    */
   function displayValidationErrors(data, $form) {
     $form.addClass('validationerror');
-    setFormErrorMsg($form, 'There are validation errors on this form, please fix them before saving or publishing.');
+    const msg = provideTranslationOrDefault(
+      'Signify_AjaxCompositeValidator.VALIDATION_ERRORS',
+      'There are validation errors on this form, please fix them before saving or publishing.',
+    );
+    setFormErrorMsg($form, msg);
     const idPrefix = `${$form.attr('id')}_`;
     const holderSuffix = '_Holder';
 
@@ -103,8 +130,11 @@
         $message.insertAfter($field);
       }
     }
-
-    statusMessage('Validation Error', 'error', $form);
+    const statusMsg = provideTranslationOrDefault(
+      'Signify_AjaxCompositeValidator.VALIDATION_ERROR_TOAST',
+      'Validation Error',
+    );
+    statusMessage(statusMsg, 'error', $form);
   }
 
   /**
@@ -193,9 +223,14 @@
               /* eslint-disable-next-line no-param-reassign */
               data = [];
             }
+
+            const captchaMsg = provideTranslationOrDefault(
+              'Signify_AjaxCompositeValidator.CAPTCHA_VALIDATION_ERROR',
+              'Please answer the captcha.',
+            );
             data.push({
               fieldName: null,
-              message: 'Please answer the captcha.',
+              message: captchaMsg,
               messageType: 'required',
             });
             hasErrors = true;
@@ -217,7 +252,11 @@
 
     // Perform these actions if there is an error in the validation POST request.
     function errorFn(request, status, error) {
-      statusMessage('Could not validate. Aborting AJAX validation.', 'error');
+      const cannotValidateMsg = provideTranslationOrDefault(
+        'Signify_AjaxCompositeValidator.CANNOT_VALIDATE',
+        'Could not validate. Aborting AJAX validation.',
+      );
+      statusMessage(cannotValidateMsg, 'error');
       /* eslint-disable-next-line no-console */
       console.error(`Error with AJAX validation request: ${status}: ${error}`);
     }
