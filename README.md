@@ -18,7 +18,7 @@ Subclass of [CompositeValidator](https://api.silverstripe.org/4/SilverStripe/For
 - **[SimpleFieldsValidator](docs/en/01-validators.md#simplefieldsvalidator)**  
 Ensures the internal validation of form fields by calling `validate` on them.
 - **[FieldHasValueValidator](docs/en/01-validators.md#fieldhasvaluevalidator)**  
-Abstract class - useful for validators that require logic to check if a validator has any value or not.
+Abstract class - useful for validators that require logic to check if a field has any value or not.
 - **[RequiredFieldsValidator](docs/en/01-validators.md#requiredfieldsvalidator)**  
 Like Silverstripe's [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html) validator, but more convenient for use in a `CompositeValidator`.
 - **[WarningFieldsValidator](docs/en/01-validators.md#warningfieldsvalidator)**  
