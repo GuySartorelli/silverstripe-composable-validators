@@ -1,0 +1,37 @@
+// stylelint-disable declaration-no-important
+.tab-validation {
+  border: 1px solid #CCC !important;
+  background: hsla(0, 0%, 100%, 0.5) !important;
+  margin-bottom: calc(0.15385rem - 1px);
+
+  &.active,
+  &:hover {
+    border-bottom-width: 0.15385rem !important;
+    margin-bottom: 0;
+  }
+}
+
+.tab-validation--info,
+.tab-validation--notice {
+  background-color: #F0F8FC !important;
+  border-color: #93CDE8 !important;
+}
+
+.tab-validation--warning {
+  background-color: #FEFBDE !important;
+  border-color: #E9D104 !important;
+}
+
+.tab-validation--validation,
+.tab-validation--required,
+.tab-validation--error,
+.tab-validation--bad,
+.tab-validation--danger {
+  background-color: #FAE8E9 !important;
+  border-color: #E68288 !important;
+}
+// stylelint-enable declaration-no-important
+
+.validation-bar {
+  margin-bottom: 1.5rem;
+}

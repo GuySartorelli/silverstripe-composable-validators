@@ -5,3 +5,8 @@ Name: signify-composable-validators-config
 Signify\ComposableValidators\Validators\SimpleFieldsValidator:
   ignore_field_classes_on_ajax:
     - UndefinedOffset\NoCaptcha\Forms\NocaptchaField
+
+# Add styling to CMS
+SilverStripe\Admin\LeftAndMain:
+  extra_requirements_css:
+    - 'signify-nz/silverstripe-composable-validators:client/dist/left-and-main.css'
