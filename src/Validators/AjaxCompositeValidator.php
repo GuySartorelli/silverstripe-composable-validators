@@ -19,7 +19,6 @@ use SilverStripe\View\Requirements;
  */
 class AjaxCompositeValidator extends CompositeValidator
 {
-
     /**
      * Whether ajax validation should be used.
      *
