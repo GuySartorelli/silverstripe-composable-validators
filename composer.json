@@ -17,6 +17,9 @@
     "forms",
     "cms",
     "frontend",
+    "dependent",
+    "required",
+    "warning",
     "elemental"
   ],
   "authors": [
