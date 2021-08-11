@@ -42,7 +42,7 @@ abstract class FieldHasValueValidator extends Validator
         $value = isset($data[$fieldName]) ? $data[$fieldName] : null;
 
         // Allow projects to add their own definitions of fields with values (e.g. for custom fields)
-        $extendedHas = $this->extendedHas('updateFieldHasValue', $value);
+        $extendedHas = $this->extendedHas('updateFieldHasValue', $formField, $value);
         if ($extendedHas !== null) {
             return $extendedHas;
         }
@@ -67,9 +67,9 @@ abstract class FieldHasValueValidator extends Validator
         return (strlen($value)) ? true : false;
     }
 
-    private function extendedHas($methodName, $value)
+    private function extendedHas($methodName, $formField, $value)
     {
-        $results = $this->extend($methodName, $value);
+        $results = $this->extend($methodName, $formField, $value);
         if ($results && is_array($results)) {
             // Remove NULLs
             $results = array_filter($results, function ($v) {
