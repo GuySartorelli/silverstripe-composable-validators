@@ -244,6 +244,25 @@ The `ElementalArea` field holder template doesn't currently render validation er
 
 This validator validates when the page (or other DataObject that has an ElementalArea) is saved or published - but not necessarily when the blocks within the ElementalArea are saved or published. This means content authors can work around the validation errors if they really want to.
 
+## RegexFieldsValidator
+This validator is used to require field values to match a specific regex pattern. Often it will make sense to have this validation inside a custom FormField implementation, but for one-of specific pattern validation of fields that don't warrant their own FormField this validator is perfect.
+
+Any value that cannot be converted to a string cannot be checked against regex and so is ignored, and therefore implicitly passes validation.
+
+In the below example, NotOnlyNumbersField field must match one of the specified regex patterns.
+```php
+RegexFieldsValidator::create([
+    'NotOnlyNumbersField' => [
+        '/(?!^\d+$)^.*?$/' => 'must not consist entirely of numbers',
+        '/^[\d]$/' => 'must have only one digit',
+    ]
+]);
+```
+**Note:** If any one of the patterns is matched, it passes validation. If none of the patterns match, all of the corresponding messages are displayed, including a generic prefix. So in the above example, if none of the patterns match the value of NotOnlyNumbersField, the following validation error message will display:  
+`The value for "NotOnlyNumbersField" must not consist entirely of numbers or must have only one digit`
+
+This validator uses the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
+
 # Traits
 ## ValidatesMultipleFields
 This trait is used in both the [RequiredFieldsValidator](#requiredfieldsvalidator) and [WarningFieldsValidator](#warningfieldsvalidator). It is useful for any validator that can be fed an array of field names that need to be validated.
@@ -287,6 +306,6 @@ Note that the field name passed should _always_ be the name of the `FormField`. 
 ## ValidatesMultipleFieldsWithConfig
 This trait is almost identical to `ValidatesMultipleFields` and has all of the same methods, except that `addField` requires two arguments (the field to mark as required, and its configuration array), and `addFields` requires a configuration array for each field added.
 
-Used in [DependentRequiredFieldsValidator](#dependentrequiredfieldsvalidator).
+Used in [DependentRequiredFieldsValidator](#dependentrequiredfieldsvalidator) and [RegexFieldsValidator](#regexfieldsvalidator).
 
 Check the documentation for a specific validator for specifics about the configuration array for that validator.

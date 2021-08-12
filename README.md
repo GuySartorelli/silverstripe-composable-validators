@@ -27,6 +27,8 @@ Displays a warning if some field(s) doesn't have a value. Useful for alerting us
 Uses [SearchFilters](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) to define fields as required conditionally, based on the values of other fields (e.g. only required if `OtherField` has a value greater than 25).
 - **[RequiredBlocksValidator](docs/en/01-validators.md#requiredblocksvalidator)**  
 Require a specific [elemental block(s)](https://github.com/silverstripe/silverstripe-elemental) to exist in the `ElementalArea`, with optional minimum and maximum numbers of blocks and optional positional validation.
+- **[RegexFieldsValidator](docs/en/01-validators.md#regexfieldsvalidator)**  
+Ensure some field(s) matches a specified regex pattern.
 ## [Traits](docs/en/01-validators.md#traits)
 - **[ValidatesMultipleFields](docs/en/01-validators.md#validatesmultiplefields)**  
 Useful for validators that can be fed an array of field names to be validated.
