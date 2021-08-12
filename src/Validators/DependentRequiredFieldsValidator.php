@@ -110,7 +110,6 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
                 self::class . ".DEPENDENCY_$filterClass",
                 "[ERROR: '$filterClass' has no appropriate dependency translation string]",
                 [
-                    // TODO find a way to get the field label instead of the field name for the validation error.
                     'dependency' => strip_tags('"' . $this->getFieldLabel($dependencyField) . '"'),
                     'value' => $this->makeValuesString($filter),
                 ]
