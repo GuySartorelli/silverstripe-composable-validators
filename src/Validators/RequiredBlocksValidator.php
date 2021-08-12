@@ -46,17 +46,9 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
          */
         public function php($data)
         {
-            $elementalAreaFields = ArrayList::create();
+            $elementalAreaFields = $this->getElementalAreaFields();
             $elementClassesToCheck = $this->required;
             $errors = [];
-
-            // Get the elemental areas to be validated against.
-            foreach ($this->form->Fields()->dataFields() as $fieldName => $field) {
-                if (!$field instanceof ElementalAreaField) {
-                    continue;
-                }
-                $elementalAreaFields->add($field);
-            }
 
             // Validate elemental areas.
             foreach ($elementalAreaFields as $field) {
