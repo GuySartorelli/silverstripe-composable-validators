@@ -30,3 +30,5 @@ Require a specific [elemental block(s)](https://github.com/silverstripe/silverst
 ## [Traits](docs/en/01-validators.md#traits)
 - **[ValidatesMultipleFields](docs/en/01-validators.md#validatesmultiplefields)**  
 Useful for validators that can be fed an array of field names to be validated.
+- **[ValidatesMultipleFieldsWithConfig](docs/en/01-validators.md#validatesmultiplefieldswithconfig)**  
+Like ValidatesMultipleFields but requires a configuration array for each field to be validated.

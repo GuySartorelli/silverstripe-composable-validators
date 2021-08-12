@@ -172,7 +172,7 @@ DependentRequiredFieldsValidator::create([
 ```
 **Note:** All of the dependencies must be met for a field to be considered required. So in the example above, if `DependencyField` had the value "someValues" the `StartsEndsWithField` would not be marked required, because only one of its dependencies is met.
 
-This validator has all of the same methods provided by `ValidatesMultipleFields` except that `addField` requires two arguments (the field to mark as required, and its dependency array), and `addFields` requires an array similar to that in the example above.
+This validator uses the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
 
 The conditional checking functionality is powered by [signify-nz/silverstripe-searchfilter-arraylist](https://github.com/signify-nz/silverstripe-searchfilter-arraylist), which does provide some extensibility. You may want to check the documentation of that module.
 
@@ -283,3 +283,10 @@ $validator->appendFields($requiredFieldsValidator);
 $fields = $validator->getFields();
 ```
 Note that the field name passed should _always_ be the name of the `FormField`. This is especially important for fields representing a `has_one` relation where the name of an `UploadField` will omit the 'ID' (e.g. 'SomeImage', not 'SomeImageID'), but a `DropdownField`, `TreeDropdownField`, or `OptionSetField` will include the 'ID' (e.g. 'SomeImageID, not 'SomeImage').
+
+## ValidatesMultipleFieldsWithConfig
+This trait is almost identical to `ValidatesMultipleFields` and has all of the same methods, except that `addField` requires two arguments (the field to mark as required, and its configuration array), and `addFields` requires a configuration array for each field added.
+
+Used in [DependentRequiredFieldsValidator](#dependentrequiredfieldsvalidator).
+
+Check the documentation for a specific validator for specifics about the configuration array for that validator.
