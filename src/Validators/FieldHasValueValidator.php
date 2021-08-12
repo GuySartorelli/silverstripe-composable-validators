@@ -23,7 +23,11 @@ abstract class FieldHasValueValidator extends Validator
      */
     protected function getFormField(FieldList $fields, string $fieldName): ?FormField
     {
-        return $fields->dataFieldByName($fieldName);
+        $field = $fields->dataFieldByName($fieldName);
+        if (!$field) {
+            $field = $fields->fieldByName($fieldName);
+        }
+        return $field;
     }
 
     /**
