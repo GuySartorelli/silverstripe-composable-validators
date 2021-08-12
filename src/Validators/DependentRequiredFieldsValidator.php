@@ -14,7 +14,7 @@ use SilverStripe\ORM\Filters\SearchFilter;
  * Configuration arrays for this validator are an array of fields with SearchFilter syntax and the
  * corresponding value(s). In this example, 'StartsWithField' will be required only if the value of 'DependencyField' starts
  * with the string 'some':
- * $validator->addDependentRequiredField('StartsWithField', ['DependencyField:StartsWith' => 'some']);
+ * $validator->addField('StartsWithField', ['DependencyField:StartsWith' => 'some']);
  *
  * This validator is best used within an AjaxCompositeValidator in conjunction with
  * a SimpleFieldsValidator.
