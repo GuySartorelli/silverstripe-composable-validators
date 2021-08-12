@@ -19,6 +19,21 @@ use SilverStripe\View\Requirements;
 class AjaxCompositeValidator extends CompositeValidator
 {
     /**
+     * Whether the validation hint data attribute should be applied to forms.
+     *
+     * @var boolean
+     * @config
+     */
+    private static $add_validation_hint = true;
+
+    /**
+     * Per-instance override for add_validation_hint
+     *
+     * @var boolean|null
+     */
+    private $addValidationHint;
+
+    /**
      * Whether ajax validation should be used.
      *
      * @var bool
@@ -150,6 +165,31 @@ class AjaxCompositeValidator extends CompositeValidator
     }
 
     /**
+     * Set whether this validator is configured to add a validation hint to the form.
+     *
+     * @param boolean $addHint
+     * @return $this
+     */
+    public function setAddValidationHint(bool $addHint)
+    {
+        $this->addValidationHint = $addHint;
+        return $this;
+    }
+
+    /**
+     * True if this validator is configured to add a validation hint to the form.
+     *
+     * @return boolean
+     */
+    public function getAddValidationHint(): bool
+    {
+        if ($this->addValidationHint === null) {
+            return $this->config()->get('add_validation_hint');
+        }
+        return $this->addValidationHint;
+    }
+
+    /**
      * Set whether this validator is configured to use AJAX validation.
      *
      * @param boolean $ajax
@@ -179,18 +219,24 @@ class AjaxCompositeValidator extends CompositeValidator
      */
     private function addValidationHintField(?Form $oldForm)
     {
+        // Always make sure to remove the attribute in case it has been set.
         $dataAttribute = 'data-signify-validation-hints';
         if ($oldForm) {
             $oldForm->setAttribute($dataAttribute, null);
         }
 
+        // Escape hatch if this validator shouldn't add hints.
+        if (!$this->getAddValidationHint()) {
+            return;
+        }
+
+        // Add the validation hints from all validators.
         $hints = [];
         foreach ($this->getValidators() as $validator) {
             if ($validator->hasMethod('getValidationHints')) {
                 $hints = ArrayLib::array_merge_recursive($hints, $validator->getValidationHints());
             }
         }
-
         $this->form->setAttribute($dataAttribute, json_encode($hints));
     }
 }
