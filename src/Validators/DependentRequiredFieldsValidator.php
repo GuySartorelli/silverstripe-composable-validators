@@ -4,6 +4,7 @@ namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ValidatesMultipleFieldsWithConfig;
 use Signify\SearchFilterArrayList\SearchFilterableArrayList;
+use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\Filters\SearchFilter;
 
@@ -116,7 +117,8 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
             );
         }
 
-        $delimiter = _t(self::class . '.DEPENDENCIES_DELIMITER', ', and ');
+        $namespace = rtrim(str_replace(ClassInfo::shortName(self::class), '', self::class), '\\');
+        $delimiter = _t($namespace . '.DELIMITER_AND', ', and ');
         return _t(
             self::class . '.FIELD_IS_REQUIRED',
             '{name} is required when {dependencies}',
@@ -159,7 +161,8 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
             }
             $stringArray[] = $value;
         }
-        $valueDelimiter =  _t(self::class . '.DEPENDENCY_VALUE_OR', ' or ');
+        $namespace = rtrim(str_replace(ClassInfo::shortName(self::class), '', self::class), '\\');
+        $valueDelimiter =  _t($namespace . '.DELIMITER_OR', ' or ');
         return implode($valueDelimiter, $stringArray);
     }
 }
