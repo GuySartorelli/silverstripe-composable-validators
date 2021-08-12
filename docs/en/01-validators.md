@@ -140,7 +140,7 @@ class MyFieldValueExtension extends Extension
 
 
 ## RequiredFieldsValidator
-This is a composable replacement for [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It doesn't perform the internal field validation that validator does, with the assumption that it will be paired with a `SimpleFieldsValidator`. Its usage is identical to `ValidatesMultipleFields`.
+This is a composable replacement for [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It doesn't perform the internal field validation that validator does, with the assumption that it will be paired with a `SimpleFieldsValidator`. Its usage is identical to [ValidatesMultipleFields](#validatesmultiplefields).
 
 Displays a validation error if the field(s) has no value.
 
@@ -149,7 +149,7 @@ While this validator can be used to require data in `GridField`s, as of writing 
 This applies to the `WarningFieldsValidator` as well.
 
 ## WarningFieldsValidator
-Similar to `RequiredFieldsValidator` except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. Its usage is identical to `ValidatesMultipleFields`.
+Similar to `RequiredFieldsValidator` except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. Its usage is identical to [ValidatesMultipleFields](#validatesmultiplefields).
 
 This can be very useful for alerting users about data that is technically valid but may not provide the results they expect.
 
@@ -246,7 +246,7 @@ This validator validates when the page (or other DataObject that has an Elementa
 
 # Traits
 ## ValidatesMultipleFields
-This trait is used in both the `RequiredFieldsValidator` and `WarningFieldsValidator`. It is useful for any validator that can be fed an array of field names that need to be validated.
+This trait is used in both the [RequiredFieldsValidator](#requiredfieldsvalidator) and [WarningFieldsValidator](#warningfieldsvalidator). It is useful for any validator that can be fed an array of field names that need to be validated.
 
 ### Usage
 This usage applies to all validators that use `ValidatesMultipleFields`. It is intentionally very similar to Silverstripe's `RequiredFields` usage.
