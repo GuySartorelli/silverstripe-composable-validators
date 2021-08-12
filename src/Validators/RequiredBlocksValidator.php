@@ -97,19 +97,18 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
         /**
          * Validate a specific ElementalArea.
          *
-         * @param FormField $field
+         * @param ElementalAreaField $field
          * @param ArrayList $elementalAreaFields
          * @param array $elementClassesToCheck
          * @param array $errors
          */
         protected function validateElementalArea(
-            FormField $field,
+            ElementalAreaField $field,
             ArrayList $elementalAreaFields,
             array &$elementClassesToCheck,
             array &$errors
         ) {
             $fieldName = $field->Name;
-            /** @var ElementalArea $area */
             $area = $field->getArea();
             if ($area) {
                 // Get block positioning
