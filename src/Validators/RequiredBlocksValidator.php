@@ -7,7 +7,6 @@ use DNADesign\Elemental\Models\ElementalArea;
 use NumberFormatter;
 use SilverStripe\Config\MergeStrategy\Priority;
 use SilverStripe\Forms\FormField;
-use SilverStripe\Forms\Validator;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 
@@ -22,7 +21,7 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
      * This validator is best used within an AjaxCompositeValidator in conjunction with
      * a SimpleFieldsValidator.
      */
-    class RequiredBlocksValidator extends Validator
+    class RequiredBlocksValidator extends BaseValidator
     {
         /**
          * List of required blocks and their requirement configuration.
@@ -424,6 +423,44 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
         public function canBeCached(): bool
         {
             return count($this->required) === 0;
+        }
+
+        /**
+         * Get all of the ElementalAreaFields available in this form.
+         *
+         * @return ArrayList
+         */
+        private function getElementalAreaFields(): ArrayList
+        {
+            $elementalAreaFields = ArrayList::create();
+            // Get the elemental areas to be validated against.
+            foreach ($this->form->Fields()->dataFields() as $fieldName => $field) {
+                if (!$field instanceof ElementalAreaField) {
+                    continue;
+                }
+                $elementalAreaFields->add($field);
+            }
+            return $elementalAreaFields;
+        }
+
+        public function getValidationHints(): array
+        {
+            $elementClassesToCheck = $this->required;
+            $elementalAreaFields = $this->getElementalAreaFields();
+            $hints = [];
+            foreach ($elementClassesToCheck as $className => $requiredConfig) {
+                $relevantFields = $this->getRelevantFields($elementalAreaFields, $requiredConfig);
+                foreach ($relevantFields as $field) {
+                    $singleton = $className::singleton();
+                    $hints[$field->ID()]['required-elements'][$className] = [
+                        'name' => $singleton->getType(),
+                        'min' => isset($requiredConfig['min']) ? $requiredConfig['min'] : -1,
+                        'max' => isset($requiredConfig['max']) ? $requiredConfig['max'] : -1,
+                        'pos' => isset($requiredConfig['pos']) ? $requiredConfig['pos'] : -1,
+                    ];
+                }
+            }
+            return $hints;
         }
     }
 }

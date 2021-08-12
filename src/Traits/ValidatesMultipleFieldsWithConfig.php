@@ -3,6 +3,7 @@
 namespace Signify\ComposableValidators\Traits;
 
 use InvalidArgumentException;
+use SilverStripe\ORM\ArrayLib;
 
 trait ValidatesMultipleFieldsWithConfig
 {
@@ -66,5 +67,31 @@ trait ValidatesMultipleFieldsWithConfig
     {
         $this->fields = $this->fields + $validator->getFields();
         return $this;
+    }
+
+    /**
+     * Get an associative array indicating what fields in which tabs (if any)
+     * have what validation requirements.
+     *
+     * @return string[]
+     */
+    public function getValidationHints(): array
+    {
+        $fields = $this->form->Fields();
+        $hints = [];
+        foreach ($this->getFields() as $fieldName => $config) {
+            if ($formField = $this->getFormField($fields, $fieldName)) {
+                if ($fieldArray = $this->getValidationHintForField($formField)) {
+                    if ($tab = $this->getTabForField($formField)) {
+                        $fieldArray['tab'] = $tab->ID();
+                    }
+                    if (!isset($hints[$formField->ID()])) {
+                        $hints[$formField->ID()] = [];
+                    }
+                    $hints[$formField->ID()] = ArrayLib::array_merge_recursive($hints[$formField->ID()], $fieldArray);
+                }
+            }
+        }
+        return $hints;
     }
 }

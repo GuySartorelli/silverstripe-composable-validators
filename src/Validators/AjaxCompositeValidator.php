@@ -7,6 +7,7 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Forms\CompositeValidator;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\Validator;
+use SilverStripe\ORM\ArrayLib;
 use SilverStripe\View\Requirements;
 
 /**
@@ -49,7 +50,10 @@ class AjaxCompositeValidator extends CompositeValidator
             $form->addExtraClass('js-multi-validator-ajax');
             $form->setAttribute('data-validation-link', $form->getRequestHandler()->Link($action));
         }
-        return parent::setForm($form);
+        $oldForm = $this->form;
+        parent::setForm($form);
+        $this->addValidationHintField($oldForm);
+        return $this;
     }
 
     public function validate(bool $isValidAjax = false)
@@ -165,5 +169,28 @@ class AjaxCompositeValidator extends CompositeValidator
     public function getAjax(): bool
     {
         return $this->ajax;
+    }
+
+    /**
+     * Add a typehint data attribute that indicates what validation is necessary.
+     * This is useful to ensure automated tests know what values will be valid for which fields.
+     *
+     * @param Form|null $oldForm
+     */
+    private function addValidationHintField(?Form $oldForm)
+    {
+        $dataAttribute = 'data-signify-validation-hints';
+        if ($oldForm) {
+            $oldForm->setAttribute($dataAttribute, null);
+        }
+
+        $hints = [];
+        foreach ($this->getValidators() as $validator) {
+            if ($validator->hasMethod('getValidationHints')) {
+                $hints = ArrayLib::array_merge_recursive($hints, $validator->getValidationHints());
+            }
+        }
+
+        $this->form->setAttribute($dataAttribute, json_encode($hints));
     }
 }

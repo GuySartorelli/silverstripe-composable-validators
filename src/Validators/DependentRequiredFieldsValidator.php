@@ -6,6 +6,7 @@ use Signify\ComposableValidators\Traits\ValidatesMultipleFieldsWithConfig;
 use Signify\SearchFilterArrayList\SearchFilterableArrayList;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FormField;
 use SilverStripe\ORM\Filters\SearchFilter;
 
 /**
@@ -163,5 +164,17 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
         $namespace = rtrim(str_replace(ClassInfo::shortName(self::class), '', self::class), '\\');
         $valueDelimiter =  _t($namespace . '.DELIMITER_OR', ' or ');
         return implode($valueDelimiter, $stringArray);
+    }
+
+    public function getValidationHintForField(FormField $formField): ?array
+    {
+        $fieldName = $formField->getName();
+        $fields = $this->getFields();
+        if (array_key_exists($fieldName, $fields)) {
+            return [
+                'dependencies' => $fields[$fieldName],
+            ];
+        }
+        return null;
     }
 }

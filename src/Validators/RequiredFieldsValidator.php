@@ -5,6 +5,8 @@ namespace Signify\ComposableValidators\Validators;
 use Signify\ComposableValidators\Traits\ValidatesMultipleFields;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FormField;
+use SilverStripe\ORM\ArrayLib;
 
 /**
  * A validator used to ensure certain required fields have values.
@@ -97,5 +99,15 @@ class RequiredFieldsValidator extends FieldHasValueValidator
             }
         }
         return $required;
+    }
+
+    public function getValidationHintForField(FormField $formField): ?array
+    {
+        if (in_array($formField->getName(), $this->getFields())) {
+            return [
+                'required' => true,
+            ];
+        }
+        return null;
     }
 }

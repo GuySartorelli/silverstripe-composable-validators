@@ -4,6 +4,7 @@ namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ValidatesMultipleFields;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FormField;
 use SilverStripe\ORM\ValidationResult;
 
 /**
@@ -67,5 +68,10 @@ class WarningFieldsValidator extends FieldHasValueValidator
             return true;
         }
         return false;
+    }
+
+    public function getValidationHintForField(FormField $formField): ?array
+    {
+        return null;
     }
 }

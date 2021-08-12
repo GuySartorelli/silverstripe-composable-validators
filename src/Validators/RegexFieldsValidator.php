@@ -5,6 +5,7 @@ namespace Signify\ComposableValidators\Validators;
 use Signify\ComposableValidators\Traits\ValidatesMultipleFieldsWithConfig;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FormField;
 
 /**
  * A validator used to require field values to match a specific regex pattern.
@@ -90,4 +91,23 @@ class RegexFieldsValidator extends BaseValidator
         return $value === null || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'));
     }
 
+    public function getValidationHintForField(FormField $formField): ?array
+    {
+        $fieldName = $formField->getName();
+        $fields = $this->getFields();
+        if (array_key_exists($fieldName, $fields)) {
+            $regex = [];
+            foreach ($fields[$fieldName] as $expression => $config) {
+                if (is_numeric($expression)) {
+                    $regex[] = $config;
+                } else {
+                    $regex[] = $expression;
+                }
+            }
+            return [
+                'regex' => $regex,
+            ];
+        }
+        return null;
+    }
 }
