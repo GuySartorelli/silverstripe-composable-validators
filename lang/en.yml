@@ -12,6 +12,9 @@ en:
     DEPENDENCY_SilverStripe\ORM\Filters\PartialMatchFilter: 'the value for {dependency} contains {value}'
     DEPENDENCY_SilverStripe\ORM\Filters\StartsWithFilter: 'the value for {dependency} starts with {value}'
     FIELD_IS_REQUIRED: '{name} is required when {dependencies}'
+  Signify\ComposableValidators\Validators\RegexFieldsValidator:
+    DEFAULT_PATTERN_MISMATCH: 'must match the pattern {regex}'
+    VALIDATION_ERROR: 'The value for {name} {requirements}'
   Signify\ComposableValidators\Validators\RequiredBlocksValidator:
     BOTTOM: 'bottom'
     POSITION_ABSOLUTE: "If a '{singularBlock}' exists, it must be {ordinal} from the {topOrBottom}"
