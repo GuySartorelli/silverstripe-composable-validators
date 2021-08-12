@@ -7,40 +7,12 @@ use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\TreeDropdownField;
-use SilverStripe\Forms\Validator;
 
 /**
  * A validator that checks whether fields have values.
  */
-abstract class FieldHasValueValidator extends Validator
+abstract class FieldHasValueValidator extends BaseValidator
 {
-    /**
-     * Get the form field from a field list.
-     *
-     * @param FieldList $fields
-     * @param string $fieldName
-     * @return FormField|null
-     */
-    protected function getFormField(FieldList $fields, string $fieldName): ?FormField
-    {
-        $field = $fields->dataFieldByName($fieldName);
-        if (!$field) {
-            $field = $fields->fieldByName($fieldName);
-        }
-        return $field;
-    }
-
-    /**
-     * Get the appropriate field label for use in validation messages.
-     *
-     * @param FormField $field
-     * @return string
-     */
-    protected function getFieldLabel(FormField $field): string
-    {
-        return $field->Title() ? $field->Title() : $field->getName();
-    }
-
     /**
      * Check if a field has a value in the given data array.
      *

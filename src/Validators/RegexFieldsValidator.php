@@ -5,7 +5,6 @@ namespace Signify\ComposableValidators\Validators;
 use Signify\ComposableValidators\Traits\ValidatesMultipleFieldsWithConfig;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\Validator;
 
 /**
  * A validator used to require field values to match a specific regex pattern.
@@ -21,7 +20,7 @@ use SilverStripe\Forms\Validator;
  * This validator is best used within an AjaxCompositeValidator in conjunction with
  * a SimpleFieldsValidator.
  */
-class RegexFieldsValidator extends Validator
+class RegexFieldsValidator extends BaseValidator
 {
     use ValidatesMultipleFieldsWithConfig;
 
@@ -58,7 +57,7 @@ class RegexFieldsValidator extends Validator
                 }
             }
             if (!$hasMatch) {
-                $fieldLabel = '"' . $this->getFieldLabel($fields, $fieldName) . '"';
+                $fieldLabel = '"' . $this->getFieldLabel($this->getFormField($fields, $fieldName)) . '"';
                 $namespace = rtrim(str_replace(ClassInfo::shortName(self::class), '', self::class), '\\');
                 $delimiter = _t($namespace . '.DELIMITER_OR', ' or ');
                 $errorMessage = _t(
@@ -91,18 +90,4 @@ class RegexFieldsValidator extends Validator
         return $value === null || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'));
     }
 
-    /**
-     * Get the appropriate field label for use in validation messages.
-     *
-     * @param FieldList $fields
-     * @param string $fieldName
-     */
-    protected function getFieldLabel(FieldList $fields, string $fieldName): string
-    {
-        $field = $fields->dataFieldByName($fieldName);
-        if (!$field) {
-            $field = $fields->fieldByName($fieldName);
-        }
-        return ($field && $field->Title()) ? $field->Title() : $fieldName;
-    }
 }
