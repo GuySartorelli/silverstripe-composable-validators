@@ -111,6 +111,6 @@ Any validation in the `validate` method of a `FormField` or `DataObject` is not 
 For custom validation this could be worked around by adding a `Validator` that implements `getValidationHints` and simply returns hints for that internal validation, without performing any validation of its own.
 
 ### Tab Sometimes Missing
-Sometimes the `tab` key may be missing from a field's validation hint even though the field is definitely in a tab. Unfortunately whenever `flattenFields` is called on a `FieldList`, this changes the `containerFieldList` value for that field, so while the form and the field list know where the field resides, the field things it is sitting inside the flattened list and doesn't know anything about the original list inside the form.
+Sometimes the `tab` key may be missing from a field's validation hint even though the field is definitely in a tab. Unfortunately whenever `flattenFields` is called on a `FieldList`, this changes the `containerFieldList` value for that field, so while the form and the field list know where the field resides, the field thinks it is sitting inside the flattened list and doesn't know anything about the original list inside the form.
 
 This has been [raised as an issue](https://github.com/silverstripe/silverstripe-framework/issues/10054) against `silverstripe/framework` but until it is resolved, tests will have to have an alternative way of finding the field other than relying on the `tab` key in the hint object.
