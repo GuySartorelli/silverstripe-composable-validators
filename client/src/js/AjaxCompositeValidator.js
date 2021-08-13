@@ -258,6 +258,7 @@
       statusMessage(cannotValidateMsg, 'error');
       /* eslint-disable-next-line no-console */
       console.error(`Error with AJAX validation request: ${status}: ${error}`);
+      return finallySubmit($form, button);
     }
 
     // Validate.
