@@ -227,6 +227,8 @@ $errorMessage = '"' . $this->getFieldLabel($formField) . '" is required';
 $this->validationError($fieldName, $errorMessage, 'required');
 ```
 
+It also has an abstract method `getValidationHints` which has implications for [client-side automated testing](./03-client-side-tests.md).
+
 ### FieldHasValueValidator
 This abstract class is itself a subclass of `BaseValidator`, and is useful as a superclass for any validator that needs to check if fields have a value. This functionality is used in the [RequiredFieldsValidator](#requiredfieldsvalidator), [WarningFieldsValidator](#warningfieldsvalidator), and [DependentRequiredFieldsValidator](#dependentrequiredfieldsvalidator).
 
