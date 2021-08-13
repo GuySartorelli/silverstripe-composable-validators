@@ -107,8 +107,9 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
             $filter = $arrayList->createSearchFilter($filterKey, $filterValue);
             $filterClass = get_class($filter);
             $dependencyField = $this->getFormField($fields, $filter->getName());
+            $negated = in_array('not', $filter->getModifiers()) ? '_NEGATED' : '';
             $dependencies[] = _t(
-                self::class . ".DEPENDENCY_$filterClass",
+                self::class . ".DEPENDENCY_$filterClass" . $negated,
                 "[ERROR: '$filterClass' has no appropriate dependency translation string]",
                 [
                     'dependency' => strip_tags('"' . $this->getFieldLabel($dependencyField) . '"'),
