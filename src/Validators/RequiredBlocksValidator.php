@@ -443,17 +443,22 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
                 $relevantFields = $this->getRelevantFields($elementalAreaFields, $requiredConfig);
                 foreach ($relevantFields as $field) {
                     $hints[$field->ID()]['name'] = $field->getName();
+                    // Set tab.
+                    if (
+                        !isset($hints[$field->ID()]['tab'])
+                        && $tab = $this->getTabForField($this->getFormField($this->form->Fields(), $field->getName()))
+                    ) {
+                        $hints[$field->ID()]['tab'] = $tab->ID();
+                    }
+                    // Add block config.
                     $singleton = $className::singleton();
-                    $fieldArray = [
+                    $blockArray = [
                         'name' => $singleton->getType(),
                         'min' => isset($requiredConfig['min']) ? $requiredConfig['min'] : null,
                         'max' => isset($requiredConfig['max']) ? $requiredConfig['max'] : null,
                         'pos' => isset($requiredConfig['pos']) ? $requiredConfig['pos'] : null,
                     ];
-                    if ($tab = $this->getTabForField($this->getFormField($this->form->Fields(), $field->getName()))) {
-                        $fieldArray['tab'] = $tab->ID();
-                    }
-                    $hints[$field->ID()]['required-elements'][$className] = $fieldArray;
+                    $hints[$field->ID()]['required-elements'][$className] = $blockArray;
                 }
             }
             return $hints;
