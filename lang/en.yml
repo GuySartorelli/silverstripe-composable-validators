@@ -1,6 +1,6 @@
 en:
   Signify\ComposableValidators\Validators:
-    DELIMITER_AND: ', and'
+    DELIMITER_AND: ', and '
     DELIMITER_OR: ' or '
   Signify\ComposableValidators\Validators\DependentRequiredFieldsValidator:
     DEPENDENCY_SilverStripe\ORM\Filters\EndsWithFilter: 'the value for {dependency} ends with {value}'
