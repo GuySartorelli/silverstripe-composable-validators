@@ -76,6 +76,8 @@
     if (msg) {
       $elem.addClass('validation validation-bar');
       $elem.show();
+      $elem.attr('tabindex', -1);
+      $elem.focus();
     } else {
       $elem.removeClass('validation');
       $elem.hide();
@@ -121,7 +123,7 @@
       $(`#${tabID}`).addClass(`font-icon-attention-1 tab-validation tab-validation--${error.messageType}`);
       // Create and insert the validation error message element.
       const $message = $('<div/>').html(convertNewLineToBR(error.message))
-        .addClass(`js-ajax-validation message ${error.messageType}`);
+        .addClass(`js-ajax-validation message ${error.messageType}`).attr('id', `${id}_validation-message`);
       if (isBackendForm()) {
         $message.insertBefore($field);
       } else {
@@ -129,6 +131,9 @@
         $message.addClass('form__message form__message--required');
         $message.insertAfter($field);
       }
+      // Set describedby for screen readers.
+      $(`#${id}`).data('old-described-by', $(`#${id}`).attr('aria-describedby'));
+      $(`#${id}`).attr('aria-describedby', `${id}_validation-message`);
     }
     const statusMsg = provideTranslationOrDefault(
       'Signify_AjaxCompositeValidator.VALIDATION_ERROR_TOAST',
@@ -151,6 +156,14 @@
       $(elem).removeClass('font-icon-attention-1 tab-validation');
       /* eslint-disable-next-line no-param-reassign */
       elem.className = elem.className.replace(new RegExp(/tab-validation--\w*/g, ''));
+    });
+    // Set original describedby values.
+    $form.find('[aria-describedby]').each((index, elem) => {
+      const $field = $(elem);
+      if ($field.data('old-described-by')) {
+        $field.attr('aria-describedby', $field.data('old-described-by'));
+        $field.data('old-described-by', null);
+      }
     });
   }
 
