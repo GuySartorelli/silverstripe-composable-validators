@@ -442,6 +442,7 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
             foreach ($elementClassesToCheck as $className => $requiredConfig) {
                 $relevantFields = $this->getRelevantFields($elementalAreaFields, $requiredConfig);
                 foreach ($relevantFields as $field) {
+                    $hints[$field->ID()]['name'] = $field->getName();
                     $singleton = $className::singleton();
                     $fieldArray = [
                         'name' => $singleton->getType(),

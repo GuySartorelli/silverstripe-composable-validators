@@ -157,9 +157,7 @@ trait ValidatesMultipleFields
                     if ($tab = $this->getTabForField($formField)) {
                         $fieldArray['tab'] = $tab->ID();
                     }
-                    if (!isset($hints[$formField->ID()])) {
-                        $hints[$formField->ID()] = [];
-                    }
+                    $hints[$formField->ID()]['name'] = $fieldName;
                     $hints[$formField->ID()] = ArrayLib::array_merge_recursive($hints[$formField->ID()], $fieldArray);
                 }
             }
