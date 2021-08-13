@@ -30,7 +30,7 @@ Require a specific [elemental block(s)](https://github.com/silverstripe/silverst
 - **[RegexFieldsValidator](docs/en/01-validators.md#regexfieldsvalidator)**  
 Ensure some field(s) matches a specified regex pattern.
 ### [Abstract Validators](docs/en/01-validators.md#abstract-validators)
-- **[BaseValidator](docs/en/01-validators.md#basevalidator)**
+- **[BaseValidator](docs/en/01-validators.md#basevalidator)**  
 Includes methods useful for getting the actual `FormField` and its label.
 - **[FieldHasValueValidator](docs/en/01-validators.md#fieldhasvaluevalidator)**  
 Subclass of `BaseValidator`. Useful for validators that require logic to check if a field has any value or not.
