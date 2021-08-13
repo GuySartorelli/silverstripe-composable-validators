@@ -94,51 +94,6 @@ Signify\ComposableValidators\Validators\SimpleFieldsValidator:
 
 That specific class is already added by default, but you can add others if you find similar situations.
 
-## FieldHasValueValidator
-This abstract class is useful as a superclass for any validator that needs to check if fields have a value. This functionality is used in the `RequiredFieldsValidator`, `WarningFieldsValidator`, and `DependentRequiredFieldsValidator`.
-
-It also has methods for getting a FormField from a Fieldlist and getting the appropriate field label for use in validation messages.
-```php
-// Get the actual FormField for the named field.
-$fields = $this->form->Fields();
-$formField = $this->getFormField($fields, $fieldName);
-// Check if the field has a value.
-$valid = !$this->fieldHasValue($data, $formField);
-// Use the appropriate field label for the validation message.
-$errorMessage = '"' . $this->getFieldLabel($formField) . '" is required';
-$this->validationError($fieldName, $errorMessage, 'required');
-```
-The `fieldHasValue` method should correctly identify whether a field has a value or not for all `FormField`s that come packaged in Silverstripe framework itself. It's possible however that some module, or your own code, has a value format that isn't correctly covered by this module. For those situations, you can extend the functionality by implementing `updateFieldHasValue` in an `Extension` class:
-
-```yml
-Signify\ComposableValidators\Validators\FieldHasValueValidator:
-  extensions:
-    - MyFieldValueExtension
-```
-```php
-class MyFieldValueExtension extends Extension
-{
-    /**
-     * Determine whether a specific field has a value. Implement this method when either your custom code,
-     * or some vendor code, has a field that isn't correctly handled by FieldHasValueValidator::fieldHasValue().
-     *
-     * @param FormField $formField
-     * @param mixed $value
-     */
-    public function updateFieldHasValue(FormField $formField, $value)
-    {
-        // Return true or false to explicitly declare that the field does or does not have a value.
-        if ($formField instanceof MyCustomFormField) {
-            return /* some boolean logic to determine if the field has a value */;
-        }
-
-        // Either return nothing or explicitly return null if you do not want to affect the default functionality.
-        return null;
-    }
-}
-```
-
-
 ## RequiredFieldsValidator
 This is a composable replacement for [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It doesn't perform the internal field validation that validator does, with the assumption that it will be paired with a `SimpleFieldsValidator`. Its usage is identical to [ValidatesMultipleFields](#validatesmultiplefields).
 
@@ -262,6 +217,62 @@ RegexFieldsValidator::create([
 `The value for "NotOnlyNumbersField" must not consist entirely of numbers or must have only one digit`
 
 This validator uses the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
+
+## Abstract Validators
+### BaseValidator
+This abstract class should be used as the superclass for any validator that displays validation messages, as it provides a method to get the correct label for use in validation messages. It also has a method for reliably getting a FormField from a Fieldlist.
+```php
+// Get the actual FormField for the named field.
+$fields = $this->form->Fields();
+$formField = $this->getFormField($fields, $fieldName);
+/* Perform some validation here */
+// Use the appropriate field label for the validation message.
+$errorMessage = '"' . $this->getFieldLabel($formField) . '" is required';
+$this->validationError($fieldName, $errorMessage, 'required');
+```
+
+### FieldHasValueValidator
+This abstract class is itself a subclass of `BaseValidator`, and is useful as a superclass for any validator that needs to check if fields have a value. This functionality is used in the [RequiredFieldsValidator](#requiredfieldsvalidator), [WarningFieldsValidator](#warningfieldsvalidator), and [DependentRequiredFieldsValidator](#dependentrequiredfieldsvalidator).
+
+```php
+// Get the actual FormField for the named field.
+$fields = $this->form->Fields();
+$formField = $this->getFormField($fields, $fieldName);
+// Check if the field has a value.
+$valid = !$this->fieldHasValue($data, $formField);
+// Use the appropriate field label for the validation message.
+$errorMessage = '"' . $this->getFieldLabel($formField) . '" is required';
+$this->validationError($fieldName, $errorMessage, 'required');
+```
+The `fieldHasValue` method should correctly identify whether a field has a value or not for all `FormField`s that come packaged in Silverstripe framework itself. It's possible however that some module, or your own code, has a value format that isn't correctly covered by this module. For those situations, you can extend the functionality by implementing `updateFieldHasValue` in an `Extension` class:
+
+```yml
+Signify\ComposableValidators\Validators\FieldHasValueValidator:
+  extensions:
+    - MyFieldValueExtension
+```
+```php
+class MyFieldValueExtension extends Extension
+{
+    /**
+     * Determine whether a specific field has a value. Implement this method when either your custom code,
+     * or some vendor code, has a field that isn't correctly handled by FieldHasValueValidator::fieldHasValue().
+     *
+     * @param FormField $formField
+     * @param mixed $value
+     */
+    public function updateFieldHasValue(FormField $formField, $value)
+    {
+        // Return true or false to explicitly declare that the field does or does not have a value.
+        if ($formField instanceof MyCustomFormField) {
+            return /* some boolean logic to determine if the field has a value */;
+        }
+
+        // Either return nothing or explicitly return null if you do not want to affect the default functionality.
+        return null;
+    }
+}
+```
 
 # Traits
 ## ValidatesMultipleFields

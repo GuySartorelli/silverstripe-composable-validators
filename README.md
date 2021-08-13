@@ -17,8 +17,6 @@ composer require signify-nz/silverstripe-composable-validators
 Subclass of [CompositeValidator](https://api.silverstripe.org/4/SilverStripe/Forms/CompositeValidator.html) that provides AJAX validation. Resolves [an issue with losing data](https://github.com/silverstripe/silverstripe-elemental/issues/764), faster turn-around for fixing validation problems, and provides a way to use the same validation for 'client-side' validation of frontend forms.
 - **[SimpleFieldsValidator](docs/en/01-validators.md#simplefieldsvalidator)**  
 Ensures the internal validation of form fields by calling `validate` on them.
-- **[FieldHasValueValidator](docs/en/01-validators.md#fieldhasvaluevalidator)**  
-Abstract class - useful for validators that require logic to check if a field has any value or not.
 - **[RequiredFieldsValidator](docs/en/01-validators.md#requiredfieldsvalidator)**  
 Like Silverstripe's [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html) validator, but more convenient for use in a `CompositeValidator`.
 - **[WarningFieldsValidator](docs/en/01-validators.md#warningfieldsvalidator)**  
@@ -29,6 +27,11 @@ Uses [SearchFilters](https://docs.silverstripe.org/en/4/developer_guides/model/s
 Require a specific [elemental block(s)](https://github.com/silverstripe/silverstripe-elemental) to exist in the `ElementalArea`, with optional minimum and maximum numbers of blocks and optional positional validation.
 - **[RegexFieldsValidator](docs/en/01-validators.md#regexfieldsvalidator)**  
 Ensure some field(s) matches a specified regex pattern.
+### [Abstract Validators](docs/en/01-validators.md#abstract-validators)
+- **[BaseValidator](docs/en/01-validators.md#basevalidator)**
+Includes methods useful for getting the actual `FormField` and its label.
+- **[FieldHasValueValidator](docs/en/01-validators.md#fieldhasvaluevalidator)**  
+Subclass of `BaseValidator`. Useful for validators that require logic to check if a field has any value or not.
 ## [Traits](docs/en/01-validators.md#traits)
 - **[ValidatesMultipleFields](docs/en/01-validators.md#validatesmultiplefields)**  
 Useful for validators that can be fed an array of field names to be validated.
