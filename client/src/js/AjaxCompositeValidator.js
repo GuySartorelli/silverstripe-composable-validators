@@ -154,7 +154,7 @@
     });
   }
 
-  function finallySubmit($form, event, button) {
+  function finallySubmit($form, button) {
     if (isBackendForm()) {
       // If we're in the CMS and we've been provided a button action, we need to tell the
       // container to submit the form. This ensures that the correct sequence of events occurs.
@@ -163,7 +163,6 @@
         const cmsContainer = $form.closest('.cms-container');
         if (cmsContainer.length) {
           cmsContainer.submitForm($form, button);
-          event.preventDefault();
         }
       }
       // I'm honestly not sure by what magic it happens but the form submits correctly on the
@@ -247,7 +246,7 @@
         // Don't submit the form if there are errors.
         return false;
       }
-      return finallySubmit($form, event, button, entwine);
+      return finallySubmit($form, button);
     }
 
     // Perform these actions if there is an error in the validation POST request.
