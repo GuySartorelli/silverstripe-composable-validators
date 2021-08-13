@@ -4,6 +4,8 @@ Provides number of reusable composable validators (including AJAX validation) fo
 
 Make sure you check out the [extensions documentation](docs/en/02-extensions.md) at a minimum - some of these should be applied in almost all projects using this module.
 
+If your project has any automated client-side tests, or you are implementing a validator to be compatible with this module, please make sure you read the [client side tests documentation](docs/en/03-client-side-tests.md).
+
 ## Install
 
 Install via [composer](https://getcomposer.org):
@@ -11,8 +13,6 @@ Install via [composer](https://getcomposer.org):
 ```bash
 composer require signify-nz/silverstripe-composable-validators
 ```
-
-If your project has any automated client-side tests, or you are implementing a validator to be compatible with this module, please make sure you read the [client side tests documentation](docs/en/03-client-side-tests.md).
 
 ## [Available Validators](docs/en/01-validators.md)
 - **[AjaxCompositeValidator](docs/en/01-validators.md#ajaxcompositevalidator)**  
