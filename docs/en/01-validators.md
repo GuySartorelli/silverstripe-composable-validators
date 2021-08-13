@@ -198,11 +198,11 @@ The `ElementalArea` field holder template doesn't currently render validation er
 This validator validates when the page (or other DataObject that has an ElementalArea) is saved or published - but not necessarily when the blocks within the ElementalArea are saved or published. This means content authors can work around the validation errors if they really want to.
 
 ## RegexFieldsValidator
-This validator is used to require field values to match a specific regex pattern. Often it will make sense to have this validation inside a custom FormField implementation, but for one-of specific pattern validation of fields that don't warrant their own FormField this validator is perfect. It uses (so has all of the functionality and methods of) the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
+This validator is used to require field values to match a specific regex pattern. Often it will make sense to have this validation inside a custom FormField implementation, but for one-off specific pattern validation of fields that don't warrant their own FormField this validator is perfect. It uses (so has all of the functionality and methods of) the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
 
 Any value that cannot be converted to a string cannot be checked against regex and so is ignored, and therefore implicitly passes validation.
 
-In the below example, NotOnlyNumbersField field must match one of the specified regex patterns.
+In the below example, the NotOnlyNumbersField field must match one of the specified regex patterns.
 ```php
 RegexFieldsValidator::create([
     'NotOnlyNumbersField' => [
