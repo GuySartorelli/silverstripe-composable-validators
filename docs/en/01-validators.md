@@ -313,7 +313,7 @@ $fields = $validator->getFields();
 Note that the field name passed should _always_ be the name of the `FormField`. This is especially important for fields representing a `has_one` relation where the name of an `UploadField` will omit the 'ID' (e.g. 'SomeImage', not 'SomeImageID'), but a `DropdownField`, `TreeDropdownField`, or `OptionSetField` will include the 'ID' (e.g. 'SomeImageID, not 'SomeImage').
 
 ## ValidatesMultipleFieldsWithConfig
-This trait is almost identical to `ValidatesMultipleFields` and has all of the same methods, except that `addField` requires two arguments (the field to mark as required, and its configuration array), and `addFields` requires a configuration array for each field added.
+This trait is almost identical to `ValidatesMultipleFields` and has all of the same methods, except that `addField` requires two arguments (the field to be validated, and its configuration array), and `addFields` requires a configuration array for each field added.
 
 Used in [DependentRequiredFieldsValidator](#dependentrequiredfieldsvalidator) and [RegexFieldsValidator](#regexfieldsvalidator).
 
