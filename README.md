@@ -12,6 +12,8 @@ Install via [composer](https://getcomposer.org):
 composer require signify-nz/silverstripe-composable-validators
 ```
 
+If your project has any automated client-side tests, or you are implementing a validator to be compatible with this module, please make sure you read the [client side tests documentation](docs/en/03-client-side-tests.md).
+
 ## [Available Validators](docs/en/01-validators.md)
 - **[AjaxCompositeValidator](docs/en/01-validators.md#ajaxcompositevalidator)**  
 Subclass of [CompositeValidator](https://api.silverstripe.org/4/SilverStripe/Forms/CompositeValidator.html) that provides AJAX validation. Resolves [an issue with losing data](https://github.com/silverstripe/silverstripe-elemental/issues/764), faster turn-around for fixing validation problems, and provides a way to use the same validation for 'client-side' validation of frontend forms.
