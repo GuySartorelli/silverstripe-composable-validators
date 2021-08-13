@@ -53,14 +53,14 @@ This validator simply calls validate on all all fields in the form, ensuring the
 ### Usage
 In most situations this validator will require no configuration at all.
 
-However, this validator comes with [an extension](02-extensions.md#formfieldextension) which adds `setOmitSimpleValidation()` and `getOmitSimpleValidation()` methods to all `FormField`s. This can be used if, for specific use cases, internal field validation should be conditional. In that case you can set `OmitSimpleValidation` to false, and handle the conditional validation of the field in a separate validator.
+However, this validator comes with [an extension](02-extensions.md#formfieldextension) which adds `setOmitFieldValidation()` and `getOmitFieldValidation()` methods to all `FormField`s. This can be used if, for specific use cases, internal field validation should be conditional. In that case you can set `OmitFieldValidation` to false, and handle the conditional validation of the field in a separate validator.
 
 ```PHP
 // In the DataObject which needs the custom validation
 public function getCMSFields()
 {
     $fields = parent::getCMSFields();
-    $fields->add(SomeField::create('FieldName')->setOmitSimpleValidation(false));
+    $fields->add(SomeField::create('FieldName')->setOmitFieldValidation(false));
     return $fields;
 }
 public function getCMSCompositeValidator() : CompositeValidator
