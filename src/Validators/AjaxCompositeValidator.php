@@ -67,7 +67,7 @@ class AjaxCompositeValidator extends CompositeValidator
         }
         $oldForm = $this->form;
         parent::setForm($form);
-        $this->addValidationHintField($oldForm);
+        $this->addValidationHint($oldForm);
         return $this;
     }
 
@@ -217,7 +217,7 @@ class AjaxCompositeValidator extends CompositeValidator
      *
      * @param Form|null $oldForm
      */
-    private function addValidationHintField(?Form $oldForm)
+    private function addValidationHint(?Form $oldForm)
     {
         // Always make sure to remove the attribute in case it has been set.
         $dataAttribute = 'data-signify-validation-hints';
