@@ -95,7 +95,7 @@ Signify\ComposableValidators\Validators\SimpleFieldsValidator:
 That specific class is already added by default, but you can add others if you find similar situations.
 
 ## RequiredFieldsValidator
-This is a composable replacement for [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It doesn't perform the internal field validation that validator does, with the assumption that it will be paired with a `SimpleFieldsValidator`. Its usage is identical to [ValidatesMultipleFields](#validatesmultiplefields).
+This is a composable replacement for [RequiredFields](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It doesn't perform the internal field validation that validator does, with the assumption that it will be paired with a `SimpleFieldsValidator`. It uses (so has all of the functionality and methods of) the [ValidatesMultipleFields](#validatesmultiplefields) trait.
 
 Displays a validation error if the field(s) has no value.
 
@@ -104,14 +104,14 @@ While this validator can be used to require data in `GridField`s, as of writing 
 This applies to the `WarningFieldsValidator` as well.
 
 ## WarningFieldsValidator
-Similar to `RequiredFieldsValidator` except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. Its usage is identical to [ValidatesMultipleFields](#validatesmultiplefields).
+Similar to `RequiredFieldsValidator` except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. It uses (so has all of the functionality and methods of) the [ValidatesMultipleFields](#validatesmultiplefields) trait.
 
 This can be very useful for alerting users about data that is technically valid but may not provide the results they expect.
 
 Displays a validation warning if the field(s) has no value.
 
 ## DependentRequiredFieldsValidator
-Allows you to define fields as being required conditionally based on the values of other fields. It uses [SearchFilters](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) to provide a variety of ways to compare values, depending on what causes the fields to be required.
+Allows you to define fields as being required conditionally based on the values of other fields. It uses [SearchFilters](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) to provide a variety of ways to compare values, depending on what causes the fields to be required. It uses (so has all of the functionality and methods of) the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
 
 In the below example, we have fields with various levels of dependency on whether they are required or not.
 - ExactValueField will only be required if the value of DependencyField exactly equals someExactValue. It is implicitly case sensitive by not including the `nocase` modifier, and implicitly an exact match by not declaring a SearchFilter.
@@ -126,8 +126,6 @@ DependentRequiredFieldsValidator::create([
 ]);
 ```
 **Note:** All of the dependencies must be met for a field to be considered required. So in the example above, if `DependencyField` had the value "someValues" the `StartsEndsWithField` would not be marked required, because only one of its dependencies is met.
-
-This validator uses the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
 
 The conditional checking functionality is powered by [signify-nz/silverstripe-searchfilter-arraylist](https://github.com/signify-nz/silverstripe-searchfilter-arraylist), which does provide some extensibility. You may want to check the documentation of that module.
 
@@ -200,7 +198,7 @@ The `ElementalArea` field holder template doesn't currently render validation er
 This validator validates when the page (or other DataObject that has an ElementalArea) is saved or published - but not necessarily when the blocks within the ElementalArea are saved or published. This means content authors can work around the validation errors if they really want to.
 
 ## RegexFieldsValidator
-This validator is used to require field values to match a specific regex pattern. Often it will make sense to have this validation inside a custom FormField implementation, but for one-of specific pattern validation of fields that don't warrant their own FormField this validator is perfect.
+This validator is used to require field values to match a specific regex pattern. Often it will make sense to have this validation inside a custom FormField implementation, but for one-of specific pattern validation of fields that don't warrant their own FormField this validator is perfect. It uses (so has all of the functionality and methods of) the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
 
 Any value that cannot be converted to a string cannot be checked against regex and so is ignored, and therefore implicitly passes validation.
 
@@ -215,8 +213,6 @@ RegexFieldsValidator::create([
 ```
 **Note:** If any one of the patterns is matched, it passes validation. If none of the patterns match, all of the corresponding messages are displayed, including a generic prefix. So in the above example, if none of the patterns match the value of NotOnlyNumbersField, the following validation error message will display:  
 `The value for "NotOnlyNumbersField" must not consist entirely of numbers or must have only one digit`
-
-This validator uses the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
 
 ## Abstract Validators
 ### BaseValidator
