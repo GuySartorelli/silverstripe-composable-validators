@@ -48,7 +48,7 @@ public function getCMSCompositeValidator(): CompositeValidator
 Some actions (such as delete, archive, and restore) should be allowed even if the data is not valid (we should be allowed to delete an object _especially_ if its data is invalid), but those actions are not validation exempt by default. [Two extensions](./02-extensions.md#dataobjectvalidationexemptionextension-and-gridfielditemrequestvalidationexemptionextension) are provided with this module to remedy this and we strongly recommend applying them.
 
 ## SimpleFieldsValidator
-This validator simply calls validate on all all fields in the form, ensuring the internal validation of form fields. It should _always_ be included in an `AjaxCompositeValidator` unless some other validator being used also performs that function (such as Silverstripe's own `RequiredFields` validator - though you should generally use this module's `RequiredFieldsValidator` instead).
+This validator simply calls validate on all fields in the form, ensuring the internal validation of form fields. It should _always_ be included in an `AjaxCompositeValidator` unless some other validator being used also performs that function (such as Silverstripe's own `RequiredFields` validator - though you should generally use this module's `RequiredFieldsValidator` instead).
 
 ### Usage
 In most situations this validator will require no configuration at all.
