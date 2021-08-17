@@ -161,16 +161,17 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
                 $stringArray[] = (string)$value;
                 continue;
             }
-            switch ($value) {
-                case true:
-                    $value = 'TRUE';
-                    break;
-                case false:
-                    $value = 'FALSE';
-                    break;
-                case null:
-                    $value = 'NULL';
-                    break;
+            if ($value === null) {
+                $stringArray[] = 'NULL';
+                continue;
+            }
+            if ($value === true) {
+                $stringArray[] = 'TRUE';
+                continue;
+            }
+            if ($value === false) {
+                $stringArray[] = 'FALSE';
+                continue;
             }
             $stringArray[] = $value;
         }
