@@ -4,7 +4,6 @@ namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ValidatesMultipleFieldsWithConfig;
 use SilverStripe\Core\ClassInfo;
-use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField;
 
 /**

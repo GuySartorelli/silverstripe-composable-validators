@@ -6,7 +6,6 @@ use Signify\ComposableValidators\Traits\ValidatesMultipleFields;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField;
-use SilverStripe\ORM\ArrayLib;
 
 /**
  * A validator used to ensure certain required fields have values.
