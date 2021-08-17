@@ -100,18 +100,6 @@ trait ValidatesMultipleFields
     }
 
     /**
-     * Add the fields from another {@link ValidatesMultipleFields}.
-     *
-     * @param ValidatesMultipleFields $validator
-     * @return $this
-     */
-    public function appendFields(ValidatesMultipleFields $validator)
-    {
-        $this->fields = $this->fields + $validator->getFields();
-        return $this;
-    }
-
-    /**
      * Declare that this validator can be cached if there are no fields to validate.
      *
      * @return boolean

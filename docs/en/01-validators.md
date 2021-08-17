@@ -303,10 +303,6 @@ $validator->removeFields([
 ]);
 $validator->removeValidation();
 
-// Add the fields from another validator that uses ValidatesMultipleFields.
-$requiredFieldsValidator = RequiredFieldsValidator::create('SomeNewField');
-$validator->appendFields($requiredFieldsValidator);
-
 // Get the names of all fields to be validated.
 $fields = $validator->getFields();
 ```
