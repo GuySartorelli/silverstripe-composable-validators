@@ -64,6 +64,7 @@ class RegexFieldsValidator extends BaseValidator
             }
             // If there was no match, mark the error.
             if (!$hasMatch) {
+                $valid = false;
                 $fieldLabel = '"' . $this->getFieldLabel($field) . '"';
                 $namespace = rtrim(str_replace(ClassInfo::shortName(self::class), '', self::class), '\\');
                 $delimiter = _t($namespace . '.DELIMITER_OR', ' or ');
