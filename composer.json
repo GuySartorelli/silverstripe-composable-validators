@@ -57,9 +57,9 @@
     }
   },
   "repositories": [
-      {
-          "type": "vcs",
-          "url": "git@github.com:signify-nz/silverstripe-searchfilter-arraylist.git"
-      }
+    {
+      "type": "vcs",
+      "url": "git@github.com:signify-nz/silverstripe-searchfilter-arraylist.git"
+    }
   ]
 }
