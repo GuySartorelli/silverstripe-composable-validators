@@ -36,6 +36,9 @@ class RegexFieldsValidator extends BaseValidator
         $fields = $this->form->Fields();
 
         foreach ($this->getFields() as $fieldName => $regexArray) {
+            if (!$field = $this->getFormField($fields, $fieldName)) {
+                continue;
+            }
             $hasMatch = false;
             $messages = [];
             $value = isset($data[$fieldName]) ? $data[$fieldName] : null;
@@ -57,7 +60,7 @@ class RegexFieldsValidator extends BaseValidator
                 }
             }
             if (!$hasMatch) {
-                $fieldLabel = '"' . $this->getFieldLabel($this->getFormField($fields, $fieldName)) . '"';
+                $fieldLabel = '"' . $this->getFieldLabel($field) . '"';
                 $namespace = rtrim(str_replace(ClassInfo::shortName(self::class), '', self::class), '\\');
                 $delimiter = _t($namespace . '.DELIMITER_OR', ' or ');
                 $errorMessage = _t(
