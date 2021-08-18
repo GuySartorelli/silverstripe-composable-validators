@@ -42,23 +42,27 @@ class RegexFieldsValidator extends BaseValidator
             $hasMatch = false;
             $messages = [];
             $value = isset($data[$fieldName]) ? $data[$fieldName] : null;
-            if ($this->valueCanBeString($value)) {
-                foreach ($regexArray as $regex => $validationMessage) {
-                    if (is_numeric($regex)) {
-                        $regex = $validationMessage;
-                        $validationMessage = _t(
-                            self::class . '.DEFAULT_PATTERN_MISMATCH',
-                            'must match the pattern {regex}',
-                            ['regex' => $regex]
-                        );
-                    }
-                    if (preg_match($regex, (string)$value)) {
-                        $hasMatch = true;
-                        break;
-                    }
-                    $messages[] = $validationMessage;
-                }
+            // If the value cannot be a string, ignore it.
+            if (!$this->valueCanBeString($value)) {
+                continue;
             }
+            // Check if the value matches at least one regex pattern.
+            foreach ($regexArray as $regex => $validationMessage) {
+                if (is_numeric($regex)) {
+                    $regex = $validationMessage;
+                    $validationMessage = _t(
+                        self::class . '.DEFAULT_PATTERN_MISMATCH',
+                        'must match the pattern {regex}',
+                        ['regex' => $regex]
+                    );
+                }
+                if (preg_match($regex, (string)$value)) {
+                    $hasMatch = true;
+                    break;
+                }
+                $messages[] = $validationMessage;
+            }
+            // If there was no match, mark the error.
             if (!$hasMatch) {
                 $fieldLabel = '"' . $this->getFieldLabel($field) . '"';
                 $namespace = rtrim(str_replace(ClassInfo::shortName(self::class), '', self::class), '\\');
