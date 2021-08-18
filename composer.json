@@ -19,6 +19,7 @@
     "frontend",
     "dependent",
     "required",
+    "regex",
     "warning",
     "elemental"
   ],
@@ -52,13 +53,13 @@
   "autoload": {
     "psr-4": {
       "Signify\\ComposableValidators\\": "src/",
-      "Signify\\ComposableValidators\\Tests\\": "tests/"
+      "Signify\\ComposableValidators\\Tests\\": "tests/php/"
     }
   },
   "repositories": [
-      {
-          "type": "vcs",
-          "url": "git@github.com:signify-nz/silverstripe-searchfilter-arraylist.git"
-      }
+    {
+      "type": "vcs",
+      "url": "git@github.com:signify-nz/silverstripe-searchfilter-arraylist.git"
+    }
   ]
 }

@@ -37,9 +37,16 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
 
         foreach ($this->getFields() as $fieldName => $filter) {
             $isRequired = true;
+            $dependenciesMissing = 0;
+            $uniqueDependencyFields = [];
             foreach ($filter as $filterKey => $filterValue) {
                 $dependencyFieldName = explode(':', $filterKey)[0];
-                $dependencyValue = isset($data[$dependencyFieldName]) ? $data[$dependencyFieldName] : null;
+                $uniqueDependencyFields[$dependencyFieldName] = true;
+                if (!array_key_exists($dependencyFieldName, $data)) {
+                    $dependenciesMissing++;
+                    continue;
+                }
+                $dependencyValue = $data[$dependencyFieldName];
                 $tempObj = new \stdClass();
                 $tempObj->$dependencyFieldName = $dependencyValue;
                 $filterList = SearchFilterableArrayList::create([$tempObj]);
@@ -48,6 +55,11 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
                 if (!$isRequired) {
                     break;
                 }
+            }
+
+            // If the dependency fields don't exist, the user cannot set them so we pretend the dependency isn't there.
+            if ($dependenciesMissing === count($uniqueDependencyFields)) {
+                $isRequired = false;
             }
 
             // Only validate the field if it is required, based on the conditional filter.
@@ -149,16 +161,17 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
                 $stringArray[] = (string)$value;
                 continue;
             }
-            switch ($value) {
-                case true:
-                    $value = 'TRUE';
-                    break;
-                case false:
-                    $value = 'FALSE';
-                    break;
-                case null:
-                    $value = 'NULL';
-                    break;
+            if ($value === null) {
+                $stringArray[] = 'NULL';
+                continue;
+            }
+            if ($value === true) {
+                $stringArray[] = 'TRUE';
+                continue;
+            }
+            if ($value === false) {
+                $stringArray[] = 'FALSE';
+                continue;
             }
             $stringArray[] = $value;
         }

@@ -57,19 +57,6 @@ trait ValidatesMultipleFieldsWithConfig
     }
 
     /**
-     * Add the fields from another ValidatesMultipleFieldsWithConfig.
-     * Note that the config may not necessary be valid if attempting to append validators with different class hierarchies.
-     *
-     * @param ValidatesMultipleFieldsWithConfig $validator
-     * @return $this
-     */
-    public function appendFields(ValidatesMultipleFieldsWithConfig $validator)
-    {
-        $this->fields = $this->fields + $validator->getFields();
-        return $this;
-    }
-
-    /**
      * Get an associative array indicating what fields in which tabs (if any)
      * have what validation requirements.
      *
