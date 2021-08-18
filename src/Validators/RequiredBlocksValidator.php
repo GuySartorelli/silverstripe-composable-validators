@@ -6,7 +6,6 @@ use DNADesign\Elemental\Forms\ElementalAreaField;
 use DNADesign\Elemental\Models\ElementalArea;
 use NumberFormatter;
 use SilverStripe\Config\MergeStrategy\Priority;
-use SilverStripe\Forms\FormField;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 
