@@ -71,7 +71,7 @@ The validation requirement keys are always present for each validated block, but
 ```
 
 ### [RegexFieldsValidator](./01-validators.md#regexfieldsvalidator)
-This validator provides a `regex` key. The value will either be a string representing a single regex pattern that must be matched, or an array of strings. With an array of patterns, only one of the patterns needs to match for the value to be valid. Note that the regex is in php syntax, which differs slightly from the syntax used by javascript.
+This validator provides a `regex` key. The value will be an array of strings representing a regex patterns. Only one of the patterns needs to match for the value to be valid. Note that the regex is in php syntax, which differs slightly from the syntax used by javascript.
 ```JSON
 {
     "Form_EditForm_SomeField": {
@@ -85,7 +85,9 @@ This validator provides a `regex` key. The value will either be a string represe
     "Form_EditForm_SomeOtherField": {
         "name": "SomeOtherField",
         "tab": "Root_Main",
-        "regex": "/^[a-zA-Z]+$/"
+        "regex": [
+            "/^[a-zA-Z]+$/"
+        ]
     }
 }
 ```

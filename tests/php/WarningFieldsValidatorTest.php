@@ -40,6 +40,18 @@ class WarningFieldsValidatorTest extends SapphireTest
     }
 
     /**
+     * If the warning field doesn't exist, there should be no validation warning message.
+     */
+    public function testNoValidationMessageIfFieldMissing()
+    {
+        $form = TestFormGenerator::getForm(['FieldOne'], new WarningFieldsValidator(['MissingField']));
+        $result = $form->validationResult();
+        $this->assertTrue($result->isValid());
+        $messages = $result->getMessages();
+        $this->assertEmpty($messages);
+    }
+
+    /**
      * There should be no validation hints for warning field validation.
      */
     public function testValidationHints()

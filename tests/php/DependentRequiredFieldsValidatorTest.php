@@ -101,7 +101,25 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
             [
                 'FieldOne',
             ],
-            new DependentRequiredFieldsValidator(['FieldOne' => ['FieldTwo' => null]])
+            new DependentRequiredFieldsValidator(['FieldOne' => ['MissingField' => null]])
+        );
+        $result = $form->validationResult();
+        $this->assertTrue($result->isValid());
+        $messages = $result->getMessages();
+        $this->assertEmpty($messages);
+    }
+
+    /**
+     * If the required field doesn't exist, there should be no validation error message.
+     */
+    public function testNoValidationMessageIfFieldMissing()
+    {
+        $form = TestFormGenerator::getForm(
+            [
+                'FieldOne',
+                'FieldTwo',
+            ],
+            new DependentRequiredFieldsValidator(['MissingField' => ['FieldTwo' => null]])
         );
         $result = $form->validationResult();
         $this->assertTrue($result->isValid());
