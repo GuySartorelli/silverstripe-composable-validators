@@ -18,6 +18,9 @@ class GridFieldMessagesExtensionTest extends SapphireTest
         GridField::class => [GridFieldMessagesExtension::class],
     ];
 
+    /**
+     * A gridfield that fails validation should display the validation error in the description.
+     */
     public function testValidationMessageDisplaysWithMessages()
     {
         $gridField = new GridField('testfield', 'testfield', new ArrayList(), new GridFieldConfig());
@@ -25,12 +28,14 @@ class GridFieldMessagesExtensionTest extends SapphireTest
         $validator = new TestValidator();
         $form = new Form(null, "testForm", $fieldList, new FieldList(), $validator);
 
-        // A gridfield that fails validation should display the validation error in the description.
         $form->validationResult();
         $gridField->Field();
         $this->assertContains('<p class="message ' . ValidationResult::TYPE_ERROR . '">error</p>', $gridField->getDescription());
     }
 
+    /**
+     * A gridfield that passes validation should not display a validation error in the description.
+     */
     public function testValidationMessageDoesntDisplayWithoutMessages()
     {
         $gridField = new GridField('testfield', 'testfield', new ArrayList(), new GridFieldConfig());
@@ -38,7 +43,6 @@ class GridFieldMessagesExtensionTest extends SapphireTest
         $validator = new SimpleFieldsValidator();
         $form = new Form(null, "testForm", $fieldList, new FieldList(), $validator);
 
-        // A gridfield that passes validation should not display a validation error in the description.
         $form->validationResult();
         $gridField->Field();
         $this->assertNotContains('<p class="message ' . ValidationResult::TYPE_ERROR . '">', (string)$gridField->getDescription());
