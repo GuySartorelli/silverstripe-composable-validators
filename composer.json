@@ -52,7 +52,7 @@
   "autoload": {
     "psr-4": {
       "Signify\\ComposableValidators\\": "src/",
-      "Signify\\ComposableValidators\\Tests\\": "tests/"
+      "Signify\\ComposableValidators\\Tests\\": "tests/php/"
     }
   },
   "repositories": [
