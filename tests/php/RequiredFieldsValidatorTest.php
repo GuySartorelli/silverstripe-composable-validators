@@ -40,6 +40,18 @@ class RequiredFieldsValidatorTest extends SapphireTest
     }
 
     /**
+     * If the required field doesn't exist, there should be no validation error message.
+     */
+    public function testNoValidationMessageIfFieldMissing()
+    {
+        $form = TestFormGenerator::getForm(['FieldOne'], new RequiredFieldsValidator(['MissingField']));
+        $result = $form->validationResult();
+        $this->assertTrue($result->isValid());
+        $messages = $result->getMessages();
+        $this->assertEmpty($messages);
+    }
+
+    /**
      * All of the fields that are in both the form AND the validator should have 'required' validation hints.
      */
     public function testValidationHints()
