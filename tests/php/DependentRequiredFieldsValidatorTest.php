@@ -101,7 +101,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
             [
                 'FieldOne',
             ],
-            new DependentRequiredFieldsValidator(['FieldOne' => ['FieldTwo' => null]])
+            new DependentRequiredFieldsValidator(['FieldOne' => ['MissingField' => null]])
         );
         $result = $form->validationResult();
         $this->assertTrue($result->isValid());
