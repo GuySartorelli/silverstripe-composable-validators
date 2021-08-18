@@ -19,6 +19,7 @@
     "frontend",
     "dependent",
     "required",
+    "regex",
     "warning",
     "elemental"
   ],
