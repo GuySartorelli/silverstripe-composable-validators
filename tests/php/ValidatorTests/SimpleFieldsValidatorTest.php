@@ -71,7 +71,10 @@ class SimpleFieldsValidatorTest extends SapphireTest
     public function testNoValidationErrorWithOmitValidation()
     {
         $form = $this->getForm('not an email address');
-        $form->Fields()->dataFieldByName('EmailField')->setOmitFieldValidation(true);
+        $field = $form->Fields()->dataFieldByName('EmailField');
+        $this->assertFalse($field->getOmitFieldValidation());
+        $field->setOmitFieldValidation(true);
+        $this->assertTrue($field->getOmitFieldValidation());
         $result = $form->validationResult();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
