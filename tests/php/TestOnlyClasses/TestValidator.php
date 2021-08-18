@@ -3,7 +3,6 @@
 namespace Signify\ComposableValidators\Tests;
 
 use SilverStripe\Dev\TestOnly;
-use SilverStripe\Forms\Form;
 use SilverStripe\Forms\Validator;
 
 /**
@@ -16,7 +15,7 @@ class TestValidator extends Validator implements TestOnly
      * Requires a specific field for test purposes.
      *
      * @param array $data
-     * @return null
+     * @return false
      */
     public function php($data)
     {
@@ -24,16 +23,6 @@ class TestValidator extends Validator implements TestOnly
             $this->validationError($field, 'error');
         }
 
-        return null;
-    }
-
-    /**
-     * Allow us to access the form for test purposes.
-     *
-     * @return Form|null
-     */
-    public function getForm(): ?Form
-    {
-        return $this->form;
+        return false;
     }
 }
