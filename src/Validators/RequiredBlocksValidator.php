@@ -218,18 +218,17 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
                 );
                 foreach ($blockErrors as $blockClass => $errorTypes) {
                     foreach ($errorTypes as $errorType) {
-                        $blockSingular = $blockClass::singleton()->singular_name();
-                        $blockPlural = $blockClass::singleton()->plural_name();
+                        $blockType = $blockClass::singleton()->getType();
                         $message .= PHP_EOL;
                         switch ($errorType) {
                             case self::TOO_FEW_ERROR:
                                 $min = (int)$this->required[$blockClass]['min'];
                                 $message .= _t(
                                     self::class . '.TOO_FEW',
-                                    "Too few '{pluralBlock}', at least {count} is required.|Too few '{pluralBlock}',"
+                                    "Too few '{blockType}' blocks, at least {count} is required.|Too few '{blockType}' blocks,"
                                     . ' at least {count} are required.',
                                     [
-                                        'pluralBlock' => $blockPlural,
+                                        'blockType' => $blockType,
                                         'count' => $min,
                                     ]
                                 );
@@ -238,10 +237,10 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
                                 $max = (int)$this->required[$blockClass]['max'];
                                 $message .= _t(
                                     self::class . '.TOO_MANY',
-                                    "Too many '{pluralBlock}', only {count} is allowed.|Too many '{pluralBlock}',"
+                                    "Too many '{blockType}' blocks, only {count} is allowed.|Too many '{blockType}' blocks,"
                                     . ' up to {count} are allowed.',
                                     [
-                                        'pluralBlock' => $blockPlural,
+                                        'blockType' => $blockType,
                                         'count' => $max,
                                     ]
                                 );
@@ -257,10 +256,10 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
                                     $pos = $pos == 1 ? '.POSITION_ABSOLUTE' : 'POSITION_ORDINAL';
                                     $message .= _t(
                                         self::class . $pos,
-                                        "If a '{singularBlock}' exists, it must be {ordinal} from the {topOrBottom}",
+                                        "If a '{blockType}' block exists, it must be {ordinal} from the {topOrBottom}",
                                         [
                                             'ordinal' => $ordinal,
-                                            'singularBlock' => $blockSingular,
+                                            'blockType' => $blockType,
                                             'topOrBottom' => _t(self::class . '.BOTTOM', 'bottom'),
                                         ]
                                     );
@@ -271,10 +270,10 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
                                     $pos = $pos == 1 ? '.POSITION_ABSOLUTE' : 'POSITION_ORDINAL';
                                     $message .= _t(
                                         self::class . $pos,
-                                        "If a '{singularBlock}' exists, it must be {ordinal} from the {topOrBottom}",
+                                        "If a '{blockType}' block exists, it must be {ordinal} from the {topOrBottom}",
                                         [
                                             'ordinal' => $ordinal,
-                                            'singularBlock' => $blockSingular,
+                                            'blockType' => $blockType,
                                             'topOrBottom' => _t(self::class . '.TOP', 'top'),
                                         ]
                                     );
@@ -283,8 +282,8 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
                             default:
                                 $message .= _t(
                                     self::class . '.UNKNOWN_ERROR',
-                                    "Unknown error for '{singularBlock}'.",
-                                    ['singularBlock' => $blockSingular]
+                                    "Unknown error for the '{blockType}' block.",
+                                    ['blockType' => $blockType]
                                 );
                                 break;
                         }

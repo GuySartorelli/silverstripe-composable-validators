@@ -25,16 +25,16 @@ en:
     VALIDATION_ERROR: 'The value for {name} {requirements}'
   Signify\ComposableValidators\Validators\RequiredBlocksValidator:
     BOTTOM: 'bottom'
-    POSITION_ABSOLUTE: "If a '{singularBlock}' exists, it must be {ordinal} from the {topOrBottom}"
-    POSITION_ORDINAL: "If a '{singularBlock}' exists, it must be at the {topOrBottom}"
+    POSITION_ABSOLUTE: "If a '{blockType}' block exists, it must be {ordinal} from the {topOrBottom}"
+    POSITION_ORDINAL: "If a '{blockType}' block exists, it must be at the {topOrBottom}"
     TOO_FEW:
-      one: "Too few '{pluralBlock}', at least {count} is required."
-      other: "Too few '{pluralBlock}', at least {count} are required."
+      one: "Too few '{blockType}' blocks, at least {count} is required."
+      other: "Too few '{blockType}' blocks, at least {count} are required."
     TOO_MANY:
-      one: "Too many '{pluralBlock}', only {count} is required."
-      other: "Too many '{pluralBlock}', up to {count} are allowed."
+      one: "Too many '{blockType} blocks', only {count} is required."
+      other: "Too many '{blockType} blocks', up to {count} are allowed."
     TOP: 'top'
-    UNKNOWN_ERROR: "Unknown error for '{singularBlock}'."
+    UNKNOWN_ERROR: "Unknown error for the '{blockType}' block."
     VALIDATION_ERRORS: 'The following elemental block validation errors must be resolved:'
   Signify\ComposableValidators\Validators\RequiredFieldsValidator:
     FIELD_IS_REQUIRED: '{name} is required'
