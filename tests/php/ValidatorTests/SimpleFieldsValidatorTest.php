@@ -20,8 +20,9 @@ class SimpleFieldsValidatorTest extends SapphireTest
     private function getForm($value = null, $withValidator = true)
     {
         $fieldList = new FieldList([
-            EmailField::create('EmailField')->setValue($value),
+            $emailField = new EmailField('EmailField'),
         ]);
+        $emailField->setValue($value);
         $validator = $withValidator ? new SimpleFieldsValidator() : null;
         return new Form(null, 'testForm', $fieldList, new FieldList([/* no actions */]), $validator);
     }

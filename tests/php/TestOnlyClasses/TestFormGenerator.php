@@ -24,7 +24,7 @@ class TestFormGenerator implements TestOnly
         $fieldList = new FieldList();
         if ($tab) {
             $root = explode('.', $tab)[0];
-            $fieldList->add(TabSet::create($root));
+            $fieldList->add(new TabSet($root));
             $fieldList->findOrMakeTab($tab);
         }
         foreach ($fieldNames as $name => $value) {
@@ -32,7 +32,8 @@ class TestFormGenerator implements TestOnly
                 $name = $value;
                 $value = null;
             }
-            $field = TextField::create($name)->setValue($value);
+            $field = new TextField($name);
+            $field->setValue($value);
             if ($tab) {
                 $fieldList->addFieldToTab($tab, $field);
             } else {

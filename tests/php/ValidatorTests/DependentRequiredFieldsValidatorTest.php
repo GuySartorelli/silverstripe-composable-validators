@@ -162,18 +162,24 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      */
     private function setupMessageFields()
     {
-        return FieldList::create([
-            TextField::create('DependentField1'),
-            TextField::create('DependentField2'),
-            TextField::create('DependentField3'),
-            TextField::create('DependentField4'),
-            TextField::create('DependentField5'),
-            TextField::create('NullField')->setValue(null),
-            CheckboxField::create('TrueField')->setValue(true),
-            CheckboxField::create('FalseField')->setValue(false),
-            TextField::create('StringField')->setValue('string'),
-            NumericField::create('NumericField')->setValue(123),
+        $fieldList = new FieldList([
+            new TextField('DependentField1'),
+            new TextField('DependentField2'),
+            new TextField('DependentField3'),
+            new TextField('DependentField4'),
+            new TextField('DependentField5'),
+            $nf = new TextField('NullField'),
+            $tf = new CheckboxField('TrueField'),
+            $ff = new CheckboxField('FalseField'),
+            $sf = new TextField('StringField'),
+            $nf = new NumericField('NumericField'),
         ]);
+        $nf->setValue(null);
+        $tf->setValue(true);
+        $ff->setValue(false);
+        $sf->setValue('string');
+        $nf->setValue(123);
+        return $fieldList;
     }
 
     /**
