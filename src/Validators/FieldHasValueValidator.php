@@ -2,7 +2,6 @@
 
 namespace Signify\ComposableValidators\Validators;
 
-use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\GridField\GridField;
