@@ -31,7 +31,7 @@ en:
       one: "Too few '{blockType}' blocks, at least {count} is required."
       other: "Too few '{blockType}' blocks, at least {count} are required."
     TOO_MANY:
-      one: "Too many '{blockType} blocks', only {count} is required."
+      one: "Too many '{blockType} blocks', only {count} is allowed."
       other: "Too many '{blockType} blocks', up to {count} are allowed."
     TOP: 'top'
     UNKNOWN_ERROR: "Unknown error for the '{blockType}' block."
