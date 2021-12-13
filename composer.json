@@ -42,7 +42,8 @@
     "squizlabs/php_codesniffer": "^3.0"
   },
   "conflict": {
-    "dnadesign/elemental": "< 4.0.0"
+    "dnadesign/elemental": "< 4.0.0",
+    "undefinedoffset/silverstripe-nocaptcha": "^2.1.1 < 2.3.0"
   },
   "extra": {
     "expose": [

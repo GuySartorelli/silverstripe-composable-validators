@@ -14,6 +14,12 @@ Install via [composer](https://getcomposer.org):
 composer require signify-nz/silverstripe-composable-validators
 ```
 
+## Gotchas
+### Form submission with an `AjaxCompositeValidator`
+The `AjaxCompositeValidator` adds a submit handler to your form. This doesn't always interact well with other submit handlers, and can result in either front-end validation being skipped or the form not submitting the way yo expect it to, depending on which submit handler gets the event first. For best results, don't add additional submit handlers to the form.
+
+If you're using the `AjaxCompositeValidator` on a form that uses [undefinedoffset/silverstripe-nocaptcha](https://github.com/UndefinedOffset/silverstripe-nocaptcha) 2.3.0 or higher, you should disable form submission handling for the `NocaptchaField` in that form (see instructions in the nocaptcha docs).
+
 ## [Available Validators](docs/en/01-validators.md)
 - **[AjaxCompositeValidator](docs/en/01-validators.md#ajaxcompositevalidator)**  
 Subclass of [CompositeValidator](https://api.silverstripe.org/4/SilverStripe/Forms/CompositeValidator.html) that provides AJAX validation. Resolves [an issue with losing data](https://github.com/silverstripe/silverstripe-elemental/issues/764), faster turn-around for fixing validation problems, and provides a way to use the same validation for 'client-side' validation of frontend forms.

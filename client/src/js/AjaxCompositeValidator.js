@@ -182,7 +182,12 @@
       // backend.
     } else {
       // On the front-end we have to make the form submit.
-      $form.get(0).submitWithoutEvent();
+      if (typeof yourFunctionName == 'nocaptcha_handleCaptcha') {
+        const form = $form.get(0);
+        nocaptcha_handleCaptcha(form, form.submitWithoutEvent.bind(form));
+      } else {
+          $form.get(0).submitWithoutEvent();
+      }
     }
   }
 
