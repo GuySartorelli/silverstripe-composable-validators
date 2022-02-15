@@ -2,6 +2,7 @@
 
 namespace Signify\ComposableValidators\Tests;
 
+use InvalidArgumentException;
 use SilverStripe\Dev\SapphireTest;
 
 class ValidatesMultipleFieldsWithConfigTest extends SapphireTest
@@ -39,10 +40,10 @@ class ValidatesMultipleFieldsWithConfigTest extends SapphireTest
 
     /**
      * Should not be able to instantiate with an array of field names and empty configuration arrays.
-     * @expectedException \InvalidArgumentException
      */
     public function testConstructingWithEmptyArray()
     {
+        $this->expectException(InvalidArgumentException::class);
         new TestMultiFieldWithConfigValidator(['someField' => []]);
     }
 
