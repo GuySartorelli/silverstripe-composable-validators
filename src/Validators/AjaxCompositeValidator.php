@@ -73,15 +73,14 @@ class AjaxCompositeValidator extends CompositeValidator
 
     public function validate(bool $isValidAjax = false)
     {
-        $this->resetResult();
-        // This CompositeValidator has been disabled in full or it is not an expected request
-        if (!$this->getEnabled() || !$this->isValidRequest($isValidAjax)) {
+        // Skip if this is not an expected request.
+        if (!$this->isValidRequest($isValidAjax)) {
+            $this->resetResult();
             return $this->result;
         }
-        // Validate against all validators.
-        foreach ($this->getValidators() as $validator) {
-            $this->result->combineAnd($validator->validate($isValidAjax));
-        }
+        // Let superclass handle validation of child validators.
+        parent::validate();
+        // Don't store the validation result in the session for AJAX validation requests.
         if ($isValidAjax) {
             $this->getRequest()->getSession()->clear("FormInfo.{$this->form->FormName()}.result");
         }
