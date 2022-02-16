@@ -3,12 +3,15 @@
 namespace Signify\ComposableValidators\Tests;
 
 use Signify\ComposableValidators\Extensions\DataObjectValidationExemptionExtension;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Versioned\Versioned;
 
 class DataObjectValidationExemptionExtensionTest extends SapphireTest
 {
     protected static $required_extensions = [
+        SiteTree::class => [Versioned::class],
         DataObject::class => [DataObjectValidationExemptionExtension::class],
     ];
 
