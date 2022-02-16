@@ -68,12 +68,12 @@ class AjaxCompositeValidatorTest extends SapphireTest
         // Check that two validators are added.
         $this->assertCount(2, $compositeValidator->getValidators());
         // Check that the exact instances exist in the validator.
-        $this->assertTrue($validator1 === array_pop(array_values(
+        $this->assertTrue($validator1 === array_values(
             $compositeValidator->getValidatorsByType(SimpleFieldsValidator::class)
-        )[0]));
-        $this->assertTrue($validator2 === array_pop(array_values(
+        )[0]);
+        $this->assertTrue($validator2 === array_values(
             $compositeValidator->getValidatorsByType(RequiredFieldsValidator::class)
-        )[0]));
+        )[0]);
     }
 
     /**
