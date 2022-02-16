@@ -103,10 +103,10 @@ class AjaxCompositeValidatorTest extends SapphireTest
     private function getNewValidatorInstance()
     {
         $compositeValidator = new AjaxCompositeValidator();
-        $compositeValidator->addValidator(
+        $compositeValidator->addValidators([
             new RequiredFieldsValidator('FieldOne'),
             new RequiredFieldsValidator('FieldTwo'),
-        );
+        ]);
         return $compositeValidator;
     }
 
