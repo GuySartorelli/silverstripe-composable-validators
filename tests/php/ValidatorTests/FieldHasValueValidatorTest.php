@@ -40,7 +40,7 @@ class FieldHasValueValidatorTest extends FunctionalTest
         return $this->post($controller->Link('testForm'), $data);
     }
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         TestSiteTree::create()->publishSingle();
