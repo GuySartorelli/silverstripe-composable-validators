@@ -5,11 +5,44 @@ namespace Signify\ComposableValidators\Tests;
 use Signify\ComposableValidators\Validators\AjaxCompositeValidator;
 use Signify\ComposableValidators\Validators\RequiredFieldsValidator;
 use Signify\ComposableValidators\Validators\SimpleFieldsValidator;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Forms\Form;
 
 // TODO set up behat tests for the actual ajax functionality for front and backend.
 class AjaxCompositeValidatorTest extends SapphireTest
 {
+    private $dataAttribute = 'data-signify-validation-hints';
+
+    public function testHasValidatorHints()
+    {
+        $validator = $this->getNewValidatorInstance();
+        // Test form has validation hints from all validators.
+        $form1 = TestFormGenerator::getForm(['FieldOne', 'FieldTwo'], $validator);
+        $this->validateHints($form1, $form1->getAttribute($this->dataAttribute));
+
+        // Also test swapping forms removes from old form and adds to new.
+        $form2 = TestFormGenerator::getForm(['FieldOne', 'FieldTwo'], $validator);
+        $this->assertNull($form1->getAttribute($this->dataAttribute));
+        $this->validateHints($form2, $form2->getAttribute($this->dataAttribute));
+    }
+
+    public function testInstanceOmitsValidatorHints()
+    {
+        $validator = $this->getNewValidatorInstance();
+        $validator->setAddValidationHint(false);
+        $form = TestFormGenerator::getForm(['FieldOne', 'FieldTwo'], $validator);
+        $this->assertNull($form->getAttribute($this->dataAttribute));
+    }
+
+    public function testConfigOmitsValidatorHints()
+    {
+        Config::modify()->set(AjaxCompositeValidator::class, 'add_validation_hint', false);
+        $validator = $this->getNewValidatorInstance();
+        $form = TestFormGenerator::getForm(['FieldOne', 'FieldTwo'], $validator);
+        $this->assertNull($form->getAttribute($this->dataAttribute));
+        Config::modify()->set(AjaxCompositeValidator::class, 'add_validation_hint', true);
+    }
 
     public function testAddValidators()
     {
@@ -35,6 +68,32 @@ class AjaxCompositeValidatorTest extends SapphireTest
         $this->assertCount(1, $compositeValidator->getValidators());
         // Confirm both simple fields validators are the exact same instance.
         $this->assertTrue($simpleFieldsValidator1 === $simpleFieldsValidator2);
+    }
+
+    private function getNewValidatorInstance()
+    {
+        $compositeValidator = new AjaxCompositeValidator();
+        $compositeValidator->addValidator(
+            new RequiredFieldsValidator('FieldOne'),
+            new RequiredFieldsValidator('FieldTwo'),
+        );
+        return $compositeValidator;
+    }
+
+    private function validateHints(Form $form, string $hints)
+    {
+        $hints = json_decode($hints, true);
+        $expectedHints = [
+            $form->Fields()->dataFieldByName('FieldOne')->ID() => [
+                'name' => 'FieldOne',
+                'required' => true,
+            ],
+            $form->Fields()->dataFieldByName('FieldTwo')->ID() => [
+                'name' => 'FieldTwo',
+                'required' => true,
+            ],
+        ];
+        $this->assertSame($expectedHints, $hints);
     }
 
 }
