@@ -212,7 +212,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         $form = TestFormGenerator::getForm(
             $formFields = [
-                'NotRequired',
+                'NotValidated',
                 'Title',
                 'Content',
             ],
@@ -224,6 +224,9 @@ class RegexFieldsValidatorTest extends SapphireTest
                     'Content' => [
                         '/^some value$/',
                         '/^[\d]$/',
+                    ],
+                    'MissingField' => [
+                        '/^$/' => 'have no value',
                     ],
                 ]
             ),

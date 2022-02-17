@@ -3,7 +3,10 @@
 namespace Signify\ComposableValidators\Tests;
 
 use Signify\ComposableValidators\Validators\RequiredFieldsValidator;
+use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormField;
 
 class RequiredFieldsValidatorTest extends SapphireTest
@@ -124,5 +127,20 @@ class RequiredFieldsValidatorTest extends SapphireTest
             $validator->fieldIsRequired('DoesntExist'),
             "Unexpectedly returned true for a non-existent field"
         );
+    }
+
+    /**
+     * Upload fields need to have the 'aria-required' attribute set to true.
+     * Pretty well all other fields set this themselves.
+     */
+    public function testUploadFieldHasAriaRequired()
+    {
+        $validator = new RequiredFieldsValidator('UploadField1');
+        $fields = new FieldList([
+            $uploadField = new UploadField('UploadField1'),
+        ]);
+        new Form(null, 'testForm', $fields, new FieldList([/* no actions */]), $validator);
+        $this->assertTrue($validator->fieldIsRequired('UploadField1'));
+        $this->assertSame('true', $uploadField->getAttribute('aria-required'));
     }
 }

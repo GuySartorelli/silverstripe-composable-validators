@@ -4,6 +4,7 @@ namespace Signify\ComposableValidators\Extensions;
 
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Extension;
+use SilverStripe\View\HTML;
 
 /**
  * Ensure validation messages for a GridField are displayed.
@@ -23,12 +24,13 @@ class GridFieldMessagesExtension extends Extension
             $message = $message['message'];
         }
         if ($message) {
-            $alertType = $gridField->hasMethod('getAlertType') ? $gridField->getAlertType() : $gridField->messageType;
             $html = $gridField->getDescription();
             $gridField->setDescription(
-                $html . '<p class="alert ' . $alertType
-                . '" role="alert" id="message-' . $gridField->ID
-                . '">' . $message . '</p>'
+                $html . HTML::createTag(
+                    'p',
+                    ['class' => 'message ' . $gridField->getMessageType()],
+                    $message
+                )
             );
         }
     }

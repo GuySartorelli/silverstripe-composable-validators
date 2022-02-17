@@ -1,5 +1,7 @@
 node_modules
 /vendor/
+composer.lock
+/resources/
 mix-manifest.json
 yarn-error.log
 .DS_Store

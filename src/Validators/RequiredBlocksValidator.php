@@ -6,7 +6,6 @@ use DNADesign\Elemental\Forms\ElementalAreaField;
 use DNADesign\Elemental\Models\ElementalArea;
 use NumberFormatter;
 use SilverStripe\Config\MergeStrategy\Priority;
-use SilverStripe\Forms\FormField;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 
@@ -380,7 +379,9 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
                 'min' => 1,
             ];
             $newConfig = [];
-            foreach ($required as $blockClass => $config) {
+            // We pull $config by reference so that we can set all the keys to lowercase and remove duplicates with
+            // alternate casing.
+            foreach ($required as $blockClass => &$config) {
                 if (is_numeric($blockClass) && is_string($config)) {
                     // If only a block class name is provided, set the default config.
                     $newConfig[$config] = $defaultConfig;
