@@ -32,7 +32,7 @@ SilverStripe\Forms\GridField\GridField:
   extensions:
     - Signify\ComposableValidators\Extensions\GridFieldMessagesExtension
 ```
-Ensures validation messages display for a GridField. Unfortunately this is [an issue](https://github.com/silverstripe/silverstripe-framework/issues/10014) that has not yet been resolved - and this extension will remain here even for a while after is has been, for anyone who isn't running the most up-to-date version of Framework.
+Ensures validation messages display for a GridField. GridFields didn't display validation messages prior to 4.10.0.
 
 # Default extensions
 These extensions are already applied by default. They shouldn't interfere with any project or vendor code, and are necessary for certain features to function correctly.

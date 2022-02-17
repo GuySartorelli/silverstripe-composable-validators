@@ -100,7 +100,7 @@ This is a composable replacement for [RequiredFields](https://api.silverstripe.o
 Displays a validation error if the field(s) has no value.
 
 ### Known Issues
-While this validator can be used to require data in `GridField`s, as of writing this documentation GridFields don't display validation errors. This [has been raised](https://github.com/silverstripe/silverstripe-framework/issues/10014) in Silverstripe's issue tracker but in the meantime [an extension](./02-extensions.md#gridfieldmessagesextension) is included with this module to fix this problem - and the `AjaxCompositeValidator` will display validation error messages against GridFields even without that extension.  
+While this validator can be used to require data in `GridField`s, as of writing this documentation GridFields don't display validation errors. This [was resolved](https://github.com/silverstripe/silverstripe-framework/pull/10015) in Silverstripe 4.10.0, but for anyone using an older version in the meantime [an extension](./02-extensions.md#gridfieldmessagesextension) is included with this module to fix this problem. The `AjaxCompositeValidator` will display validation error messages against GridFields even without that extension.  
 This applies to the `WarningFieldsValidator` as well.
 
 ## WarningFieldsValidator
