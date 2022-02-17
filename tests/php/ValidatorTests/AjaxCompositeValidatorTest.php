@@ -9,7 +9,9 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\Form;
 
-// TODO set up behat tests for the actual ajax functionality for front and backend.
+// TODO:
+// - set up behat tests for the actual ajax functionality for front and backend.
+// - consider setting up integration tests in PHP for AJAX vs non-AJAX requests for validation forms.
 class AjaxCompositeValidatorTest extends SapphireTest
 {
     private $dataAttribute = 'data-signify-validation-hints';
