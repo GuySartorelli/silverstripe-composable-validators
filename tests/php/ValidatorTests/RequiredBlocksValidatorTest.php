@@ -33,6 +33,25 @@ class RequiredBlocksValidatorTest extends SapphireTest
     }
 
     /**
+     * If a block is explicitly required but missing, a validation error is expected.
+     */
+    public function testMissingBlocks()
+    {
+        $form = $this->getForm([
+            'AreaField',
+        ], new RequiredBlocksValidator([
+            ElementContent::class => [
+                'min' => 1,
+                'pos' => 0,
+            ],
+        ]));
+        $result = $form->validationResult();
+        $this->assertFalse($result->isValid());
+        $messages = $result->getMessages();
+        $this->assertNotEmpty($messages);
+    }
+
+    /**
      * If a block is implicitly required but missing, a validation error is expected.
      */
     public function testDefaultConfigFailure()
@@ -519,6 +538,62 @@ class RequiredBlocksValidatorTest extends SapphireTest
         ], new RequiredBlocksValidator([
             ElementContent::class => [
                 'max' => 2,
+            ]
+        ]));
+        $result = $form->validationResult();
+        $this->assertTrue($result->isValid());
+        $messages = $result->getMessages();
+        $this->assertEmpty($messages);
+    }
+
+    /**
+     * If there are too many blocks in the specified area, a validation error is expected.
+     */
+    public function testValidateSpecificAreaInvalid()
+    {
+        $form = $this->getForm([
+            'AreaField1' => [
+                TestElementalBlock::class,
+                ElementContent::class,
+            ],
+            'AreaField2' => [
+                ElementContent::class,
+                ElementContent::class,
+                ElementContent::class,
+            ],
+        ], new RequiredBlocksValidator([
+            ElementContent::class => [
+                'max' => 2,
+                'AreaFieldName' => 'AreaField2',
+            ]
+        ]));
+        $result = $form->validationResult();
+        $this->assertFalse($result->isValid());
+        $messages = $result->getMessages();
+        $this->assertNotEmpty($messages);
+    }
+
+    /**
+     * If there are not too many blocks in the specified area, there should be no validation error.
+     */
+    public function testValidateSpecificAreaValid()
+    {
+        $form = $this->getForm([
+            'AreaField1' => [
+                ElementContent::class,
+                TestElementalBlock::class,
+            ],
+            'AreaField2' => [
+                ElementContent::class,
+                ElementContent::class,
+                ElementContent::class,
+            ],
+        ], new RequiredBlocksValidator([
+            ElementContent::class => [
+                'max' => 2,
+                'AreaFieldName' => [
+                    'AreaField1'
+                ],
             ]
         ]));
         $result = $form->validationResult();
