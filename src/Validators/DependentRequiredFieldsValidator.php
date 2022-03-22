@@ -28,7 +28,7 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
      * Validates that the required fields have values if their dependencies are met.
      *
      * @param array $data
-     * @return boolean
+     * @return bool
      */
     public function php($data)
     {
@@ -78,7 +78,7 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
      * @param FieldList $fields
      * @param string $fieldName
      * @param array $filter
-     * @return boolean True if the field has a value.
+     * @return bool True if the field has a value.
      */
     protected function validateField($data, FieldList $fields, string $fieldName, array $filter): bool
     {

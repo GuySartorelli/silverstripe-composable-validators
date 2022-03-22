@@ -11,7 +11,7 @@ class FormFieldExtension extends Extension
     /**
      * Determine whether this field should be ommitted in SimpleFieldValidator validation.
      *
-     * @param boolean $omit
+     * @param bool $omit
      * @return FormField
      */
     public function setOmitFieldValidation(bool $omit)
@@ -23,7 +23,7 @@ class FormFieldExtension extends Extension
     /**
      * Get whether this field should be ommitted in SimpleFieldValidator validation.
      *
-     * @return boolean
+     * @return bool
      */
     public function getOmitFieldValidation(): bool
     {

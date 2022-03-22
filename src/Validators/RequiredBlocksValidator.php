@@ -41,7 +41,7 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
          * Validates that the required blocks exist in the configured positions.
          *
          * @param array $data
-         * @return boolean
+         * @return bool
          */
         public function php($data)
         {
@@ -163,7 +163,7 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
          * Validate that the minimum or maximum number of blocks for this class has not been exceeded.
          *
          * @param int[] $requiredConfig
-         * @param integer $numberOfBlocks
+         * @param int $numberOfBlocks
          * @param ArrayList $relevantFields
          * @param string[] $errors
          */
@@ -343,7 +343,7 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
          *
          * @param string $blockClass
          * @param ArrayList $relevantFields
-         * @return integer
+         * @return int
          */
         protected function getNumberOfBlocks(string $blockClass, ArrayList $relevantFields): int
         {
@@ -358,7 +358,7 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
          * Get the localised ordinal string for the number.
          * e.g. in 'en' locales 1 becomes '1st'
          *
-         * @param integer $num
+         * @param int $num
          * @return string
          */
         protected function ordinal(int $num): string
@@ -409,7 +409,7 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
         /**
          * Declare that this validator can be cached if there are no fields to validate.
          *
-         * @return boolean
+         * @return bool
          */
         public function canBeCached(): bool
         {

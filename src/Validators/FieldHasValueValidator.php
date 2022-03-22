@@ -17,7 +17,7 @@ abstract class FieldHasValueValidator extends BaseValidator
      *
      * @param array $data
      * @param FormField $formField
-     * @return boolean
+     * @return bool
      */
     protected function fieldHasValue(array $data, FormField $formField): bool
     {
@@ -59,7 +59,7 @@ abstract class FieldHasValueValidator extends BaseValidator
      * @param string $methodName
      * @param FormField $formField
      * @param mixed $value
-     * @return boolean|null
+     * @return bool|null
      */
     private function extendedHas(string $methodName, FormField $formField, $value)
     {

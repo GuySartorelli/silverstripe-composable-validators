@@ -28,7 +28,7 @@ class RegexFieldsValidator extends BaseValidator
      * Validates that the fields match their regular expressions.
      *
      * @param array $data
-     * @return boolean
+     * @return bool
      */
     public function php($data)
     {
@@ -91,7 +91,7 @@ class RegexFieldsValidator extends BaseValidator
      * Check if a value can be casted to string.
      *
      * @param mixed $value
-     * @return boolean
+     * @return bool
      */
     protected function valueCanBeString($value)
     {

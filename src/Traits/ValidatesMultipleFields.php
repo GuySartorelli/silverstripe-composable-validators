@@ -102,7 +102,7 @@ trait ValidatesMultipleFields
     /**
      * Declare that this validator can be cached if there are no fields to validate.
      *
-     * @return boolean
+     * @return bool
      */
     public function canBeCached(): bool
     {

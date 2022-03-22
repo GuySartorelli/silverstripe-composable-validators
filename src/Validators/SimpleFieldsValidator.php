@@ -28,7 +28,7 @@ class SimpleFieldsValidator extends Validator
      * Check all fields to ensure they are internally valid.
      *
      * @param array $data
-     * @return boolean
+     * @return bool
      */
     public function php($data, bool $isAjax = false)
     {
