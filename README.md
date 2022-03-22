@@ -26,33 +26,33 @@ If you're using the `AjaxCompositeValidator` on a form that uses [undefinedoffse
 
 ## [Available Validators][4]
 
-- **[AjaxCompositeValidator][5]**  
-Subclass of [CompositeValidator][6] that provides AJAX validation. Resolves [an issue with losing data][7], faster turn-around for fixing validation problems, and provides a way to use the same validation for 'client-side' validation of frontend forms.
-- **[SimpleFieldsValidator][8]**  
+- **[`AjaxCompositeValidator`][5]**  
+Subclass of [`CompositeValidator`][6] that provides AJAX validation. Resolves [an issue with losing data][7], faster turn-around for fixing validation problems, and provides a way to use the same validation for 'client-side' validation of frontend forms.
+- **[`SimpleFieldsValidator`][8]**  
 Ensures the internal validation of form fields by calling `validate` on them.
-- **[RequiredFieldsValidator][9]**  
-Like Silverstripe's [RequiredFields][10] validator, but more convenient for use in a `CompositeValidator`.
-- **[WarningFieldsValidator][11]**  
+- **[`RequiredFieldsValidator`][9]**  
+Like Silverstripe's [`RequiredFields`][10] validator, but more convenient for use in a `CompositeValidator`.
+- **[`WarningFieldsValidator`][11]**  
 Displays a warning if some field(s) doesn't have a value. Useful for alerting users about data that is technically valid but may not provide the results they expect
-- **[DependentRequiredFieldsValidator][12]**  
-Uses [SearchFilters][13] to define fields as required conditionally, based on the values of other fields (e.g. only required if `OtherField` has a value greater than 25).
-- **[RequiredBlocksValidator][14]**  
+- **[`DependentRequiredFieldsValidator`][12]**  
+Uses [`SearchFilter`s][13] to define fields as required conditionally, based on the values of other fields (e.g. only required if `OtherField` has a value greater than 25).
+- **[`RequiredBlocksValidator`][14]**  
 Require a specific [elemental block(s)][15] to exist in the `ElementalArea`, with optional minimum and maximum numbers of blocks and optional positional validation.
-- **[RegexFieldsValidator][16]**  
+- **[`RegexFieldsValidator`][16]**  
 Ensure some field(s) matches a specified regex pattern.
 
 ### [Abstract Validators][17]
 
-- **[BaseValidator][18]**  
+- **[`BaseValidator`][18]**  
 Includes methods useful for getting the actual `FormField` and its label.
-- **[FieldHasValueValidator][19]**  
+- **[`FieldHasValueValidator`][19]**  
 Subclass of `BaseValidator`. Useful for validators that require logic to check if a field has any value or not.
 
 ## [Traits][20]
 
-- **[ValidatesMultipleFields][21]**  
+- **[`ValidatesMultipleFields`][21]**  
 Useful for validators that can be fed an array of field names to be validated.
-- **[ValidatesMultipleFieldsWithConfig][22]**  
+- **[`ValidatesMultipleFieldsWithConfig`][22]**  
 Like ValidatesMultipleFields but requires a configuration array for each field to be validated.
 
 [0]: docs/en/02-extensions.md

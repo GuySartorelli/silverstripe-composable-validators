@@ -2,9 +2,9 @@
 
 If your project has any automated client-side tests, be it with [Behat](https://github.com/silverstripe/silverstripe-behat-extension), [Selenium](https://www.selenium.dev), or some other framework, it may be useful to know before you submit a form what validation is required for which fields.
 
-The [AjaxCompositeValidator](./01-validators.md#ajaxcompositevalidator) adds a `data-signify-validation-hints` attribute to any form it is added to. The value of this attribute is an empty JSON array if there is no validation, or a JSON object if there is. The JSON object has field IDs for keys with the validation requirements for that field in JSON objects for values.
+The [`AjaxCompositeValidator`](./01-validators.md#ajaxcompositevalidator) adds a `data-signify-validation-hints` attribute to any form it is added to. The value of this attribute is an empty JSON array if there is no validation, or a JSON object if there is. The JSON object has field IDs for keys with the validation requirements for that field in JSON objects for values.
 
-The abstract [BaseValidator](./01-validators.md#basevalidator) class provides an abstract `getValidationHints` method which must return an array. This array should contain the full validation requirements of each field that will be validated by a given validator. **You should implement this method in any custom validators you create which you intend to include in an `AjaxCompositeValidator`**.
+The abstract [`BaseValidator`](./01-validators.md#basevalidator) class provides an abstract `getValidationHints` method which must return an array. This array should contain the full validation requirements of each field that will be validated by a given validator. **You should implement this method in any custom validators you create which you intend to include in an `AjaxCompositeValidator`**.
 
 All of the validators included in this module that perform their own validation implementations implement the `getValidationHints` method, so their validation requirements are included in the validation hints attribute.
 
