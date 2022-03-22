@@ -169,7 +169,7 @@ class AjaxCompositeValidator extends CompositeValidator
      * @param bool $addHint
      * @return $this
      */
-    public function setAddValidationHint(bool $addHint)
+    public function setAddValidationHint(bool $addHint): AjaxCompositeValidator
     {
         $this->addValidationHint = $addHint;
         return $this;
@@ -194,7 +194,7 @@ class AjaxCompositeValidator extends CompositeValidator
      * @param bool $ajax
      * @return $this
      */
-    public function setAjax(bool $ajax)
+    public function setAjax(bool $ajax): AjaxCompositeValidator
     {
         $this->ajax = $ajax;
         return $this;

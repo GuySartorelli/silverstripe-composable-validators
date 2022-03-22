@@ -93,7 +93,7 @@ class RegexFieldsValidator extends BaseValidator
      * @param mixed $value
      * @return bool
      */
-    protected function valueCanBeString($value)
+    protected function valueCanBeString($value): bool
     {
         return $value === null || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'));
     }
