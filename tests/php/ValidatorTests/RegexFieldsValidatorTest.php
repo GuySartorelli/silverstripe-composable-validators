@@ -12,7 +12,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     /**
      * If the value doesn't match the regex pattern, there should be a validation error message.
      */
-    public function testValidationMessageIfRegexDoesntMatch()
+    public function testValidationMessageIfRegexDoesntMatch(): void
     {
         $form = TestFormGenerator::getForm(
             ['FieldOne' => 'value1'],
@@ -33,7 +33,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     /**
      * If the value doesn't match any regex pattern, validation error messages should correctly concatenate.
      */
-    public function testValidationMessageConcatenation()
+    public function testValidationMessageConcatenation(): void
     {
         $form = TestFormGenerator::getForm(
             ['FieldOne' => 'value1'],
@@ -59,7 +59,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     /**
      * If the value matches the regex pattern, there should be no validation error message.
      */
-    public function testNoValidationMessageIfRegexMatches()
+    public function testNoValidationMessageIfRegexMatches(): void
     {
         $form = TestFormGenerator::getForm(
             ['FieldOne' => 'value1'],
@@ -74,7 +74,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     /**
      * If the value matches ANY regex pattern, there should be no validation error message.
      */
-    public function testNoValidationMessageIfRegexMatchesAny()
+    public function testNoValidationMessageIfRegexMatchesAny(): void
     {
         $form = TestFormGenerator::getForm(
             ['FieldOne' => 'value1'],
@@ -95,7 +95,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     /**
      * If the regex field doesn't exist, there should be no validation error message.
      */
-    public function testNoValidationMessageIfFieldMissing()
+    public function testNoValidationMessageIfFieldMissing(): void
     {
         $form = TestFormGenerator::getForm(
             ['FieldOne' => 'value1'],
@@ -110,7 +110,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     /**
      * Objects that can be cast to string should be correctly validated.
      */
-    public function testStringableObjectValue()
+    public function testStringableObjectValue(): void
     {
         TestFormGenerator::getForm(
             ['FieldOne'],
@@ -133,7 +133,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     /**
      * Null values should be correctly validated.
      */
-    public function testNullValue()
+    public function testNullValue(): void
     {
         TestFormGenerator::getForm(
             ['FieldOne'],
@@ -156,7 +156,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     /**
      * Numeric values should be correctly validated.
      */
-    public function testNumericValue()
+    public function testNumericValue(): void
     {
         TestFormGenerator::getForm(
             ['FieldOne'],
@@ -179,7 +179,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     /**
      * Objects that cannot be cast to string should be ignored.
      */
-    public function testNonStringableObjectValueIsIgnored()
+    public function testNonStringableObjectValueIsIgnored(): void
     {
         TestFormGenerator::getForm(
             ['FieldOne'],
@@ -194,7 +194,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     /**
      * Arrays cannot be cast to string and should be ignored.
      */
-    public function testArrayValueIsIgnored()
+    public function testArrayValueIsIgnored(): void
     {
         TestFormGenerator::getForm(
             ['FieldOne'],
@@ -210,7 +210,7 @@ class RegexFieldsValidatorTest extends SapphireTest
      * All of the fields that are in both the form AND the validator should have the correct 'regex' validation
      * hints.
      */
-    public function testValidationHints()
+    public function testValidationHints(): void
     {
         $form = TestFormGenerator::getForm(
             $formFields = [

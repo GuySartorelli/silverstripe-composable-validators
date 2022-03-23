@@ -14,7 +14,7 @@ use SilverStripe\Forms\TabSet;
 
 class RequiredBlocksValidatorTest extends SapphireTest
 {
-    private function getForm($elementalAreas, $validator = null)
+    private function getForm($elementalAreas, $validator = null): Form
     {
         $areas = [];
         foreach ($elementalAreas as $fieldName => $blockClasses) {
@@ -35,7 +35,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If a block is explicitly required but missing, a validation error is expected.
      */
-    public function testMissingBlocks()
+    public function testMissingBlocks(): void
     {
         $form = $this->getForm([
             'AreaField',
@@ -54,7 +54,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If a block is implicitly required but missing, a validation error is expected.
      */
-    public function testDefaultConfigFailure()
+    public function testDefaultConfigFailure(): void
     {
         $form = $this->getForm([
             'AreaField',
@@ -70,7 +70,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If a block is implicitly required and present missing, there should be no validation error.
      */
-    public function testDefaultConfigPass()
+    public function testDefaultConfigPass(): void
     {
         $form = $this->getForm([
             'AreaField' => [
@@ -88,7 +88,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If there are too many of the given block type, a validation error is expected.
      */
-    public function testTooManyBlocks()
+    public function testTooManyBlocks(): void
     {
         // One block allowed.
         $form = $this->getForm([
@@ -126,7 +126,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If there are not too many of the given block type, there should be no validation error.
      */
-    public function testNotTooManyBlocks()
+    public function testNotTooManyBlocks(): void
     {
         // Allowed 3, have <= 3.
         $form = $this->getForm([
@@ -161,7 +161,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If there are not enough of the given block type, a validation error is expected.
      */
-    public function testNotEnoughBlocks()
+    public function testNotEnoughBlocks(): void
     {
         // One block, but less than the minimum expected.
         $form = $this->getForm([
@@ -195,7 +195,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If there are enough of the given block type, there should be no validation error.
      */
-    public function testEnoughBlocks()
+    public function testEnoughBlocks(): void
     {
         $form = $this->getForm([
             'AreaField' => [
@@ -216,7 +216,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If the block is out of position, a validation error is expected.
      */
-    public function testBlockOutOfPositionFromTop()
+    public function testBlockOutOfPositionFromTop(): void
     {
         // Not AT top.
         $form = $this->getForm([
@@ -254,7 +254,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If the block is in position, there should be no validation error.
      */
-    public function testBlockInPositionFromTop()
+    public function testBlockInPositionFromTop(): void
     {
         // At top.
         $form = $this->getForm([
@@ -308,7 +308,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If the block is out of position, a validation error is expected.
      */
-    public function testBlockOutOfPositionFromBottom()
+    public function testBlockOutOfPositionFromBottom(): void
     {
         // Not AT bottom.
         $form = $this->getForm([
@@ -346,7 +346,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If the block is in position, there should be no validation error.
      */
-    public function testBlockInPositionFromBottom()
+    public function testBlockInPositionFromBottom(): void
     {
         // At bottom.
         $form = $this->getForm([
@@ -400,7 +400,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If the block is out of position in any area, a validation error is expected.
      */
-    public function testMultipleAreasBlockOutOfPosition()
+    public function testMultipleAreasBlockOutOfPosition(): void
     {
         $form = $this->getForm([
             'AreaField1' => [
@@ -425,7 +425,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If the block in position in all areas, there should be no validation error.
      */
-    public function testMultipleAreasBlockInPosition()
+    public function testMultipleAreasBlockInPosition(): void
     {
         $form = $this->getForm([
             'AreaField1' => [
@@ -450,7 +450,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If there are not enough blocks across all areas, a validation error is expected.
      */
-    public function testMultipleAreasNotEnoughBlocks()
+    public function testMultipleAreasNotEnoughBlocks(): void
     {
         $form = $this->getForm([
             'AreaField1' => [
@@ -474,7 +474,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If there are enough blocks across all areas, there should be no validation error.
      */
-    public function testMultipleAreasEnoughBlocks()
+    public function testMultipleAreasEnoughBlocks(): void
     {
         $form = $this->getForm([
             'AreaField1' => [
@@ -499,7 +499,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If there are too many blocks across all areas, a validation error is expected.
      */
-    public function testMultipleAreasTooManyBlocks()
+    public function testMultipleAreasTooManyBlocks(): void
     {
         $form = $this->getForm([
             'AreaField1' => [
@@ -524,7 +524,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If there are not too many blocks across all areas, there should be no validation error.
      */
-    public function testMultipleAreasNotTooManyBlocks()
+    public function testMultipleAreasNotTooManyBlocks(): void
     {
         $form = $this->getForm([
             'AreaField1' => [
@@ -549,7 +549,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If there are too many blocks in the specified area, a validation error is expected.
      */
-    public function testValidateSpecificAreaInvalid()
+    public function testValidateSpecificAreaInvalid(): void
     {
         $form = $this->getForm([
             'AreaField1' => [
@@ -576,7 +576,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * If there are not too many blocks in the specified area, there should be no validation error.
      */
-    public function testValidateSpecificAreaValid()
+    public function testValidateSpecificAreaValid(): void
     {
         $form = $this->getForm([
             'AreaField1' => [
@@ -605,7 +605,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
     /**
      * All of the fields that are in both the form AND the validator should have 'required-elements' validation hints.
      */
-    public function testValidationHints()
+    public function testValidationHints(): void
     {
         $fieldList = new FieldList();
         $fieldList->add(new TabSet('Root'));

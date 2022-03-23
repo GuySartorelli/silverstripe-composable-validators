@@ -19,7 +19,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      * that functionality comes from the signify-nz/silverstripe-searchfilter-arraylist
      * module which has unit tests for that.
      */
-    public function testFieldNotRequiredIfDependencyNotMet()
+    public function testFieldNotRequiredIfDependencyNotMet(): void
     {
         $form = TestFormGenerator::getForm(
             [
@@ -41,7 +41,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      * that functionality comes from the signify-nz/silverstripe-searchfilter-arraylist
      * module which has unit tests for that.
      */
-    public function testFieldRequiredIfDependencyMet()
+    public function testFieldRequiredIfDependencyMet(): void
     {
         $form = TestFormGenerator::getForm(
             [
@@ -73,7 +73,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      * that functionality comes from the signify-nz/silverstripe-searchfilter-arraylist
      * module which has unit tests for that.
      */
-    public function testFieldRequiredIfNullishDependencyMet()
+    public function testFieldRequiredIfNullishDependencyMet(): void
     {
         $form = TestFormGenerator::getForm(
             [
@@ -95,7 +95,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      * If the dependency field is missing, the field should not be required.
      * There's no way for the user to set the field if the field doesn't exist.
      */
-    public function testFieldNotRequiredIfDependencyIsMissing()
+    public function testFieldNotRequiredIfDependencyIsMissing(): void
     {
         $form = TestFormGenerator::getForm(
             [
@@ -112,7 +112,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
     /**
      * If the required field doesn't exist, there should be no validation error message.
      */
-    public function testNoValidationMessageIfFieldMissing()
+    public function testNoValidationMessageIfFieldMissing(): void
     {
         $form = TestFormGenerator::getForm(
             [
@@ -130,7 +130,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
     /**
      * Check that validation messages are correctly constructed to reflect the dependencies.
      */
-    public function testSearchFilterValidationMessages()
+    public function testSearchFilterValidationMessages(): void
     {
         $fields = $this->setupMessageFields();
         $validator = new DependentRequiredFieldsValidator([
@@ -160,7 +160,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      *
      * @return FieldList
      */
-    private function setupMessageFields()
+    private function setupMessageFields(): FieldList
     {
         $fieldList = new FieldList([
             new TextField('DependentField1'),
@@ -188,7 +188,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      * @param FieldList $fields
      * @return string[]
      */
-    private function setupExpectedMessages($fields)
+    private function setupExpectedMessages($fields): array
     {
         $messages = [];
         $fieldName = 'DependentField1';
@@ -230,7 +230,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      * All of the fields that are in both the form AND the validator should have the correct 'dependencies' validation
      * hints.
      */
-    public function testValidationHints()
+    public function testValidationHints(): void
     {
         $form = TestFormGenerator::getForm(
             $formFields = [

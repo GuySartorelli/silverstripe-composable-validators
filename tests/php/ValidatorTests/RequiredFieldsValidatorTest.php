@@ -15,7 +15,7 @@ class RequiredFieldsValidatorTest extends SapphireTest
      * If the required field has no value, there should be a validation error message
      * and the validation result should be invalid.
      */
-    public function testValidationMessageIfEmpty()
+    public function testValidationMessageIfEmpty(): void
     {
         $form = TestFormGenerator::getForm(['FieldOne'], new RequiredFieldsValidator(['FieldOne']));
         $result = $form->validationResult();
@@ -34,7 +34,7 @@ class RequiredFieldsValidatorTest extends SapphireTest
     /**
      * If the required field has a value, there should be no validation error message.
      */
-    public function testNoValidationMessageIfNotEmpty()
+    public function testNoValidationMessageIfNotEmpty(): void
     {
         $form = TestFormGenerator::getForm(['FieldOne' => 'someValue'], new RequiredFieldsValidator(['FieldOne']));
         $result = $form->validationResult();
@@ -46,7 +46,7 @@ class RequiredFieldsValidatorTest extends SapphireTest
     /**
      * If the required field doesn't exist, there should be no validation error message.
      */
-    public function testNoValidationMessageIfFieldMissing()
+    public function testNoValidationMessageIfFieldMissing(): void
     {
         $form = TestFormGenerator::getForm(['FieldOne'], new RequiredFieldsValidator(['MissingField']));
         $result = $form->validationResult();
@@ -58,7 +58,7 @@ class RequiredFieldsValidatorTest extends SapphireTest
     /**
      * All of the fields that are in both the form AND the validator should have 'required' validation hints.
      */
-    public function testValidationHints()
+    public function testValidationHints(): void
     {
         $form = TestFormGenerator::getForm(
             $formFields = [
@@ -97,7 +97,7 @@ class RequiredFieldsValidatorTest extends SapphireTest
     /**
      * Required fields need to 'know' they are required.
      */
-    public function testFieldIsRequired()
+    public function testFieldIsRequired(): void
     {
         // Get the validator.
         $validator = new RequiredFieldsValidator(
@@ -134,7 +134,7 @@ class RequiredFieldsValidatorTest extends SapphireTest
      * Upload fields need to have the 'aria-required' attribute set to true.
      * Pretty well all other fields set this themselves.
      */
-    public function testUploadFieldHasAriaRequired()
+    public function testUploadFieldHasAriaRequired(): void
     {
         $validator = new RequiredFieldsValidator('UploadField1');
         $fields = new FieldList([

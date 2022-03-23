@@ -21,7 +21,7 @@ class GridFieldMessagesExtensionTest extends SapphireTest
     /**
      * A gridfield that fails validation should display the validation error in the description.
      */
-    public function testValidationMessageDisplaysWithMessages()
+    public function testValidationMessageDisplaysWithMessages(): void
     {
         $gridField = new GridField('testfield', 'testfield', new ArrayList(), new GridFieldConfig());
         $fieldList = new FieldList([$gridField]);
@@ -39,7 +39,7 @@ class GridFieldMessagesExtensionTest extends SapphireTest
     /**
      * A gridfield that passes validation should not display a validation error in the description.
      */
-    public function testValidationMessageDoesntDisplayWithoutMessages()
+    public function testValidationMessageDoesntDisplayWithoutMessages(): void
     {
         $gridField = new GridField('testfield', 'testfield', new ArrayList(), new GridFieldConfig());
         $fieldList = new FieldList([$gridField]);

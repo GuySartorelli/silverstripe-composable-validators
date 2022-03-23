@@ -20,7 +20,7 @@ class AjaxCompositeValidatorTest extends SapphireTest
      * Validation hints for all validators should be added to the form.
      * If setting a new form, the validation hints should be removed from the old form.
      */
-    public function testHasValidatorHints()
+    public function testHasValidatorHints(): void
     {
         $validator = $this->getNewValidatorInstance();
         // Test form has validation hints from all validators.
@@ -36,7 +36,7 @@ class AjaxCompositeValidatorTest extends SapphireTest
     /**
      * Setting setAddValidationHint to false should result in no validation hints being set.
      */
-    public function testInstanceOmitsValidatorHints()
+    public function testInstanceOmitsValidatorHints(): void
     {
         $validator = $this->getNewValidatorInstance();
         $validator->setAddValidationHint(false);
@@ -47,7 +47,7 @@ class AjaxCompositeValidatorTest extends SapphireTest
     /**
      * Setting add_validation_hint to false should result in no validation hints being set.
      */
-    public function testConfigOmitsValidatorHints()
+    public function testConfigOmitsValidatorHints(): void
     {
         Config::modify()->set(AjaxCompositeValidator::class, 'add_validation_hint', false);
         $validator = $this->getNewValidatorInstance();
@@ -59,7 +59,7 @@ class AjaxCompositeValidatorTest extends SapphireTest
     /**
      * All validators added through the addValidators method should be present in the validator.
      */
-    public function testAddValidators()
+    public function testAddValidators(): void
     {
         $compositeValidator = new AjaxCompositeValidator();
         $compositeValidator->addValidators([
@@ -82,7 +82,7 @@ class AjaxCompositeValidatorTest extends SapphireTest
      * If there is no validator of that type, one should be created and added to the composite validator.
      * Otherwise the existing validator should be returned.
      */
-    public function testGetOrAddValidatorByType()
+    public function testGetOrAddValidatorByType(): void
     {
         $compositeValidator = new AjaxCompositeValidator();
         // Confirm validator starts empty.
@@ -102,7 +102,7 @@ class AjaxCompositeValidatorTest extends SapphireTest
      *
      * @return AjaxCompositeValidator
      */
-    private function getNewValidatorInstance()
+    private function getNewValidatorInstance(): AjaxCompositeValidator
     {
         $compositeValidator = new AjaxCompositeValidator();
         $compositeValidator->addValidators([
@@ -119,7 +119,7 @@ class AjaxCompositeValidatorTest extends SapphireTest
      * @param Form $form The form which has the hints
      * @param string $hints The hints on the form
      */
-    private function validateHints(Form $form, string $hints)
+    private function validateHints(Form $form, string $hints): void
     {
         $hints = json_decode($hints, true);
         $expectedHints = [

@@ -19,7 +19,7 @@ class ValidatesMultipleFieldsTest extends SapphireTest
     /**
      * Should be able to instantiate with no arguments.
      */
-    public function testConstructingWithoutFields()
+    public function testConstructingWithoutFields(): void
     {
         $validator = new TestMultiFieldValidator();
         $this->assertEmpty($validator->getFields());
@@ -28,7 +28,7 @@ class ValidatesMultipleFieldsTest extends SapphireTest
     /**
      * Should be able to instantiate with an array of field names.
      */
-    public function testConstructingWithArray()
+    public function testConstructingWithArray(): void
     {
         $fields = $this->getFieldsForTests();
         $validator = new TestMultiFieldValidator($fields);
@@ -38,7 +38,7 @@ class ValidatesMultipleFieldsTest extends SapphireTest
     /**
      * Should be able to instantiate with an argument list of field names.
      */
-    public function testConstructingWithArguments()
+    public function testConstructingWithArguments(): void
     {
         $validator = new TestMultiFieldValidator(
             'Title',
@@ -52,7 +52,7 @@ class ValidatesMultipleFieldsTest extends SapphireTest
     /**
      * Should be able to remove all fields at once.
      */
-    public function testRemoveValidation()
+    public function testRemoveValidation(): void
     {
         $validator = new TestMultiFieldValidator($this->getFieldsForTests());
         $validator->removeValidation();
@@ -62,7 +62,7 @@ class ValidatesMultipleFieldsTest extends SapphireTest
     /**
      * Should be able to remove fields one at a time, by name.
      */
-    public function testRemoveField()
+    public function testRemoveField(): void
     {
         $fields = $this->getFieldsForTests();
         $validator = new TestMultiFieldValidator($fields);
@@ -82,7 +82,7 @@ class ValidatesMultipleFieldsTest extends SapphireTest
     /**
      * Should be able to remove many fields at once by name.
      */
-    public function testRemoveFields()
+    public function testRemoveFields(): void
     {
         $fields = $this->getFieldsForTests();
         $validator = new TestMultiFieldValidator($fields);
@@ -98,7 +98,7 @@ class ValidatesMultipleFieldsTest extends SapphireTest
     /**
      * Should be able to add fields one at a time, by name.
      */
-    public function testAddField()
+    public function testAddField(): void
     {
         $validator = new TestMultiFieldValidator();
         // Add a couple of fields.
@@ -126,7 +126,7 @@ class ValidatesMultipleFieldsTest extends SapphireTest
     /**
      * Should be able to add many fields at once by name.
      */
-    public function testAddFields()
+    public function testAddFields(): void
     {
         $validator = new TestMultiFieldValidator();
         // Add a couple of fields.
