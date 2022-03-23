@@ -169,7 +169,7 @@ class AjaxCompositeValidator extends CompositeValidator
      * @param bool $addHint
      * @return $this
      */
-    public function setAddValidationHint(bool $addHint): AjaxCompositeValidator
+    public function setAddValidationHint(bool $addHint): self
     {
         $this->addValidationHint = $addHint;
         return $this;
@@ -194,7 +194,7 @@ class AjaxCompositeValidator extends CompositeValidator
      * @param bool $ajax
      * @return $this
      */
-    public function setAjax(bool $ajax): AjaxCompositeValidator
+    public function setAjax(bool $ajax): self
     {
         $this->ajax = $ajax;
         return $this;
@@ -216,7 +216,7 @@ class AjaxCompositeValidator extends CompositeValidator
      *
      * @param Form|null $oldForm
      */
-    private function addValidationHint(?Form $oldForm)
+    private function addValidationHint(?Form $oldForm): void
     {
         // Always make sure to remove the attribute in case it has been set.
         $dataAttribute = 'data-signify-validation-hints';
