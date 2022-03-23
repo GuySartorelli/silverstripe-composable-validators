@@ -212,7 +212,8 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
         $fieldName = 'DependentField4';
         $field = $fields->dataFieldByName($fieldName);
         $stringFieldTitle = $fields->dataFieldByName('StringField')->Title();
-        $messages[$fieldName] = '"' . $field->Title() . "\" is required when the value for \"$stringFieldTitle\" starts with"
+        $messages[$fieldName] = '"' . $field->Title()
+            . "\" is required when the value for \"$stringFieldTitle\" starts with"
             . " 'str', and the value for \"$stringFieldTitle\" does not contain 'nothing', and the"
             . " value for \"$stringFieldTitle\" ends with 'ing' or 'blah blah'";
 

@@ -23,7 +23,8 @@ class WarningFieldsValidatorTest extends SapphireTest
         $this->assertEquals('warning', $message['messageType']);
         $this->assertEquals(
             '"' . FormField::name_to_label('FieldOne')
-            . '" has no value and will not display or be used', $message['message']
+            . '" has no value and will not display or be used',
+            $message['message']
         );
     }
 

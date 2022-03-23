@@ -224,8 +224,8 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
                                 $min = (int)$this->required[$blockClass]['min'];
                                 $message .= _t(
                                     self::class . '.TOO_FEW',
-                                    "Too few '{blockType}' blocks, at least {count} is required.|Too few '{blockType}' blocks,"
-                                    . ' at least {count} are required.',
+                                    "Too few '{blockType}' blocks, at least {count} is required.|Too few '{blockType}'"
+                                    . ' blocks, at least {count} are required.',
                                     [
                                         'blockType' => $blockType,
                                         'count' => $min,
@@ -236,8 +236,8 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
                                 $max = (int)$this->required[$blockClass]['max'];
                                 $message .= _t(
                                     self::class . '.TOO_MANY',
-                                    "Too many '{blockType}' blocks, only {count} is allowed.|Too many '{blockType}' blocks,"
-                                    . ' up to {count} are allowed.',
+                                    "Too many '{blockType}' blocks, only {count} is allowed.|Too many '{blockType}'"
+                                    . ' blocks, up to {count} are allowed.',
                                     [
                                         'blockType' => $blockType,
                                         'count' => $max,

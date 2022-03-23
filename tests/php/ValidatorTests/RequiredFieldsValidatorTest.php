@@ -26,7 +26,8 @@ class RequiredFieldsValidatorTest extends SapphireTest
         $this->assertEquals('required', $message['messageType']);
         $this->assertEquals(
             '"' . FormField::name_to_label('FieldOne')
-            . '" is required', $message['message']
+            . '" is required',
+            $message['message']
         );
     }
 

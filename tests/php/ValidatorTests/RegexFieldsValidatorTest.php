@@ -25,7 +25,8 @@ class RegexFieldsValidatorTest extends SapphireTest
         $this->assertEquals('validation', $message['messageType']);
         $this->assertEquals(
             'The value for "' . FormField::name_to_label('FieldOne')
-            . '" must match the pattern /no match/', $message['message']
+            . '" must match the pattern /no match/',
+            $message['message']
         );
     }
 
@@ -50,7 +51,8 @@ class RegexFieldsValidatorTest extends SapphireTest
         $this->assertEquals('validation', $message['messageType']);
         $this->assertEquals(
             'The value for "' . FormField::name_to_label('FieldOne')
-            . '" must not match or must pass testing', $message['message']
+            . '" must not match or must pass testing',
+            $message['message']
         );
     }
 

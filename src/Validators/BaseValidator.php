@@ -15,7 +15,7 @@ abstract class BaseValidator extends Validator
      *
      * @return string[]
      */
-    public abstract function getValidationHints(): array;
+    abstract public function getValidationHints(): array;
 
     /**
      * Get the form field from a field list.

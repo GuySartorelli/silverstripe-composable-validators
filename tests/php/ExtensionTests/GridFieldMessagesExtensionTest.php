@@ -30,7 +30,10 @@ class GridFieldMessagesExtensionTest extends SapphireTest
 
         $form->validationResult();
         $gridField->Field();
-        $this->assertStringContainsString('<p class="message ' . ValidationResult::TYPE_ERROR . '">error</p>', $gridField->getDescription());
+        $this->assertStringContainsString(
+            '<p class="message ' . ValidationResult::TYPE_ERROR . '">error</p>',
+            $gridField->getDescription()
+        );
     }
 
     /**
@@ -45,6 +48,9 @@ class GridFieldMessagesExtensionTest extends SapphireTest
 
         $form->validationResult();
         $gridField->Field();
-        $this->assertStringNotContainsString('<p class="message ' . ValidationResult::TYPE_ERROR . '">', (string)$gridField->getDescription());
+        $this->assertStringNotContainsString(
+            '<p class="message ' . ValidationResult::TYPE_ERROR . '">',
+            (string)$gridField->getDescription()
+        );
     }
 }

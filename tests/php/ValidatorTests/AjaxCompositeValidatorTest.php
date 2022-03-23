@@ -134,5 +134,4 @@ class AjaxCompositeValidatorTest extends SapphireTest
         ];
         $this->assertSame($expectedHints, $hints);
     }
-
 }
