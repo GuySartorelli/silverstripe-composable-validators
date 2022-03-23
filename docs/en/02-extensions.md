@@ -11,7 +11,7 @@ SilverStripe\ORM\DataObject:
 ```
 
 Replaces the default `CompositeValidator` that all `DataObject`s have (see `DataObject::getCMSCompositeValidator()`) with this module's [`AjaxCompositeValidator`](./01-validators.md#ajaxcompositevalidator).
-Unfortunately at the time of writing these docs, the `CompositeValidator` is instantiated using the `new` keyword instead of using the `create` method, so you can't just replace it outright in the `Injector` - but even if you could, we'd strongly recommend including a `SimpleFieldsValidator`, which would be tricky if possible at all to do via the `Injector`.
+Unfortunately at the time of writing these docs, the `CompositeValidator` is instantiated using the `new` keyword instead of using the `create()` method, so you can't just replace it outright in the `Injector` - but even if you could, we'd strongly recommend including a `SimpleFieldsValidator`, which would be tricky if possible at all to do via the `Injector`.
 
 This extension also automatically adds a [`SimpleFieldsValidator`](./01-validators.md#simplefieldsvalidator) to ensure all form fields have valid data.
 
@@ -51,4 +51,4 @@ Provides the action used for AJAX validation via the [`AjaxCompositeValidator`](
 
 ## FormFieldExtension
 
-Provides the `setOmitFieldValidation` and `getOmitFieldValidation` methods to determine if fields should be validated by the [`SimpleFieldsValidator`](./01-validators.md#simplefieldsvalidator).
+Provides the `setOmitFieldValidation()` and `getOmitFieldValidation()` methods to determine if fields should be validated by the [`SimpleFieldsValidator`](./01-validators.md#simplefieldsvalidator).

@@ -29,7 +29,7 @@ If you're using the `AjaxCompositeValidator` on a form that uses [undefinedoffse
 - **[`AjaxCompositeValidator`][5]**  
 Subclass of [`CompositeValidator`][6] that provides AJAX validation. Resolves [an issue with losing data][7], faster turn-around for fixing validation problems, and provides a way to use the same validation for 'client-side' validation of frontend forms.
 - **[`SimpleFieldsValidator`][8]**  
-Ensures the internal validation of form fields by calling `validate` on them.
+Ensures the internal validation of form fields by calling `validate()` on them.
 - **[`RequiredFieldsValidator`][9]**  
 Like Silverstripe's [`RequiredFields`][10] validator, but more convenient for use in a `CompositeValidator`.
 - **[`WarningFieldsValidator`][11]**  
@@ -53,7 +53,7 @@ Subclass of `BaseValidator`. Useful for validators that require logic to check i
 - **[`ValidatesMultipleFields`][21]**  
 Useful for validators that can be fed an array of field names to be validated.
 - **[`ValidatesMultipleFieldsWithConfig`][22]**  
-Like ValidatesMultipleFields but requires a configuration array for each field to be validated.
+Like `ValidatesMultipleFields` but requires a configuration array for each field to be validated.
 
 [0]: docs/en/02-extensions.md
 [1]: docs/en/03-client-side-tests.md

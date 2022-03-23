@@ -18,7 +18,7 @@ This validator is also extremely useful for front-end forms, as it provides clie
 
 ### Usage
 
-If the [`DataObjectDefaultAjaxExtension`](./02-extensions.md#dataobjectdefaultajaxextension) extension has been applied, calling `parent::getCMSCompositeValidator` inside the `getCMSCompositeValidator` method will return an `AjaxCompositeValidator`, which can then be manipulated.
+If the [`DataObjectDefaultAjaxExtension`](./02-extensions.md#dataobjectdefaultajaxextension) extension has been applied, calling `parent::getCMSCompositeValidator()` inside the `getCMSCompositeValidator()` method will return an `AjaxCompositeValidator`, which can then be manipulated.
 
 You can also opt to just return a new `AjaxCompositeValidator` from that method - and in front-end situations, you can instantiate a new `AjaxCompositeValidator` (preferably [via injection](https://docs.silverstripe.org/en/4/developer_guides/extending/injector/) i.e. `AjaxCompositeValidator::create()`).
 
@@ -123,7 +123,7 @@ Displays a validation warning if the field(s) has no value.
 
 ## DependentRequiredFieldsValidator
 
-Allows you to define fields as being required conditionally based on the values of other fields. It uses [`SearchFilters`](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) to provide a variety of ways to compare values, depending on what causes the fields to be required. It uses (so has all of the functionality and methods of) the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
+Allows you to define fields as being required conditionally based on the values of other fields. It uses [`SearchFilters`](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) to provide a variety of ways to compare values, depending on what causes the fields to be required. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFieldsWithConfig`](#validatesmultiplefieldswithconfig) trait.
 
 In the below example, we have fields with various levels of dependency on whether they are required or not.
 
@@ -200,7 +200,7 @@ Note that if a maximum number of blocks is defined, blocks can still be created,
 If more than one `ElementalArea` exists on the `DataObject` being validated, you can define which area(s) the validation applies to.  
 Note that this validation is spread across all areas validated against. This means if you set a minimum of 3 blocks and two elemental areas, there must be 3 blocks spread however the user likes across both areas (e.g. 1 in area 1 and 2 in area 2) rather than requiring 3 blocks in each area.  
 Positional validation is per area, so if a position is defined and a block exists in each area, it must be in the defined position in each of those areas.  
-If the only configuration set for a block class is the AreaFieldName, a default min value of 1 will be implicitly set.
+If the only configuration set for a block class is the `AreaFieldName`, a default min value of 1 will be implicitly set.
 
 ```PHP
 RequiredBlocksValidator::create([
@@ -222,7 +222,7 @@ This validator validates when the page (or other `DataObject` that has an `Eleme
 
 ## RegexFieldsValidator
 
-This validator is used to require field values to match a specific regex pattern. Often it will make sense to have this validation inside a custom `FormField` implementation, but for one-off specific pattern validation of fields that don't warrant their own `FormField` this validator is perfect. It uses (so has all of the functionality and methods of) the [ValidatesMultipleFieldsWithConfig](#validatesmultiplefieldswithconfig) trait.
+This validator is used to require field values to match a specific regex pattern. Often it will make sense to have this validation inside a custom `FormField` implementation, but for one-off specific pattern validation of fields that don't warrant their own `FormField` this validator is perfect. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFieldsWithConfig`](#validatesmultiplefieldswithconfig) trait.
 
 Any value that cannot be converted to a string cannot be checked against regex and so is ignored, and therefore implicitly passes validation.
 
@@ -256,7 +256,7 @@ $errorMessage = '"' . $this->getFieldLabel($formField) . '" is required';
 $this->validationError($fieldName, $errorMessage, 'required');
 ```
 
-It also has an abstract method `getValidationHints` which has implications for [client-side automated testing](./03-client-side-tests.md).
+It also has an abstract method `getValidationHints()` which has implications for [client-side automated testing](./03-client-side-tests.md).
 
 ### FieldHasValueValidator
 
@@ -273,7 +273,7 @@ $errorMessage = '"' . $this->getFieldLabel($formField) . '" is required';
 $this->validationError($fieldName, $errorMessage, 'required');
 ```
 
-The `fieldHasValue` method should correctly identify whether a field has a value or not for all `FormField`s that come packaged in Silverstripe framework itself. It's possible however that some module, or your own code, has a value format that isn't correctly covered by this module. For those situations, you can extend the functionality by implementing `updateFieldHasValue` in an `Extension` class:
+The `fieldHasValue()` method should correctly identify whether a field has a value or not for all `FormField`s that come packaged in Silverstripe framework itself. It's possible however that some module, or your own code, has a value format that isn't correctly covered by this module. For those situations, you can extend the functionality by implementing `updateFieldHasValue()` in an `Extension` class:
 
 ```yml
 Signify\ComposableValidators\Validators\FieldHasValueValidator:
@@ -347,7 +347,7 @@ Note that the field name passed should _always_ be the name of the `FormField`. 
 
 ## ValidatesMultipleFieldsWithConfig
 
-This trait is almost identical to `ValidatesMultipleFields` and has all of the same methods, except that `addField` requires two arguments (the field to be validated, and its configuration array), and `addFields` requires a configuration array for each field added.  
+This trait is almost identical to `ValidatesMultipleFields` and has all of the same methods, except that `addField()` requires two arguments (the field to be validated, and its configuration array), and `addFields()` requires a configuration array for each field added.  
 On instantiation, either no arguments (or an empty array) must be passed, or a valid array of fields with their configuration must be passed.
 
 ```php

@@ -4,9 +4,9 @@ If your project has any automated client-side tests, be it with [Behat](https://
 
 The [`AjaxCompositeValidator`](./01-validators.md#ajaxcompositevalidator) adds a `data-signify-validation-hints` attribute to any form it is added to. The value of this attribute is an empty JSON array if there is no validation, or a JSON object if there is. The JSON object has field IDs for keys with the validation requirements for that field in JSON objects for values.
 
-The abstract [`BaseValidator`](./01-validators.md#basevalidator) class provides an abstract `getValidationHints` method which must return an array. This array should contain the full validation requirements of each field that will be validated by a given validator. **You should implement this method in any custom validators you create which you intend to include in an `AjaxCompositeValidator`**.
+The abstract [`BaseValidator`](./01-validators.md#basevalidator) class provides an abstract `getValidationHints()` method which must return an array. This array should contain the full validation requirements of each field that will be validated by a given validator. **You should implement this method in any custom validators you create which you intend to include in an `AjaxCompositeValidator`**.
 
-All of the validators included in this module that perform their own validation implementations implement the `getValidationHints` method, so their validation requirements are included in the validation hints attribute.
+All of the validators included in this module that perform their own validation implementations implement the `getValidationHints()` method, so their validation requirements are included in the validation hints attribute.
 
 ## Syntax for `data-signify-validation-hints` and `getValidationHints`
 
@@ -14,7 +14,7 @@ As mentioned above, the value of this attribute is an empty JSON array if there 
 
 All validators include the field's name in the JSON object for that field. The key for that data is 'name'.
 
-All validators include a `tab` key (using the `getTabForField` method provided by `BaseValidator`) for each field being validated if the field is inside a tab. The value is the return value from calling `ID` on the tab. Note that the `TabSet.ss` template prepends this value with "tab-" for the actual ID attribute of the tab link element.  
+All validators include a `tab` key (using the `getTabForField()` method provided by `BaseValidator`) for each field being validated if the field is inside a tab. The value is the return value from calling `ID` on the tab. Note that the `TabSet.ss` template prepends this value with "tab-" for the actual ID attribute of the tab link element.  
 **See also [the known issue](#tab-sometimes-missing) relating to this.**
 
 When implementing `getValidationHints` in your own validators, make sure to document the syntax outputted by those validators so that anyone writing tests for them knows what to expect.
@@ -123,10 +123,10 @@ AjaxCompositeValidator::create()->setAddValidationHint(false);
 
 Any validation in the `validate` method of a `FormField` or `DataObject` is not currently covered by the validation hints. For any built-in `FormField`s that shouldn't be much of a problem, as the type of the field element and, for `input` elements the `type` attribute (and for non html-5 implementations of some fields the class selectors), already give clues as to the type of data that is valid.
 
-For custom validation this could be worked around by adding a `Validator` that implements `getValidationHints` and simply returns hints for that internal validation, without performing any validation of its own.
+For custom validation this could be worked around by adding a `Validator` that implements `getValidationHints()` and simply returns hints for that internal validation, without performing any validation of its own.
 
 ### Tab Sometimes Missing
 
-Sometimes the `tab` key may be missing from a field's validation hint even though the field is definitely in a tab. Unfortunately whenever `flattenFields` is called on a `FieldList`, this changes the `containerFieldList` value for that field, so while the form and the field list know where the field resides, the field thinks it is sitting inside the flattened list and doesn't know anything about the original list inside the form.
+Sometimes the `tab` key may be missing from a field's validation hint even though the field is definitely in a tab. Unfortunately whenever `flattenFields()` is called on a `FieldList`, this changes the `containerFieldList` value for that field, so while the form and the field list know where the field resides, the field thinks it is sitting inside the flattened list and doesn't know anything about the original list inside the form.
 
 This has been [raised as an issue](https://github.com/silverstripe/silverstripe-framework/issues/10054) against `silverstripe/framework` but until it is resolved, tests will have to have an alternative way of finding the field other than relying on the `tab` key in the hint object.
