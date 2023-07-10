@@ -6,7 +6,7 @@
     "watch": "mix watch",
     "package": "mix --production",
     "lint": "yarn lint-js",
-    "lint-js": "eslint src/js"
+    "lint-js": "eslint client/src/js"
   },
   "dependencies": {
     "eslint-webpack-plugin": "^2.0.0",

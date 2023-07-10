@@ -1,3 +1,4 @@
+/* global nocaptcha_handleCaptcha */
 /* eslint-disable-next-line func-names */
 (function ($) {
   function isBackendForm() {
@@ -179,14 +180,15 @@
         }
       }
       // I'm honestly not sure by what magic it happens but the form submits correctly on the
-      // backend.
+      // backend, so no action is required here.
     } else {
       // On the front-end we have to make the form submit.
+      // eslint-disable-next-line no-lonely-if, camelcase
       if (typeof nocaptcha_handleCaptcha === 'function') {
         const form = $form.get(0);
         nocaptcha_handleCaptcha(form, form.submitWithoutEvent.bind(form));
       } else {
-          $form.get(0).submitWithoutEvent();
+        $form.get(0).submitWithoutEvent();
       }
     }
   }
