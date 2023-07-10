@@ -1,9 +1,9 @@
 {
-  "name": "signify-nz/silverstripe-composable-validators",
+  "name": "guysartorelli/silverstripe-composable-validators",
   "type": "silverstripe-vendormodule",
   "license": "BSD-3-Clause",
   "description": "Adds composable form validators with reusable validation logic.",
-  "homepage": "https://github.com/signify-nz/silverstripe-composable-validators",
+  "homepage": "https://github.com/GuySartorelli/silverstripe-composable-validators",
   "keywords": [
     "silverstripe",
     "composable",
@@ -27,13 +27,19 @@
     {
       "name": "Signify Ltd",
       "homepage": "https://www.signify.co.nz/"
+    },
+    {
+      "name": "Guy Sartorelli",
+      "homepage": "https://github.com/GuySartorelli/"
     }
   ],
   "support": {
-    "issues": "https://github.com/signify-nz/silverstripe-composable-validators/issues"
+    "issues": "https://github.com/GuySartorelli/silverstripe-composable-validators/issues"
+  },
+  "replace": {
+    "signify-nz/silverstripe-composable-validators": "self.version"
   },
   "require": {
-    "silverstripe/vendor-plugin": "^1.0",
     "silverstripe/framework": "^4.7.0",
     "signify-nz/silverstripe-searchfilter-arraylist": "^1.0.0"
   },

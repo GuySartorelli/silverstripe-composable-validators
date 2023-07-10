@@ -50,10 +50,10 @@ class AjaxCompositeValidator extends CompositeValidator
     {
         if ($this->ajax) {
             Requirements::javascript(
-                'signify-nz/silverstripe-composable-validators:client/dist/AjaxCompositeValidator.js',
+                'guysartorelli/silverstripe-composable-validators:client/dist/AjaxCompositeValidator.js',
                 ['defer' => true]
             );
-            Requirements::add_i18n_javascript('signify-nz/silverstripe-composable-validators/client/lang');
+            Requirements::add_i18n_javascript('guysartorelli/silverstripe-composable-validators/client/lang');
             $action = 'httpSubmission';
             $request = $form->getRequestHandler()->getRequest();
             if ($form->getController() instanceof CMSMain) {

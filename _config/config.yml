@@ -1,5 +1,5 @@
 ---
-Name: signify-composable-validators-config
+Name: guysartorelli-composable-validators-config
 ---
 # Don't validate the NocaptchaField during AJAX validation as it can only be validated once.
 Signify\ComposableValidators\Validators\SimpleFieldsValidator:
@@ -9,4 +9,4 @@ Signify\ComposableValidators\Validators\SimpleFieldsValidator:
 # Add styling to CMS
 SilverStripe\Admin\LeftAndMain:
   extra_requirements_css:
-    - 'signify-nz/silverstripe-composable-validators:client/dist/left-and-main.css'
+    - 'guysartorelli/silverstripe-composable-validators:client/dist/left-and-main.css'
