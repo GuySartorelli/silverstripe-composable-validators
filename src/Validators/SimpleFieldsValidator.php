@@ -13,7 +13,6 @@ use SilverStripe\Forms\Validator;
  * This class is to avoid the use of, say, RequiredFields::create([]), which
  * relies on an implementation detail to ensure that fields are validated.
  */
-
 class SimpleFieldsValidator extends Validator
 {
     /**
