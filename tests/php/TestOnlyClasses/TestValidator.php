@@ -10,7 +10,6 @@ use SilverStripe\Forms\Validator;
  */
 class TestValidator extends Validator implements TestOnly
 {
-
     /**
      * Requires a specific field for test purposes.
      *

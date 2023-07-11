@@ -18,7 +18,7 @@ class GridFieldItemRequestValidationExemptionExtensionTest extends SapphireTest
     /**
      * These actions should be validation exempt if they're present.
      */
-    public function testActionsAreValidationExempt()
+    public function testActionsAreValidationExempt(): void
     {
         $itemRequest = new GridFieldDetailForm_ItemRequest(
             new GridField('testField'),

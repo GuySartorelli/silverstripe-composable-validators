@@ -18,7 +18,7 @@ class DataObjectValidationExemptionExtensionTest extends SapphireTest
     /**
      * These actions should be validation exempt if they're present.
      */
-    public function testActionsAreValidationExempt()
+    public function testActionsAreValidationExempt(): void
     {
         $page = new TestSiteTree();
         $actions = $page->getCMSActions();

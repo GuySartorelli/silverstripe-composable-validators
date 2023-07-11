@@ -52,7 +52,7 @@ class WarningFieldsValidator extends FieldHasValueValidator
      * @param array $data
      * @param FieldList $fields
      * @param string $fieldName
-     * @return boolean True if a warning is prepared for the field.
+     * @return bool True if a warning is prepared for the field.
      */
     protected function validateField($data, FieldList $fields, string $fieldName): bool
     {

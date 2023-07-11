@@ -13,7 +13,6 @@ use SilverStripe\Forms\Validator;
  * This class is to avoid the use of, say, RequiredFields::create([]), which
  * relies on an implementation detail to ensure that fields are validated.
  */
-
 class SimpleFieldsValidator extends Validator
 {
     /**
@@ -28,7 +27,7 @@ class SimpleFieldsValidator extends Validator
      * Check all fields to ensure they are internally valid.
      *
      * @param array $data
-     * @return boolean
+     * @return bool
      */
     public function php($data, bool $isAjax = false)
     {

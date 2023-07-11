@@ -17,7 +17,7 @@ class SimpleFieldsValidatorTest extends SapphireTest
         FormField::class => [FormFieldExtension::class],
     ];
 
-    private function getForm($value = null, $withValidator = true)
+    private function getForm($value = null, $withValidator = true): Form
     {
         $fieldList = new FieldList([
             $emailField = new EmailField('EmailField'),
@@ -30,7 +30,7 @@ class SimpleFieldsValidatorTest extends SapphireTest
     /**
      * If the field has an invalid value, there should be a validation error.
      */
-    public function testValidationErrorWithInvalidValue()
+    public function testValidationErrorWithInvalidValue(): void
     {
         $form = $this->getForm('not an email address');
         $result = $form->validationResult();
@@ -42,7 +42,7 @@ class SimpleFieldsValidatorTest extends SapphireTest
     /**
      * If the field has a valid value, there should be no validation error.
      */
-    public function testNoValidationErrorWithValidValue()
+    public function testNoValidationErrorWithValidValue(): void
     {
         $form = $this->getForm('email@example.com');
         $result = $form->validationResult();
@@ -56,7 +56,7 @@ class SimpleFieldsValidatorTest extends SapphireTest
      *
      * This test is basically to check if this validator is even still needed.
      */
-    public function testNoValidationErrorWithNoValidator()
+    public function testNoValidationErrorWithNoValidator(): void
     {
         $form = $this->getForm('not an email address', false);
         $form->setValidator(new CompositeValidator());
@@ -69,7 +69,7 @@ class SimpleFieldsValidatorTest extends SapphireTest
     /**
      * If the field is omitting field validation, the invalid value shouldn't be validated.
      */
-    public function testNoValidationErrorWithOmitValidation()
+    public function testNoValidationErrorWithOmitValidation(): void
     {
         $form = $this->getForm('not an email address');
         $field = $form->Fields()->dataFieldByName('EmailField');

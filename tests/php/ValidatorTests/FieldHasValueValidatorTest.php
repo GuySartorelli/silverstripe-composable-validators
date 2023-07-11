@@ -46,7 +46,7 @@ class FieldHasValueValidatorTest extends FunctionalTest
         TestSiteTree::create()->publishSingle();
     }
 
-    public function testSubmittedTextFieldValueDetection()
+    public function testSubmittedTextFieldValueDetection(): void
     {
         $result = $this->submitTestForm(
             [new TextField('TextFieldError')],
@@ -63,7 +63,7 @@ class FieldHasValueValidatorTest extends FunctionalTest
         $this->assertEquals('success', $result->getBody());
     }
 
-    public function testSubmittedSelectFieldValueDetection()
+    public function testSubmittedSelectFieldValueDetection(): void
     {
         $result = $this->submitTestForm(
             [new DropdownField('DropdownFieldError', null, [1,2,3])],
@@ -80,7 +80,7 @@ class FieldHasValueValidatorTest extends FunctionalTest
         $this->assertEquals('success', $result->getBody());
     }
 
-    public function testSubmittedMultiSelectFieldValueDetection()
+    public function testSubmittedMultiSelectFieldValueDetection(): void
     {
         $result = $this->submitTestForm(
             [new ListboxField('ListboxFieldError', null, [1,2,3])],
@@ -97,7 +97,7 @@ class FieldHasValueValidatorTest extends FunctionalTest
         $this->assertEquals('success', $result->getBody());
     }
 
-    public function testSubmittedDatetimeFieldValueDetection()
+    public function testSubmittedDatetimeFieldValueDetection(): void
     {
         $result = $this->submitTestForm(
             [new DatetimeField('DatetimeFieldError')],
@@ -114,7 +114,7 @@ class FieldHasValueValidatorTest extends FunctionalTest
         $this->assertEquals('success', $result->getBody());
     }
 
-    public function testSubmittedTreeDropdownFieldValueDetection()
+    public function testSubmittedTreeDropdownFieldValueDetection(): void
     {
         $result = $this->submitTestForm(
             [new TreeDropdownField('TreeDropdownFieldError', null, SiteTree::class)],
@@ -131,7 +131,7 @@ class FieldHasValueValidatorTest extends FunctionalTest
         $this->assertEquals('success', $result->getBody());
     }
 
-    public function testSubmittedGridFieldValueDetection()
+    public function testSubmittedGridFieldValueDetection(): void
     {
         $emptyList = new ArrayList();
         $emptyList->setDataClass(SiteTree::class);
@@ -154,7 +154,7 @@ class FieldHasValueValidatorTest extends FunctionalTest
      * If an extension class implements updateFieldHasValue and returns a boolean value, that
      * value should be respected. If it returns null, the normal value checking logic proceeds.
      */
-    public function testUpdateFieldHasValue()
+    public function testUpdateFieldHasValue(): void
     {
         TestFieldHasValueValidator::add_extension(TestFieldValueModifierExtension::class);
 

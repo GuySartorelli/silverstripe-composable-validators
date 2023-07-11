@@ -21,7 +21,7 @@ class AjaxCompositeValidator extends CompositeValidator
     /**
      * Whether the validation hint data attribute should be applied to forms.
      *
-     * @var boolean
+     * @var bool
      * @config
      */
     private static $add_validation_hint = true;
@@ -29,7 +29,7 @@ class AjaxCompositeValidator extends CompositeValidator
     /**
      * Per-instance override for add_validation_hint
      *
-     * @var boolean|null
+     * @var bool|null
      */
     private $addValidationHint;
 
@@ -121,8 +121,8 @@ class AjaxCompositeValidator extends CompositeValidator
     /**
      * Check whether this is a legitimate validation request.
      *
-     * @param boolean $validAjax
-     * @return boolean
+     * @param bool $validAjax
+     * @return bool
      */
     protected function isValidRequest(bool $validAjax): bool
     {
@@ -166,10 +166,10 @@ class AjaxCompositeValidator extends CompositeValidator
     /**
      * Set whether this validator is configured to add a validation hint to the form.
      *
-     * @param boolean $addHint
+     * @param bool $addHint
      * @return $this
      */
-    public function setAddValidationHint(bool $addHint)
+    public function setAddValidationHint(bool $addHint): self
     {
         $this->addValidationHint = $addHint;
         return $this;
@@ -178,7 +178,7 @@ class AjaxCompositeValidator extends CompositeValidator
     /**
      * True if this validator is configured to add a validation hint to the form.
      *
-     * @return boolean
+     * @return bool
      */
     public function getAddValidationHint(): bool
     {
@@ -191,10 +191,10 @@ class AjaxCompositeValidator extends CompositeValidator
     /**
      * Set whether this validator is configured to use AJAX validation.
      *
-     * @param boolean $ajax
+     * @param bool $ajax
      * @return $this
      */
-    public function setAjax(bool $ajax)
+    public function setAjax(bool $ajax): self
     {
         $this->ajax = $ajax;
         return $this;
@@ -203,7 +203,7 @@ class AjaxCompositeValidator extends CompositeValidator
     /**
      * True if this validator is configured to use AJAX validation.
      *
-     * @return boolean
+     * @return bool
      */
     public function getAjax(): bool
     {
@@ -216,7 +216,7 @@ class AjaxCompositeValidator extends CompositeValidator
      *
      * @param Form|null $oldForm
      */
-    private function addValidationHint(?Form $oldForm)
+    private function addValidationHint(?Form $oldForm): void
     {
         // Always make sure to remove the attribute in case it has been set.
         $dataAttribute = 'data-signify-validation-hints';

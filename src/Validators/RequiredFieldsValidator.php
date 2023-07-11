@@ -21,7 +21,7 @@ class RequiredFieldsValidator extends FieldHasValueValidator
      * Validates that the required fields have values.
      *
      * @param array $data
-     * @return boolean
+     * @return bool
      */
     public function php($data)
     {
@@ -45,7 +45,7 @@ class RequiredFieldsValidator extends FieldHasValueValidator
      * @param array $data
      * @param FieldList $fields
      * @param string $fieldName
-     * @return boolean True if the field has a value.
+     * @return bool True if the field has a value.
      */
     protected function validateField($data, FieldList $fields, string $fieldName): bool
     {
@@ -83,7 +83,7 @@ class RequiredFieldsValidator extends FieldHasValueValidator
      * to do things like show *s on the form template.
      *
      * @param string $fieldName
-     * @return boolean
+     * @return bool
      */
     public function fieldIsRequired($fieldName)
     {

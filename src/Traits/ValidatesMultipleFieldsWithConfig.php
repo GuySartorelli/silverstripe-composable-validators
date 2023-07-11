@@ -32,7 +32,7 @@ trait ValidatesMultipleFieldsWithConfig
      * @param string[][] $fields
      * @return $this
      */
-    public function addFields(array $fields)
+    public function addFields(array $fields): self
     {
         foreach ($fields as $field => $config) {
             $this->addField($field, $config);
@@ -47,7 +47,7 @@ trait ValidatesMultipleFieldsWithConfig
      * @param string[] $config The config for the field. See documentation for the validator as to what is valid.
      * @return $this
      */
-    public function addField(string $field, array $config)
+    public function addField(string $field, array $config): self
     {
         if (empty($config)) {
             throw new InvalidArgumentException('$config cannot be empty.');

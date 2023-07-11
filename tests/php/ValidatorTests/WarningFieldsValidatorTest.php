@@ -12,7 +12,7 @@ class WarningFieldsValidatorTest extends SapphireTest
      * If the warning field has no value, there should be a validation warning message
      * but the validation result should be valid.
      */
-    public function testValidationMessageIfEmpty()
+    public function testValidationMessageIfEmpty(): void
     {
         $form = TestFormGenerator::getForm(['FieldOne'], new WarningFieldsValidator(['FieldOne']));
         $result = $form->validationResult();
@@ -23,14 +23,15 @@ class WarningFieldsValidatorTest extends SapphireTest
         $this->assertEquals('warning', $message['messageType']);
         $this->assertEquals(
             '"' . FormField::name_to_label('FieldOne')
-            . '" has no value and will not display or be used', $message['message']
+            . '" has no value and will not display or be used',
+            $message['message']
         );
     }
 
     /**
      * If the warning field has a value, there should be no validation warning message.
      */
-    public function testNoValidationMessageIfNotEmpty()
+    public function testNoValidationMessageIfNotEmpty(): void
     {
         $form = TestFormGenerator::getForm(['FieldOne' => 'someValue'], new WarningFieldsValidator(['FieldOne']));
         $result = $form->validationResult();
@@ -42,7 +43,7 @@ class WarningFieldsValidatorTest extends SapphireTest
     /**
      * If the warning field doesn't exist, there should be no validation warning message.
      */
-    public function testNoValidationMessageIfFieldMissing()
+    public function testNoValidationMessageIfFieldMissing(): void
     {
         $form = TestFormGenerator::getForm(['FieldOne'], new WarningFieldsValidator(['MissingField']));
         $result = $form->validationResult();
@@ -54,7 +55,7 @@ class WarningFieldsValidatorTest extends SapphireTest
     /**
      * There should be no validation hints for warning field validation.
      */
-    public function testValidationHints()
+    public function testValidationHints(): void
     {
         TestFormGenerator::getForm(
             [

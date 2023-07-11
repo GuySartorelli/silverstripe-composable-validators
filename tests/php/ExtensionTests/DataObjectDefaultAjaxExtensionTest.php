@@ -14,7 +14,7 @@ class DataObjectDefaultAjaxExtensionTest extends SapphireTest
         DataObject::class => [DataObjectDefaultAjaxExtension::class],
     ];
 
-    public function testValidatorIsReplaced()
+    public function testValidatorIsReplaced(): void
     {
         $dataObject = new TestElementalBlock();
         $validator = $dataObject->getCMSCompositeValidator();

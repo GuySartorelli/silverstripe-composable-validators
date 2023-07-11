@@ -43,7 +43,7 @@ trait ValidatesMultipleFields
      * @param string[] $fields
      * @return $this
      */
-    public function addFields(array $fields)
+    public function addFields(array $fields): self
     {
         $this->fields = array_merge($this->fields, ArrayLib::valuekey($fields));
         return $this;
@@ -55,7 +55,7 @@ trait ValidatesMultipleFields
      * @param string $field
      * @return $this
      */
-    public function addField(string $field)
+    public function addField(string $field): self
     {
         $this->fields[$field] = $field;
         return $this;
@@ -67,7 +67,7 @@ trait ValidatesMultipleFields
      * @param string $field
      * @return $this
      */
-    public function removeField(string $field)
+    public function removeField(string $field): self
     {
         unset($this->fields[$field]);
         return $this;
@@ -79,7 +79,7 @@ trait ValidatesMultipleFields
      * @param string[] $fields
      * @return $this
      */
-    public function removeFields(array $fields)
+    public function removeFields(array $fields): self
     {
         foreach ($fields as $field) {
             unset($this->fields[$field]);
@@ -102,7 +102,7 @@ trait ValidatesMultipleFields
     /**
      * Declare that this validator can be cached if there are no fields to validate.
      *
-     * @return boolean
+     * @return bool
      */
     public function canBeCached(): bool
     {
