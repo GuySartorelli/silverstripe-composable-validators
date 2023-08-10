@@ -2,7 +2,7 @@
 
 namespace Signify\ComposableValidators\Validators;
 
-use SilverStripe\Forms\Validator;
+use SilverStripe\Forms\FieldsValidator;
 
 /**
  * A validator to ensure that all form fields are internally valid.
@@ -13,7 +13,7 @@ use SilverStripe\Forms\Validator;
  * This class is to avoid the use of, say, RequiredFields::create([]), which
  * relies on an implementation detail to ensure that fields are validated.
  */
-class SimpleFieldsValidator extends Validator
+class SimpleFieldsValidator extends FieldsValidator
 {
     /**
      * Array of FormField subclasses that shouldn't be validated in AJAX validation calls.
@@ -29,7 +29,7 @@ class SimpleFieldsValidator extends Validator
      * @param array $data
      * @return bool
      */
-    public function php($data, bool $isAjax = false)
+    public function php($data, bool $isAjax = false): bool
     {
         $valid = true;
         $fields = $this->form->Fields();

@@ -41,11 +41,12 @@
   },
   "require": {
     "php": "^7.3 || ^8.0",
-    "silverstripe/framework": "^4.10.0",
+    "silverstripe/framework": "^4.13.18",
     "signify-nz/silverstripe-searchfilter-arraylist": "^1.0.0"
   },
   "require-dev": {
     "silverstripe/cms": "^4.0",
+    "silverstripe/frameworktest": "^0.4.13",
     "silverstripe/asset-admin": "^1.6",
     "dnadesign/silverstripe-elemental": "^4.0",
     "phpunit/phpunit": "^9.5",
