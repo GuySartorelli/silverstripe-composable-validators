@@ -48,7 +48,7 @@ abstract class FieldHasValueValidator extends BaseValidator
         }
 
         // assume a string or integer
-        return (strlen($value)) ? true : false;
+        return (strlen($value ?? '')) ? true : false;
     }
 
     /**
