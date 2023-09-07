@@ -38,7 +38,7 @@
   },
   "require": {
     "php": "^8.1",
-    "silverstripe/framework": "^5.0.0",
+    "silverstripe/framework": "^5.0.17",
     "signify-nz/silverstripe-searchfilter-arraylist": "^1.1.0"
   },
   "require-dev": {

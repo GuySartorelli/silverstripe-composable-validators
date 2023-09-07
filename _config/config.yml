@@ -10,3 +10,8 @@ Signify\ComposableValidators\Validators\SimpleFieldsValidator:
 SilverStripe\Admin\LeftAndMain:
   extra_requirements_css:
     - 'guysartorelli/silverstripe-composable-validators:client/dist/left-and-main.css'
+
+# Replace new FieldsValidator with our SimpleFieldsValidator
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Forms\FieldsValidator:
+    class: Signify\ComposableValidators\Validators\SimpleFieldsValidator
