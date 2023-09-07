@@ -36,24 +36,17 @@
   "support": {
     "issues": "https://github.com/GuySartorelli/silverstripe-composable-validators/issues"
   },
-  "replace": {
-    "signify-nz/silverstripe-composable-validators": "self.version"
-  },
   "require": {
-    "php": "^7.3 || ^8.0",
-    "silverstripe/framework": "^4.10.0",
-    "signify-nz/silverstripe-searchfilter-arraylist": "^1.0.0"
+    "php": "^8.1",
+    "silverstripe/framework": "^5.0.0",
+    "signify-nz/silverstripe-searchfilter-arraylist": "^1.1.0"
   },
   "require-dev": {
-    "silverstripe/cms": "^4.0",
-    "silverstripe/asset-admin": "^1.6",
-    "dnadesign/silverstripe-elemental": "^4.0",
-    "phpunit/phpunit": "^9.5",
+    "silverstripe/cms": "^5",
+    "silverstripe/asset-admin": "^2",
+    "dnadesign/silverstripe-elemental": "^5",
+    "phpunit/phpunit": "^9.6",
     "squizlabs/php_codesniffer": "^3.0"
-  },
-  "conflict": {
-    "dnadesign/elemental": "< 4.0.0",
-    "undefinedoffset/silverstripe-nocaptcha": "^2.1.1 < 2.3.0"
   },
   "extra": {
     "expose": [
