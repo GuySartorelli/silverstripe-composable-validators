@@ -68,7 +68,7 @@ Like `ValidatesMultipleFields` but requires a configuration array for each field
 [10]: https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html
 [11]: docs/en/01-validators.md#warningfieldsvalidator
 [12]: docs/en/01-validators.md#dependentrequiredfieldsvalidator
-[13]: https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/
+[13]: https://docs.silverstripe.org/en/developer_guides/model/searchfilters/
 [14]: docs/en/01-validators.md#requiredblocksvalidator
 [15]: https://github.com/silverstripe/silverstripe-elemental
 [16]: docs/en/01-validators.md#regexfieldsvalidator

@@ -20,7 +20,7 @@ This validator is also extremely useful for front-end forms, as it provides clie
 
 If the [`DataObjectDefaultAjaxExtension`](./02-extensions.md#dataobjectdefaultajaxextension) extension has been applied, calling `parent::getCMSCompositeValidator()` inside the `getCMSCompositeValidator()` method will return an `AjaxCompositeValidator`, which can then be manipulated.
 
-You can also opt to just return a new `AjaxCompositeValidator` from that method - and in front-end situations, you can instantiate a new `AjaxCompositeValidator` (preferably [via injection](https://docs.silverstripe.org/en/4/developer_guides/extending/injector/) i.e. `AjaxCompositeValidator::create()`).
+You can also opt to just return a new `AjaxCompositeValidator` from that method - and in front-end situations, you can instantiate a new `AjaxCompositeValidator` (preferably [via injection](https://docs.silverstripe.org/en/developer_guides/extending/injector/) i.e. `AjaxCompositeValidator::create()`).
 
 Ajax validation can also be disabled at any stage, if there is a cause for doing so.
 
@@ -123,7 +123,7 @@ Displays a validation warning if the field(s) has no value.
 
 ## DependentRequiredFieldsValidator
 
-Allows you to define fields as being required conditionally based on the values of other fields. It uses [`SearchFilters`](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) to provide a variety of ways to compare values, depending on what causes the fields to be required. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFieldsWithConfig`](#validatesmultiplefieldswithconfig) trait.
+Allows you to define fields as being required conditionally based on the values of other fields. It uses [`SearchFilters`](https://docs.silverstripe.org/en/developer_guides/model/searchfilters/) to provide a variety of ways to compare values, depending on what causes the fields to be required. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFieldsWithConfig`](#validatesmultiplefieldswithconfig) trait.
 
 In the below example, we have fields with various levels of dependency on whether they are required or not.
 
@@ -142,9 +142,7 @@ DependentRequiredFieldsValidator::create([
 
 **Note:** All of the dependencies must be met for a field to be considered required. So in the example above, if `DependencyField` had the value "someValues" the `StartsEndsWithField` would not be marked required, because only one of its dependencies is met.
 
-The conditional checking functionality is powered by [signify-nz/silverstripe-searchfilter-arraylist](https://github.com/signify-nz/silverstripe-searchfilter-arraylist), which does provide some extensibility. You may want to check the documentation of that module.
-
-All of the `SearchFilter`s and modifiers documented in [Silverstripe's SearchFilter documentation](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) should be supported - if you find that isn't the case, please [raise an issue](https://github.com/signify-nz/silverstripe-searchfilter-arraylist/issues) (or, better yet, a pull request) against the `signify-nz/silverstripe-searchfilter-arraylist` module.
+All of the `SearchFilter`s and modifiers documented in [Silverstripe's SearchFilter documentation](https://docs.silverstripe.org/en/developer_guides/model/searchfilters/) should be supported - if you find that isn't the case, please [raise an issue](https://github.com/silverstripe/silverstripe-framework/issues) (or, better yet, a pull request) against the `siglverstripe/silverstripe-framework` module.
 
 ## RequiredBlocksValidator
 
