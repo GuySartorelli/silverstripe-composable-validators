@@ -45,6 +45,7 @@
     "silverstripe/cms": "^5",
     "silverstripe/asset-admin": "^2",
     "dnadesign/silverstripe-elemental": "^5",
+    "silverstripe/frameworktest": "^1",
     "silverstripe/recipe-testing": "^3"
   },
   "conflict": {
