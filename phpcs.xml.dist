@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="SS4">
-    <description>Coding standard for SilverStripe 4.x</description>
+    <description>Coding standard for Silverstripe 4.x</description>
 
 	<file>src</file>
 	<file>tests</file>
