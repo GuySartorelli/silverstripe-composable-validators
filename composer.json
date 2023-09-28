@@ -47,6 +47,9 @@
     "dnadesign/silverstripe-elemental": "^5",
     "silverstripe/recipe-testing": "^3"
   },
+  "conflict": {
+    "silverstripe/framework": ">=5.1.0"
+  },
   "extra": {
     "expose": [
       "client/dist",
