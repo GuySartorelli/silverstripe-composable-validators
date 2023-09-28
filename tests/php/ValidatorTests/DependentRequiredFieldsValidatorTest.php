@@ -16,8 +16,8 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      * If the dependency is not met, the field should not be required.
      *
      * Note we do not need to test all SearchFilter dependency combinations, as
-     * that functionality comes from the signify-nz/silverstripe-searchfilter-arraylist
-     * module which has unit tests for that.
+     * that functionality comes from silverstripe/framework which has its own testing
+     * for that.
      */
     public function testFieldNotRequiredIfDependencyNotMet(): void
     {
@@ -38,8 +38,8 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      * If the dependency is met, the field should be required.
      *
      * Note we do not need to test all SearchFilter dependency combinations, as
-     * that functionality comes from the signify-nz/silverstripe-searchfilter-arraylist
-     * module which has unit tests for that.
+     * that functionality comes from silverstripe/framework which has its own testing
+     * for that.
      */
     public function testFieldRequiredIfDependencyMet(): void
     {
@@ -70,8 +70,8 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
      * If the nullish dependency is met, the field should be required.
      *
      * Note we do not need to test all SearchFilter dependency combinations, as
-     * that functionality comes from the signify-nz/silverstripe-searchfilter-arraylist
-     * module which has unit tests for that.
+     * that functionality comes from silverstripe/framework which has its own testing
+     * for that.
      */
     public function testFieldRequiredIfNullishDependencyMet(): void
     {

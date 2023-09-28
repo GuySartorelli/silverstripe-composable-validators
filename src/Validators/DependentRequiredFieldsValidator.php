@@ -3,10 +3,11 @@
 namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ValidatesMultipleFieldsWithConfig;
-use Signify\SearchFilterArrayList\SearchFilterableArrayList;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\Filters\SearchFilter;
 
 /**
@@ -49,7 +50,7 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
                 $dependencyValue = $data[$dependencyFieldName];
                 $tempObj = new \stdClass();
                 $tempObj->$dependencyFieldName = $dependencyValue;
-                $filterList = SearchFilterableArrayList::create([$tempObj]);
+                $filterList = ArrayList::create([$tempObj]);
                 $isRequired = $filterList->filter($filterKey, $filterValue)->count() !== 0;
                 // If field is not required, we can stop processing it.
                 if (!$isRequired) {
@@ -104,6 +105,42 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
     }
 
     /**
+     * Ugly copypasta from SearchFilterable trait 'cause that's just easier.
+     * Don't use the trait directly 'cause if new methods are added to that trait, we don't want them here.
+     */
+    private function createSearchFilter($filter, $value)
+    {
+        // Field name is always the first component
+        $fieldArgs = explode(':', $filter);
+        $fieldName = array_shift($fieldArgs);
+        $default = 'DataListFilter.default';
+
+        // Inspect type of second argument to determine context
+        $secondArg = array_shift($fieldArgs);
+        $modifiers = $fieldArgs;
+        if (!$secondArg) {
+            // Use default SearchFilter if none specified. E.g. `->filter(['Name' => $myname])`
+            $filterServiceName = $default;
+        } else {
+            // The presence of a second argument is by default ambiguous; We need to query
+            // Whether this is a valid modifier on the default filter, or a filter itself.
+            /** @var SearchFilter $defaultFilterInstance */
+            $defaultFilterInstance = Injector::inst()->get($default);
+            if (in_array(strtolower($secondArg), $defaultFilterInstance->getSupportedModifiers() ?? [])) {
+                // Treat second (and any subsequent) argument as modifiers, using default filter
+                $filterServiceName = $default;
+                array_unshift($modifiers, $secondArg);
+            } else {
+                // Second argument isn't a valid modifier, so assume is filter identifier
+                $filterServiceName = "DataListFilter.{$secondArg}";
+            }
+        }
+
+        // Build instance
+        return Injector::inst()->create($filterServiceName, $fieldName, $value, $modifiers);
+    }
+
+    /**
      * Build the validation error message for a field based on its dependency filter.
      *
      * @param FieldList $fields
@@ -113,10 +150,9 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
      */
     protected function buildValidationMessage(FieldList $fields, string $title, array $filter): string
     {
-        $arrayList = SearchFilterableArrayList::create();
         $dependencies = [];
         foreach ($filter as $filterKey => $filterValue) {
-            $filter = $arrayList->createSearchFilter($filterKey, $filterValue);
+            $filter = $this->createSearchFilter($filterKey, $filterValue);
             $filterClass = get_class($filter);
             $dependencyField = $this->getFormField($fields, $filter->getName());
             $negated = in_array('not', $filter->getModifiers()) ? '_NEGATED' : '';
@@ -143,7 +179,7 @@ class DependentRequiredFieldsValidator extends FieldHasValueValidator
     }
 
     /**
-     * Make a containing all values for a given dependency filter.
+     * Make a string containing all values for a given dependency filter.
      *
      * @param SearchFilter $filter
      * @return string
