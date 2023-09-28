@@ -1,4 +1,4 @@
-# SilverStripe Composable Validators
+# Silverstripe Composable Validators
 
 Thank you to [Signify](https://github.com/signify-nz) for making this module possible.
 
