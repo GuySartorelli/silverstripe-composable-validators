@@ -11,12 +11,12 @@ jobs:
     uses: silverstripe/gha-ci/.github/workflows/ci.yml@v1
     with:
       extra_jobs: |
-        - php: 8.0
+        - php: 8.1
           phpunit: false
           endtoend: true
           endtoend_suite: admin
           endtoend_config: vendor/silverstripe/admin/behat.yml
-        - php: 8.1
+        - php: 8.2
           phpunit: false
           endtoend: true
           endtoend_suite: cms
