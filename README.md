@@ -2,7 +2,7 @@
 
 Thank you to [Signify](https://github.com/signify-nz) for making this module possible.
 
-This module probices a number of reusable composable validators (including AJAX validation) for use both in the CMS and in frontend forms.
+This module provides a number of reusable composable validators (including AJAX validation) for use both in the CMS and in frontend forms.
 
 Make sure you check out the [extensions documentation][0] at a minimum - some of these should be applied in almost all projects using this module.
 
