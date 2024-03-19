@@ -218,7 +218,32 @@ The `ElementalArea` field holder template doesn't currently render validation er
 
 This validator validates when the page (or other `DataObject` that has an `ElementalArea`) is saved or published - but not necessarily when the blocks within the `ElementalArea` are saved or published. This means content authors can work around the validation errors if they really want to.
 
+## ConstraintsValidator
+
+This validator validates values against `symfony/validation` constraints, providing a wide range of well-tested and varied validation logic with a very simple API.
+
+This is the ultimate one-stop-shop for form validation - just about any validation you want can be handled by this validator.
+
+```php
+use Symfony\Component\Validator\Constraints\Ip;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
+ConstraintsValidator::create([
+    // Must be an IP address or blank
+    'IpAddress' => [new Ip()],
+    // Must be an IP address and explicitly cannot be blank
+    'IpAddressRequired' => [new Ip(), new NotBlank()],
+]);
+```
+
+See the Symfony [validation constraints reference](https://symfony.com/doc/current/reference/constraints.html) for a list of contraints and their usage.
+
+See [validation using `symfony/validator` constraints](https://docs.silverstripe.org/en/developer_guides/model/validation/#symfony-validator) in the Silverstripe CMS documentation for any limitations imposed by Silverstripe CMS itself on this kind of validation.
+
 ## RegexFieldsValidator
+
+> [!WARNING]
+> Deprecated! Use `ConstraintsValidator` with a [`Regex` constraint](https://symfony.com/doc/current/reference/constraints/Regex.html) instead.
 
 This validator is used to require field values to match a specific regex pattern. Often it will make sense to have this validation inside a custom `FormField` implementation, but for one-off specific pattern validation of fields that don't warrant their own `FormField` this validator is perfect. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFieldsWithConfig`](#validatesmultiplefieldswithconfig) trait.
 

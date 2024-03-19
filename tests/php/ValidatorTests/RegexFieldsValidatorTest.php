@@ -3,6 +3,7 @@
 namespace Signify\ComposableValidators\Tests;
 
 use Signify\ComposableValidators\Validators\RegexFieldsValidator;
+use SilverStripe\Dev\Deprecation;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\FormField;
 use SilverStripe\ORM\FieldType\DBField;
@@ -16,7 +17,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         $form = TestFormGenerator::getForm(
             ['FieldOne' => 'value1'],
-            new RegexFieldsValidator(['FieldOne' => ['/no match/']])
+            Deprecation::withNoReplacement(fn () => new RegexFieldsValidator(['FieldOne' => ['/no match/']]))
         );
         $result = $form->validationResult();
         $this->assertFalse($result->isValid());
@@ -37,12 +38,12 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         $form = TestFormGenerator::getForm(
             ['FieldOne' => 'value1'],
-            new RegexFieldsValidator([
+            Deprecation::withNoReplacement(fn () => new RegexFieldsValidator([
                 'FieldOne' => [
                     '/no match/' => 'must not match',
                     '/also not match/' => 'must pass testing',
                 ]
-            ])
+            ]))
         );
         $result = $form->validationResult();
         $this->assertFalse($result->isValid());
@@ -63,7 +64,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         $form = TestFormGenerator::getForm(
             ['FieldOne' => 'value1'],
-            new RegexFieldsValidator(['FieldOne' => ['/1$/']])
+            Deprecation::withNoReplacement(fn () => new RegexFieldsValidator(['FieldOne' => ['/1$/']]))
         );
         $result = $form->validationResult();
         $this->assertTrue($result->isValid());
@@ -78,13 +79,13 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         $form = TestFormGenerator::getForm(
             ['FieldOne' => 'value1'],
-            new RegexFieldsValidator([
+            Deprecation::withNoReplacement(fn () => new RegexFieldsValidator([
                 'FieldOne' => [
                     '/no match/',
                     '/1$/',
                     '/no match 2/',
                 ],
-            ])
+            ]))
         );
         $result = $form->validationResult();
         $this->assertTrue($result->isValid());
@@ -99,7 +100,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         $form = TestFormGenerator::getForm(
             ['FieldOne' => 'value1'],
-            new RegexFieldsValidator(['MissingField' => ['/no match/']])
+            Deprecation::withNoReplacement(fn () => new RegexFieldsValidator(['MissingField' => ['/no match/']]))
         );
         $result = $form->validationResult();
         $this->assertTrue($result->isValid());
@@ -114,7 +115,9 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         TestFormGenerator::getForm(
             ['FieldOne'],
-            $validator = new RegexFieldsValidator(['FieldOne' => ['/^Value1$/']])
+            $validator = Deprecation::withNoReplacement(
+                fn () => new RegexFieldsValidator(['FieldOne' => ['/^Value1$/']])
+            )
         );
         $data = ['FieldOne' => DBField::create_field('Varchar', 'Value1')];
         // Valid when it matches.
@@ -137,7 +140,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         TestFormGenerator::getForm(
             ['FieldOne'],
-            $validator = new RegexFieldsValidator(['FieldOne' => ['/^$/']])
+            $validator = Deprecation::withNoReplacement(fn () => new RegexFieldsValidator(['FieldOne' => ['/^$/']]))
         );
         $data = ['FieldOne' => null];
         // Valid when it matches.
@@ -160,7 +163,7 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         TestFormGenerator::getForm(
             ['FieldOne'],
-            $validator = new RegexFieldsValidator(['FieldOne' => ['/12345/']])
+            $validator = Deprecation::withNoReplacement(fn () => new RegexFieldsValidator(['FieldOne' => ['/12345/']]))
         );
         $data = ['FieldOne' => 12345];
         // Valid when it matches.
@@ -183,7 +186,9 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         TestFormGenerator::getForm(
             ['FieldOne'],
-            $validator = new RegexFieldsValidator(['FieldOne' => ['/no match/']])
+            $validator = Deprecation::withNoReplacement(
+                fn () => new RegexFieldsValidator(['FieldOne' => ['/no match/']])
+            )
         );
         $valid = $validator->php(['FieldOne' => new TestUnstringable()]);
         $this->assertTrue($valid);
@@ -198,7 +203,9 @@ class RegexFieldsValidatorTest extends SapphireTest
     {
         TestFormGenerator::getForm(
             ['FieldOne'],
-            $validator = new RegexFieldsValidator(['FieldOne' => ['/no match/']])
+            $validator = Deprecation::withNoReplacement(
+                fn () => new RegexFieldsValidator(['FieldOne' => ['/no match/']])
+            )
         );
         $valid = $validator->php(['FieldOne' => ['Arbitrary value in an array']]);
         $this->assertTrue($valid);
@@ -212,26 +219,25 @@ class RegexFieldsValidatorTest extends SapphireTest
      */
     public function testValidationHints(): void
     {
+        $configFields = [
+            'Title' => [
+                '/[a-z][A-Z]/' => 'contain any letter',
+            ],
+            'Content' => [
+                '/^some value$/',
+                '/^[\d]$/',
+            ],
+            'MissingField' => [
+                '/^$/' => 'have no value',
+            ],
+        ];
         $form = TestFormGenerator::getForm(
             $formFields = [
                 'NotValidated',
                 'Title',
                 'Content',
             ],
-            $validator = new RegexFieldsValidator(
-                $configFields = [
-                    'Title' => [
-                        '/[a-z][A-Z]/' => 'contain any letter',
-                    ],
-                    'Content' => [
-                        '/^some value$/',
-                        '/^[\d]$/',
-                    ],
-                    'MissingField' => [
-                        '/^$/' => 'have no value',
-                    ],
-                ]
-            ),
+            $validator = Deprecation::withNoReplacement(fn () => new RegexFieldsValidator($configFields)),
             'Root.Test'
         );
 

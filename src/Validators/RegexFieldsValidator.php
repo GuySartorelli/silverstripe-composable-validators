@@ -4,6 +4,7 @@ namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ValidatesMultipleFieldsWithConfig;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Dev\Deprecation;
 use SilverStripe\Forms\FormField;
 
 /**
@@ -19,10 +20,20 @@ use SilverStripe\Forms\FormField;
  *
  * This validator is best used within an AjaxCompositeValidator in conjunction with
  * a SimpleFieldsValidator.
+ *
+ * @deprecated 2.3.0 Use ConstraintsValidator instead.
  */
 class RegexFieldsValidator extends BaseValidator
 {
-    use ValidatesMultipleFieldsWithConfig;
+    use ValidatesMultipleFieldsWithConfig {
+        __construct as parentConstructor;
+    }
+
+    public function __construct(array $fields = [])
+    {
+        Deprecation::notice('2.3.0', 'Use ConstraintsValidator instead', Deprecation::SCOPE_CLASS);
+        $this->parentConstructor($fields);
+    }
 
     /**
      * Validates that the fields match their regular expressions.
