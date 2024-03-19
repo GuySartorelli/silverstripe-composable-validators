@@ -38,7 +38,7 @@
   },
   "require": {
     "php": "^8.1",
-    "silverstripe/framework": "^5.1.0"
+    "silverstripe/framework": "^5.2"
   },
   "require-dev": {
     "silverstripe/cms": "^5",

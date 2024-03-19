@@ -38,21 +38,23 @@ Displays a warning if some field(s) doesn't have a value. Useful for alerting us
 Uses [`SearchFilter`s][13] to define fields as required conditionally, based on the values of other fields (e.g. only required if `OtherField` has a value greater than 25).
 - **[`RequiredBlocksValidator`][14]**  
 Require a specific [elemental block(s)][15] to exist in the `ElementalArea`, with optional minimum and maximum numbers of blocks and optional positional validation.
-- **[`RegexFieldsValidator`][16]**  
+- **[`ConstraintsValidator`][16]**  
+Validate values against [`symfony/validation` constraints](https://symfony.com/doc/current/reference/constraints.html). This is super powerful - definitely check it out.
+- **[`RegexFieldsValidator`][17]** (deprecated)  
 Ensure some field(s) matches a specified regex pattern.
 
-### [Abstract Validators][17]
+### [Abstract Validators][18]
 
-- **[`BaseValidator`][18]**  
+- **[`BaseValidator`][19]**  
 Includes methods useful for getting the actual `FormField` and its label.
-- **[`FieldHasValueValidator`][19]**  
+- **[`FieldHasValueValidator`][20]**  
 Subclass of `BaseValidator`. Useful for validators that require logic to check if a field has any value or not.
 
-## [Traits][20]
+## [Traits][21]
 
-- **[`ValidatesMultipleFields`][21]**  
+- **[`ValidatesMultipleFields`][22]**  
 Useful for validators that can be fed an array of field names to be validated.
-- **[`ValidatesMultipleFieldsWithConfig`][22]**  
+- **[`ValidatesMultipleFieldsWithConfig`][23]**  
 Like `ValidatesMultipleFields` but requires a configuration array for each field to be validated.
 
 [0]: docs/en/02-extensions.md
@@ -71,10 +73,11 @@ Like `ValidatesMultipleFields` but requires a configuration array for each field
 [13]: https://docs.silverstripe.org/en/developer_guides/model/searchfilters/
 [14]: docs/en/01-validators.md#requiredblocksvalidator
 [15]: https://github.com/silverstripe/silverstripe-elemental
-[16]: docs/en/01-validators.md#regexfieldsvalidator
-[17]: docs/en/01-validators.md#abstract-validators
-[18]: docs/en/01-validators.md#basevalidator
-[19]: docs/en/01-validators.md#fieldhasvaluevalidator
-[20]: docs/en/01-validators.md#traits
-[21]: docs/en/01-validators.md#validatesmultiplefields
-[22]: docs/en/01-validators.md#validatesmultiplefieldswithconfig
+[16]: docs/en/01-validators.md#constraintsvalidator
+[17]: docs/en/01-validators.md#regexfieldsvalidator
+[18]: docs/en/01-validators.md#abstract-validators
+[19]: docs/en/01-validators.md#basevalidator
+[20]: docs/en/01-validators.md#fieldhasvaluevalidator
+[21]: docs/en/01-validators.md#traits
+[22]: docs/en/01-validators.md#validatesmultiplefields
+[23]: docs/en/01-validators.md#validatesmultiplefieldswithconfig
