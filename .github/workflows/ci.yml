@@ -5,10 +5,15 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   ci:
     name: CI
     uses: silverstripe/gha-ci/.github/workflows/ci.yml@v1
+    permissions:
+      pull-requests: read
+      contents: write
     with:
       extra_jobs: |
         - php: 8.1
