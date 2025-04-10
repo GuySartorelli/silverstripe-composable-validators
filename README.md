@@ -40,8 +40,6 @@ Uses [`SearchFilter`s][13] to define fields as required conditionally, based on 
 Require a specific [elemental block(s)][15] to exist in the `ElementalArea`, with optional minimum and maximum numbers of blocks and optional positional validation.
 - **[`ConstraintsValidator`][16]**  
 Validate values against [`symfony/validation` constraints](https://symfony.com/doc/current/reference/constraints.html). This is super powerful - definitely check it out.
-- **[`RegexFieldsValidator`][17]** (deprecated)  
-Ensure some field(s) matches a specified regex pattern.
 
 ### [Abstract Validators][18]
 
@@ -74,7 +72,6 @@ Like `ValidatesMultipleFields` but requires a configuration array for each field
 [14]: docs/en/01-validators.md#requiredblocksvalidator
 [15]: https://github.com/silverstripe/silverstripe-elemental
 [16]: docs/en/01-validators.md#constraintsvalidator
-[17]: docs/en/01-validators.md#regexfieldsvalidator
 [18]: docs/en/01-validators.md#abstract-validators
 [19]: docs/en/01-validators.md#basevalidator
 [20]: docs/en/01-validators.md#fieldhasvaluevalidator

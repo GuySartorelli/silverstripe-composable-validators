@@ -240,29 +240,6 @@ See the Symfony [validation constraints reference](https://symfony.com/doc/curre
 
 See [validation using `symfony/validator` constraints](https://docs.silverstripe.org/en/developer_guides/model/validation/#symfony-validator) in the Silverstripe CMS documentation for any limitations imposed by Silverstripe CMS itself on this kind of validation.
 
-## RegexFieldsValidator
-
-> [!WARNING]
-> Deprecated! Use `ConstraintsValidator` with a [`Regex` constraint](https://symfony.com/doc/current/reference/constraints/Regex.html) instead.
-
-This validator is used to require field values to match a specific regex pattern. Often it will make sense to have this validation inside a custom `FormField` implementation, but for one-off specific pattern validation of fields that don't warrant their own `FormField` this validator is perfect. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFieldsWithConfig`](#validatesmultiplefieldswithconfig) trait.
-
-Any value that cannot be converted to a string cannot be checked against regex and so is ignored, and therefore implicitly passes validation.
-
-In the below example, the `NotOnlyNumbersField` field must match one of the specified regex patterns.
-
-```php
-RegexFieldsValidator::create([
-    'NotOnlyNumbersField' => [
-        '/(?!^\d+$)^.*?$/' => 'must not consist entirely of numbers',
-        '/^[\d]$/' => 'must have only one digit',
-    ]
-]);
-```
-
-**Note:** If any one of the patterns is matched, it passes validation. If none of the patterns match, all of the corresponding messages are displayed, including a generic prefix. So in the above example, if none of the patterns match the value of `NotOnlyNumbersField`, the following validation error message will display:  
-`The value for "NotOnlyNumbersField" must not consist entirely of numbers or must have only one digit`
-
 ## Abstract Validators
 
 ### BaseValidator
