@@ -7,7 +7,6 @@
   "keywords": [
     "silverstripe",
     "composable",
-    "composite",
     "CompositeValidator",
     "validator",
     "validators",
@@ -19,7 +18,6 @@
     "frontend",
     "dependent",
     "required",
-    "regex",
     "warning",
     "elemental"
   ],
@@ -37,15 +35,15 @@
     "issues": "https://github.com/GuySartorelli/silverstripe-composable-validators/issues"
   },
   "require": {
-    "php": "^8.1",
-    "silverstripe/framework": "^5.2"
+    "php": "^8.3",
+    "silverstripe/framework": "^6"
   },
   "require-dev": {
-    "silverstripe/cms": "^5",
-    "silverstripe/asset-admin": "^2",
-    "dnadesign/silverstripe-elemental": "^5",
-    "silverstripe/frameworktest": "^1",
-    "silverstripe/recipe-testing": "^3"
+    "silverstripe/cms": "^6",
+    "silverstripe/asset-admin": "^3",
+    "dnadesign/silverstripe-elemental": "^6",
+    "silverstripe/frameworktest": "^2",
+    "silverstripe/recipe-testing": "^4"
   },
   "extra": {
     "expose": [
