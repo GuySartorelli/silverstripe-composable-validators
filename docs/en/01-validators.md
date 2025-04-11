@@ -11,9 +11,9 @@ All of these validators can be used in the CMS _and_ in the front-end.
 
 Note that to use this validator on the frontend, you will need to expose `jQuery` as a global variable. To avoid providing outdated or redundant copies of jQuery this module doesn't come packaged with it.
 
-As of Silverstripe 4.7.0, all `DataObject`s have a [`CompositeValidator`](https://api.silverstripe.org/4/SilverStripe/Forms/CompositeValidator.html) automatically for CMS forms. The `AjaxCompositeValidator` is a subclass of that validator and provides AJAX validation that takes affect prior to form submission. When you click a form action that isn't validation exempt, an AJAX request is made to validate the form _prior_ to form submission. If there are any validation errors, form submission will be blocked and validation messages displayed.
+All `DataObject`s have a [`CompositeValidator`](https://api.silverstripe.org/6/SilverStripe/Forms/Validation/CompositeValidator.html) automatically for CMS forms. The `AjaxCompositeValidator` is a subclass of that validator and provides AJAX validation that takes affect prior to form submission. When you click a form action that isn't validation exempt, an AJAX request is made to validate the form _prior_ to form submission. If there are any validation errors, form submission will be blocked and validation messages displayed.
 
-This is useful for situations where data can be lost with the normal Silverstripe validation pipeline (e.g. validating fields on a page that has an [elemental area](https://github.com/silverstripe/silverstripe-elemental) - see [this issue](https://github.com/silverstripe/silverstripe-elemental/issues/764)), and is also faster as it doesn't need to reload the form after validating to display the error messages.
+This is typically faster as it doesn't need to reload and re-render the form after validating to display the error messages.
 
 This validator is also extremely useful for front-end forms, as it provides client-side-esque validation without having to re-write all of your validation logic. It even checks for Google Recaptcha v2, and will produce an error if it identifies that a Recaptcha v2 exists for the form but was not completed.
 
@@ -22,7 +22,7 @@ This validator is also extremely useful for front-end forms, as it provides clie
 > [!HINT]
 > See the [optional configuration](./02-extensions.md) for information about replacing the default `CompositeValidator` with `AjaxCompositeValidator`.
 
-You can also opt to just return a new `AjaxCompositeValidator` from that method - and in front-end situations, you can instantiate a new `AjaxCompositeValidator` (preferably [via injection](https://docs.silverstripe.org/en/developer_guides/extending/injector/) i.e. `AjaxCompositeValidator::create()`).
+You can also opt to just return a new `AjaxCompositeValidator` from `getCMSCompositeValidator()` - and in front-end situations, you can instantiate a new `AjaxCompositeValidator` (preferably [via injection](https://docs.silverstripe.org/en/developer_guides/extending/injector/) i.e. `AjaxCompositeValidator::create()`).
 
 Ajax validation can also be disabled at any stage, if there is a cause for doing so.
 
