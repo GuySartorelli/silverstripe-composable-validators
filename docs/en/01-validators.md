@@ -6,7 +6,8 @@ All of these validators can be used in the CMS _and_ in the front-end.
 
 ## AjaxCompositeValidator
 
-**Important:** See the [extensions docs](./02-extensions.md) for extensions that are highly recommended if you intend to use this validator.
+> [!IMPORTANT]
+> See the [extensions docs](./02-extensions.md) for extensions that are highly recommended if you intend to use this validator.
 
 Note that to use this validator on the frontend, you will need to expose `jQuery` as a global variable. To avoid providing outdated or redundant copies of jQuery this module doesn't come packaged with it.
 
@@ -18,15 +19,15 @@ This validator is also extremely useful for front-end forms, as it provides clie
 
 ### Usage
 
-If the [`DataObjectDefaultAjaxExtension`](./02-extensions.md#dataobjectdefaultajaxextension) extension has been applied, calling `parent::getCMSCompositeValidator()` inside the `getCMSCompositeValidator()` method will return an `AjaxCompositeValidator`, which can then be manipulated.
+> [!HINT]
+> See the [optional configuration](./02-extensions.md) for information about replacing the default `CompositeValidator` with `AjaxCompositeValidator`.
 
 You can also opt to just return a new `AjaxCompositeValidator` from that method - and in front-end situations, you can instantiate a new `AjaxCompositeValidator` (preferably [via injection](https://docs.silverstripe.org/en/developer_guides/extending/injector/) i.e. `AjaxCompositeValidator::create()`).
 
 Ajax validation can also be disabled at any stage, if there is a cause for doing so.
 
 ```PHP
-// This example assumes use of the validator in the CMS, with the DataObjectDefaultAjaxExtension extension applied.
-// If this was for frontend use, you would be well-advised to explicitly include a SimpleFieldsValidator.
+// This example assumes use of the validator in the CMS, with the optional configuration applied.
 public function getCMSCompositeValidator(): CompositeValidator
 {
     $validator = parent::getCMSCompositeValidator();
@@ -57,11 +58,6 @@ Some actions (such as delete, archive, and restore) should be allowed even if th
 This is a composable replacement for [`RequiredFields`](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFields`](#validatesmultiplefields) trait.
 
 Displays a validation error if the field(s) has no value.
-
-### Known Issues
-
-While this validator can be used to require data in `GridField`s, as of writing this documentation GridFields don't display validation errors. This [was resolved](https://github.com/silverstripe/silverstripe-framework/pull/10015) in Silverstripe 4.10.0, but for anyone using an older version in the meantime [an extension](./02-extensions.md#gridfieldmessagesextension) is included with this module to fix this problem. The `AjaxCompositeValidator` will display validation error messages against GridFields even without that extension.  
-This applies to the `WarningFieldsValidator` as well.
 
 ## WarningFieldsValidator
 

@@ -21,8 +21,7 @@ use SilverStripe\Core\Validation\ConstraintValidator;
  *
  * See https://symfony.com/doc/current/reference/constraints.html for a list of constraints.
  *
- * This validator is best used within an AjaxCompositeValidator in conjunction with
- * a SimpleFieldsValidator.
+ * This validator is best used within an AjaxCompositeValidator
  */
 class ConstraintsValidator extends BaseValidator
 {
