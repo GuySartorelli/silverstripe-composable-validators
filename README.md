@@ -28,8 +28,6 @@ If you're using the `AjaxCompositeValidator` on a form that uses [undefinedoffse
 
 - **[`AjaxCompositeValidator`][5]**  
 Subclass of [`CompositeValidator`][6] that provides AJAX validation. Resolves [an issue with losing data][7], faster turn-around for fixing validation problems, and provides a way to use the same validation for 'client-side' validation of frontend forms.
-- **[`SimpleFieldsValidator`][8]**  
-Ensures the internal validation of form fields by calling `validate()` on them.
 - **[`RequiredFieldsValidator`][9]**  
 Like Silverstripe's [`RequiredFields`][10] validator, but more convenient for use in a `CompositeValidator`.
 - **[`WarningFieldsValidator`][11]**  
@@ -63,7 +61,6 @@ Like `ValidatesMultipleFields` but requires a configuration array for each field
 [5]: docs/en/01-validators.md#ajaxcompositevalidator
 [6]: https://api.silverstripe.org/4/SilverStripe/Forms/CompositeValidator.html
 [7]: https://github.com/silverstripe/silverstripe-elemental/issues/764
-[8]: docs/en/01-validators.md#simplefieldsvalidator
 [9]: docs/en/01-validators.md#requiredfieldsvalidator
 [10]: https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html
 [11]: docs/en/01-validators.md#warningfieldsvalidator

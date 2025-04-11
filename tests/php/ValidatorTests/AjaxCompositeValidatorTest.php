@@ -4,7 +4,6 @@ namespace Signify\ComposableValidators\Tests;
 
 use Signify\ComposableValidators\Validators\AjaxCompositeValidator;
 use Signify\ComposableValidators\Validators\RequiredFieldsValidator;
-use Signify\ComposableValidators\Validators\SimpleFieldsValidator;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\Form;
@@ -63,7 +62,7 @@ class AjaxCompositeValidatorTest extends SapphireTest
     {
         $compositeValidator = new AjaxCompositeValidator();
         $compositeValidator->addValidators([
-            $validator1 = new SimpleFieldsValidator(),
+            $validator1 = new SimpleFieldsValidator(), // @TODO replace with another
             $validator2 = new RequiredFieldsValidator(),
         ]);
 
@@ -71,7 +70,7 @@ class AjaxCompositeValidatorTest extends SapphireTest
         $this->assertCount(2, $compositeValidator->getValidators());
         // Check that the exact instances exist in the validator.
         $this->assertTrue($validator1 === array_values(
-            $compositeValidator->getValidatorsByType(SimpleFieldsValidator::class)
+            $compositeValidator->getValidatorsByType(SimpleFieldsValidator::class) // @TODO replace with another
         )[0]);
         $this->assertTrue($validator2 === array_values(
             $compositeValidator->getValidatorsByType(RequiredFieldsValidator::class)
@@ -88,10 +87,10 @@ class AjaxCompositeValidatorTest extends SapphireTest
         // Confirm validator starts empty.
         $this->assertCount(0, $compositeValidator->getValidators());
         // One validator should be created and added.
-        $simpleFieldsValidator1 = $compositeValidator->getOrAddValidatorByType(SimpleFieldsValidator::class);
+        $simpleFieldsValidator1 = $compositeValidator->getOrAddValidatorByType(SimpleFieldsValidator::class); // @TODO replace with another
         $this->assertCount(1, $compositeValidator->getValidators());
         // The validator previously created should be fetched, rather than instantiating a new one.
-        $simpleFieldsValidator2 = $compositeValidator->getOrAddValidatorByType(SimpleFieldsValidator::class);
+        $simpleFieldsValidator2 = $compositeValidator->getOrAddValidatorByType(SimpleFieldsValidator::class); // @TODO replace with another
         $this->assertCount(1, $compositeValidator->getValidators());
         // Confirm both simple fields validators are the exact same instance.
         $this->assertTrue($simpleFieldsValidator1 === $simpleFieldsValidator2);

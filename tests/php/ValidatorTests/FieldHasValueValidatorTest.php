@@ -2,7 +2,6 @@
 
 namespace Signify\ComposableValidators\Tests;
 
-use Signify\ComposableValidators\Validators\SimpleFieldsValidator;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Dev\FunctionalTest;
@@ -32,7 +31,6 @@ class FieldHasValueValidatorTest extends FunctionalTest
     {
         $controller = Controller::singleton(TestValidationController::class);
         TestValidationController::$fields = $fields;
-        TestValidationController::$validators[] = new SimpleFieldsValidator();
         TestValidationController::$validators[] = $validator = new TestFieldHasValueValidator();
         $validator->fields = $validateFields;
         $this->get($controller->Link());

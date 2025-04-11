@@ -18,8 +18,7 @@ use SilverStripe\ORM\Filters\SearchFilter;
  * 'DependencyField' starts with the string 'some':
  * $validator->addField('StartsWithField', ['DependencyField:StartsWith' => 'some']);
  *
- * This validator is best used within an AjaxCompositeValidator in conjunction with
- * a SimpleFieldsValidator.
+ * This validator is best used within an AjaxCompositeValidator
  */
 class DependentRequiredFieldsValidator extends FieldHasValueValidator
 {

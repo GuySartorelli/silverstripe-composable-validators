@@ -17,8 +17,7 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
      * A minimum and/or maximum number of blocks of each class can be set, as well as the
      * positions within the elemental area in which those blocks must sit.
      *
-     * This validator is best used within an AjaxCompositeValidator in conjunction with
-     * a SimpleFieldsValidator.
+     * This validator is best used within an AjaxCompositeValidator
      */
     class RequiredBlocksValidator extends BaseValidator
     {

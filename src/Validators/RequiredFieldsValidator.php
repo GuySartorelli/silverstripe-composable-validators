@@ -10,8 +10,7 @@ use SilverStripe\Forms\FormField;
 /**
  * A validator used to ensure certain required fields have values.
  *
- * This validator is best used within an AjaxCompositeValidator in conjunction with
- * a SimpleFieldsValidator.
+ * This validator is best used within an AjaxCompositeValidator
  */
 class RequiredFieldsValidator extends FieldHasValueValidator
 {

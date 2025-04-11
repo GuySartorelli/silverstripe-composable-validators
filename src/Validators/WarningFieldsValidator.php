@@ -10,8 +10,7 @@ use SilverStripe\ORM\ValidationResult;
 /**
  * A validator used to display warnings if certain fields do not have values.
  *
- * This validator is best used within an AjaxCompositeValidator in conjunction with
- * a SimpleFieldsValidator.
+ * This validator is best used within an AjaxCompositeValidator
  */
 class WarningFieldsValidator extends FieldHasValueValidator
 {

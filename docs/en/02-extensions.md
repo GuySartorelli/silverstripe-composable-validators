@@ -51,4 +51,4 @@ Provides the action used for AJAX validation via the [`AjaxCompositeValidator`](
 
 ## FormFieldExtension
 
-Provides the `setOmitFieldValidation()` and `getOmitFieldValidation()` methods to determine if fields should be validated by the [`SimpleFieldsValidator`](./01-validators.md#simplefieldsvalidator).
+Provides the `setOmitFieldValidation()` and `getOmitFieldValidation()` methods to determine if `validate()` should be called on the `FormField` instances in `Form::validate()`
