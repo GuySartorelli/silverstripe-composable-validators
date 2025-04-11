@@ -14,10 +14,6 @@ abstract class FieldHasValueValidator extends BaseValidator
 {
     /**
      * Check if a field has a value in the given data array.
-     *
-     * @param array $data
-     * @param FormField $formField
-     * @return bool
      */
     protected function fieldHasValue(array $data, FormField $formField): bool
     {
@@ -55,13 +51,8 @@ abstract class FieldHasValueValidator extends BaseValidator
      * Call an extension method and if any Extension returns a boolean value, return that value.
      * If any Extension returns false, that takes priority over any Extensions returning true. This
      * way any Extension saying the field is invalid will ensure a validation error message displays.
-     *
-     * @param string $methodName
-     * @param FormField $formField
-     * @param mixed $value
-     * @return bool|null
      */
-    private function extendedHas(string $methodName, FormField $formField, $value)
+    private function extendedHas(string $methodName, FormField $formField, mixed $value): ?bool
     {
         $results = $this->extend($methodName, $formField, $value);
         if ($results && is_array($results)) {

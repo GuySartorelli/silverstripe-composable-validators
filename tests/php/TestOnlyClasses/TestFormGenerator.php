@@ -7,7 +7,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\TabSet;
 use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\Validator;
+use SilverStripe\Forms\Validation\Validator;
 
 class TestFormGenerator implements TestOnly
 {
@@ -15,11 +15,8 @@ class TestFormGenerator implements TestOnly
      * Common method for setting up a test form.
      *
      * @param string[] $fieldNames
-     * @param Validator|null $validator
-     * @param string|null $tab
-     * @return Form
      */
-    public static function getForm(array $fieldNames = [], ?Validator $validator = null, $tab = null)
+    public static function getForm(array $fieldNames = [], ?Validator $validator = null, ?string $tab = null): Form
     {
         $fieldList = new FieldList();
         if ($tab) {

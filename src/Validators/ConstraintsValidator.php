@@ -31,9 +31,8 @@ class ConstraintsValidator extends BaseValidator
      * Validates that the required blocks exist in the configured positions.
      *
      * @param array $data
-     * @return bool
      */
-    public function php($data)
+    public function php($data): bool
     {
         foreach ($this->getFields() as $fieldName => $constraint) {
             $value = isset($data[$fieldName]) ? $data[$fieldName] : null;

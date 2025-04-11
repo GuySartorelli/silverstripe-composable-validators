@@ -3,7 +3,6 @@
 namespace Signify\ComposableValidators\Tests;
 
 use Signify\ComposableValidators\Validators\FieldHasValueValidator;
-use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Dev\TestOnly;
 use SilverStripe\Forms\FormField;
 

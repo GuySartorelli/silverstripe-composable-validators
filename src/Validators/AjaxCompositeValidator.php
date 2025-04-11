@@ -4,10 +4,10 @@ namespace Signify\ComposableValidators\Validators;
 
 use SilverStripe\CMS\Controllers\CMSMain;
 use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Forms\CompositeValidator;
+use SilverStripe\Core\ArrayLib;
 use SilverStripe\Forms\Form;
-use SilverStripe\Forms\Validator;
-use SilverStripe\ORM\ArrayLib;
+use SilverStripe\Forms\Validation\CompositeValidator;
+use SilverStripe\Forms\Validation\Validator;
 use SilverStripe\View\Requirements;
 
 /**
@@ -20,33 +20,23 @@ class AjaxCompositeValidator extends CompositeValidator
 {
     /**
      * Whether the validation hint data attribute should be applied to forms.
-     *
-     * @var bool
-     * @config
      */
-    private static $add_validation_hint = true;
+    private static bool $add_validation_hint = true;
 
     /**
      * Per-instance override for add_validation_hint
-     *
-     * @var bool|null
      */
-    private $addValidationHint;
+    private ?bool $addValidationHint = null;
 
     /**
      * Whether ajax validation should be used.
-     *
-     * @var bool
      */
-    private $ajax = true;
+    private bool $ajax = true;
 
     /**
      * Sends the form to each validator
-     *
-     * @param Form $form
-     * @return AjaxCompositeValidator
      */
-    public function setForm($form)
+    public function setForm(Form $form): static
     {
         if ($this->ajax) {
             Requirements::javascript(
@@ -91,7 +81,6 @@ class AjaxCompositeValidator extends CompositeValidator
      * Add multiple Validators at once.
      *
      * @param Validator[] $validator
-     * @return CompositeValidator
      */
     public function addValidators(array $validators): CompositeValidator
     {
@@ -105,7 +94,6 @@ class AjaxCompositeValidator extends CompositeValidator
      * Get a validator if one by that type exists - otherwise, create and add a new one.
      *
      * @param string $validatorClass The class of the validator to get or create.
-     * @return Validator The existing or new validator.
      */
     public function getOrAddValidatorByType(string $validatorClass): Validator
     {
@@ -120,9 +108,6 @@ class AjaxCompositeValidator extends CompositeValidator
 
     /**
      * Check whether this is a legitimate validation request.
-     *
-     * @param bool $validAjax
-     * @return bool
      */
     protected function isValidRequest(bool $validAjax): bool
     {
@@ -141,8 +126,6 @@ class AjaxCompositeValidator extends CompositeValidator
 
     /**
      * Get the HTTPRequest used to submit the form or perform validation.
-     *
-     * @return HTTPRequest|null
      */
     protected function getRequest(): ?HTTPRequest
     {
@@ -165,9 +148,6 @@ class AjaxCompositeValidator extends CompositeValidator
 
     /**
      * Set whether this validator is configured to add a validation hint to the form.
-     *
-     * @param bool $addHint
-     * @return $this
      */
     public function setAddValidationHint(bool $addHint): self
     {
@@ -177,8 +157,6 @@ class AjaxCompositeValidator extends CompositeValidator
 
     /**
      * True if this validator is configured to add a validation hint to the form.
-     *
-     * @return bool
      */
     public function getAddValidationHint(): bool
     {
@@ -190,9 +168,6 @@ class AjaxCompositeValidator extends CompositeValidator
 
     /**
      * Set whether this validator is configured to use AJAX validation.
-     *
-     * @param bool $ajax
-     * @return $this
      */
     public function setAjax(bool $ajax): self
     {
@@ -202,8 +177,6 @@ class AjaxCompositeValidator extends CompositeValidator
 
     /**
      * True if this validator is configured to use AJAX validation.
-     *
-     * @return bool
      */
     public function getAjax(): bool
     {
@@ -213,8 +186,6 @@ class AjaxCompositeValidator extends CompositeValidator
     /**
      * Add a typehint data attribute that indicates what validation is necessary.
      * This is useful to ensure automated tests know what values will be valid for which fields.
-     *
-     * @param Form|null $oldForm
      */
     private function addValidationHint(?Form $oldForm): void
     {

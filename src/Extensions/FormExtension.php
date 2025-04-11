@@ -10,12 +10,8 @@ class FormExtension extends Extension
 {
     /**
      * The actual action used to trigger AJAX validation.
-     *
-     * @param array $data
-     * @param Form $form
-     * @return HTTPResponse
      */
-    public function app_ajaxValidate($data, $form)
+    public function app_ajaxValidate(array $data, Form $form): HTTPResponse
     {
         $msg = null;
         $result = $form->getValidator()->validate(true);

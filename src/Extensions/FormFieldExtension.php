@@ -5,31 +5,31 @@ namespace Signify\ComposableValidators\Extensions;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\FormField;
 
+/**
+ * @extends Extension<FormField>
+ */
 class FormFieldExtension extends Extension
 {
-    private $omitFieldValidation = [];
+    private array $omitFieldValidation = [];
 
     /**
      * Determine whether this field should be ommitted in SimpleFieldValidator validation.
-     *
-     * @param bool $omit
-     * @return FormField
      */
     public function setOmitFieldValidation(bool $omit): FormField
     {
-        $this->omitFieldValidation[$this->owner->getName()] = $omit;
-        return $this->owner;
+        $owner = $this->getOwner();
+        $this->omitFieldValidation[$owner->getName()] = $omit;
+        return $owner;
     }
 
     /**
      * Get whether this field should be ommitted in SimpleFieldValidator validation.
-     *
-     * @return bool
      */
     public function getOmitFieldValidation(): bool
     {
-        if (isset($this->omitFieldValidation[$this->owner->getName()])) {
-            return $this->omitFieldValidation[$this->owner->getName()];
+        $ownerName = $this->getOwner()->getName();
+        if (isset($this->omitFieldValidation[$ownerName])) {
+            return $this->omitFieldValidation[$ownerName];
         }
         return false;
     }

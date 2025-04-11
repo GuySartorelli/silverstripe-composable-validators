@@ -3,9 +3,9 @@
 namespace Signify\ComposableValidators\Validators;
 
 use Signify\ComposableValidators\Traits\ValidatesMultipleFields;
+use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField;
-use SilverStripe\ORM\ValidationResult;
 
 /**
  * A validator used to display warnings if certain fields do not have values.
@@ -21,9 +21,8 @@ class WarningFieldsValidator extends FieldHasValueValidator
      * If any field doesn't have a value, a warning message is displayed.
      *
      * @param array $data
-     * @return true
      */
-    public function php($data)
+    public function php($data): true
     {
         $warning = false;
         $fields = $this->form->Fields();
@@ -49,8 +48,6 @@ class WarningFieldsValidator extends FieldHasValueValidator
      * Check if the field has a value, and prepare a warning if not.
      *
      * @param array $data
-     * @param FieldList $fields
-     * @param string $fieldName
      * @return bool True if a warning is prepared for the field.
      */
     protected function validateField($data, FieldList $fields, string $fieldName): bool

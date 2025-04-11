@@ -2,17 +2,15 @@
 
 namespace Signify\ComposableValidators\Traits;
 
+use SilverStripe\Core\ArrayLib;
 use SilverStripe\Forms\FormField;
-use SilverStripe\ORM\ArrayLib;
 
 trait ValidatesMultipleFields
 {
     /**
      * List of fields which will be validated.
-     *
-     * @var array
      */
-    protected $fields = [];
+    protected array $fields = [];
 
     public function __construct()
     {
@@ -30,7 +28,7 @@ trait ValidatesMultipleFields
     /**
      * Get the list of fields that will be validated.
      *
-     * @return string[] $fields
+     * @return string[]
      */
     public function getFields(): array
     {
@@ -41,7 +39,6 @@ trait ValidatesMultipleFields
      * Adds multiple fields to be validated.
      *
      * @param string[] $fields
-     * @return $this
      */
     public function addFields(array $fields): self
     {
@@ -51,9 +48,6 @@ trait ValidatesMultipleFields
 
     /**
      * Adds a single field to be validated.
-     *
-     * @param string $field
-     * @return $this
      */
     public function addField(string $field): self
     {
@@ -63,9 +57,6 @@ trait ValidatesMultipleFields
 
     /**
      * Removes a field from the validator.
-     *
-     * @param string $field
-     * @return $this
      */
     public function removeField(string $field): self
     {
@@ -77,7 +68,6 @@ trait ValidatesMultipleFields
      * Removes multiple fields from the validator.
      *
      * @param string[] $fields
-     * @return $this
      */
     public function removeFields(array $fields): self
     {
@@ -89,10 +79,8 @@ trait ValidatesMultipleFields
 
     /**
      * Clears all the validation from this object.
-     *
-     * @return $this
      */
-    public function removeValidation()
+    public function removeValidation(): self
     {
         parent::removeValidation();
         $this->fields = [];
@@ -101,8 +89,6 @@ trait ValidatesMultipleFields
 
     /**
      * Declare that this validator can be cached if there are no fields to validate.
-     *
-     * @return bool
      */
     public function canBeCached(): bool
     {
@@ -111,10 +97,8 @@ trait ValidatesMultipleFields
 
     /**
      * Debug helper
-     *
-     * @return string
      */
-    public function debug()
+    public function debug(): string
     {
         if (!is_array($this->fields)) {
             return false;
