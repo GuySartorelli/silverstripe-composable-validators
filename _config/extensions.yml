@@ -4,7 +4,3 @@ Name: signify-composable-validators-extensions
 SilverStripe\Forms\Form:
   extensions:
     - Signify\ComposableValidators\Extensions\FormExtension
-
-SilverStripe\Forms\FormField:
-  extensions:
-    - Signify\ComposableValidators\Extensions\FormFieldExtension

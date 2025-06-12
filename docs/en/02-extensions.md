@@ -35,7 +35,3 @@ These extensions are already applied by default. They shouldn't interfere with a
 ## FormExtension
 
 Provides the action used for AJAX validation via the [`AjaxCompositeValidator`](./01-validators.md#ajaxcompositevalidator).
-
-## FormFieldExtension
-
-Provides the `setOmitFieldValidation()` and `getOmitFieldValidation()` methods to determine if `validate()` should be called on the `FormField` instances in `Form::validate()`
