@@ -3,7 +3,8 @@
 namespace Signify\ComposableValidators\Tests;
 
 use Signify\ComposableValidators\Validators\AjaxCompositeValidator;
-use Signify\ComposableValidators\Validators\RequiredFieldsValidator;
+use Signify\ComposableValidators\Validators\DependentRequiredFieldsValidator;
+use Signify\ComposableValidators\Validators\WarningFieldsValidator;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\Form;
@@ -62,18 +63,18 @@ class AjaxCompositeValidatorTest extends SapphireTest
     {
         $compositeValidator = new AjaxCompositeValidator();
         $compositeValidator->addValidators([
-            $validator1 = new SimpleFieldsValidator(), // @TODO replace with another
-            $validator2 = new RequiredFieldsValidator(),
+            $validator1 = new DependentRequiredFieldsValidator(),
+            $validator2 = new WarningFieldsValidator(),
         ]);
 
         // Check that two validators are added.
         $this->assertCount(2, $compositeValidator->getValidators());
         // Check that the exact instances exist in the validator.
         $this->assertTrue($validator1 === array_values(
-            $compositeValidator->getValidatorsByType(SimpleFieldsValidator::class) // @TODO replace with another
+            $compositeValidator->getValidatorsByType(DependentRequiredFieldsValidator::class)
         )[0]);
         $this->assertTrue($validator2 === array_values(
-            $compositeValidator->getValidatorsByType(RequiredFieldsValidator::class)
+            $compositeValidator->getValidatorsByType(WarningFieldsValidator::class)
         )[0]);
     }
 
@@ -97,7 +98,7 @@ class AjaxCompositeValidatorTest extends SapphireTest
     }
 
     /**
-     * Get an instance of AjaxCompositeValidator with two RequiredFieldsValidators.
+     * Get an instance of AjaxCompositeValidator with two WarningFieldsValidators.
      *
      * @return AjaxCompositeValidator
      */
@@ -105,8 +106,8 @@ class AjaxCompositeValidatorTest extends SapphireTest
     {
         $compositeValidator = new AjaxCompositeValidator();
         $compositeValidator->addValidators([
-            new RequiredFieldsValidator('FieldOne'),
-            new RequiredFieldsValidator('FieldTwo'),
+            new WarningFieldsValidator('FieldOne'),
+            new WarningFieldsValidator('FieldTwo'),
         ]);
         return $compositeValidator;
     }

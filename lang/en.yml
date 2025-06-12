@@ -36,7 +36,5 @@ en:
     TOP: 'top'
     UNKNOWN_ERROR: "Unknown error for the '{blockType}' block."
     VALIDATION_ERRORS: 'The following elemental block validation errors must be resolved:'
-  Signify\ComposableValidators\Validators\RequiredFieldsValidator:
-    FIELD_IS_REQUIRED: '{name} is required'
   Signify\ComposableValidators\Validators\WarningFieldsValidator:
     WARNING: '{name} has no value and will not display or be used'

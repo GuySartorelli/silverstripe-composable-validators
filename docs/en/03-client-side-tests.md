@@ -19,20 +19,6 @@ All validators include a `tab` key (using the `getTabForField()` method provided
 
 When implementing `getValidationHints` in your own validators, make sure to document the syntax outputted by those validators so that anyone writing tests for them knows what to expect.
 
-### [RequiredFieldsValidator](./01-validators.md#requiredfieldsvalidator)
-
-This validator simply provides a `required` key, which is always true for all fields that are required in this validator.
-
-```JSON
-{
-    "Form_EditForm_SomeField": {
-        "name": "SomeField",
-        "tab": "Root_Main",
-        "required": true
-    }
-}
-```
-
 ### [DependentRequiredFieldsValidator](./01-validators.md#dependentrequiredfieldsvalidator)
 
 This validator provides a `dependencies` key, the value for which is another JSON object. This JSON object is a direct output from the dependencies php array entered into the validator for that field, with its `SearchFilter` syntax as keys and value(s) for the filter to match against as the values.

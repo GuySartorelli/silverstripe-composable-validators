@@ -53,15 +53,9 @@ public function getCMSCompositeValidator(): CompositeValidator
 
 Some actions (such as delete, archive, and restore) should be allowed even if the data is not valid (we should be allowed to delete an object _especially_ if its data is invalid), but those actions are not validation exempt by default. [Two extensions](./02-extensions.md#dataobjectvalidationexemptionextension-and-gridfielditemrequestvalidationexemptionextension) are provided with this module to remedy this and we strongly recommend applying them.
 
-## RequiredFieldsValidator
-
-This is a composable replacement for [`RequiredFields`](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFields`](#validatesmultiplefields) trait.
-
-Displays a validation error if the field(s) has no value.
-
 ## WarningFieldsValidator
 
-Similar to `RequiredFieldsValidator` except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFields`](#validatesmultiplefields) trait.
+Similar to [`RequiredFieldsValidator`](https://api.silverstripe.org/6/SilverStripe/Forms/Validation/RequiredFields.html) except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFields`](#validatesmultiplefields) trait.
 
 This can be very useful for alerting users about data that is technically valid but may not provide the results they expect.
 
@@ -206,7 +200,7 @@ It also has an abstract method `getValidationHints()` which has implications for
 
 ### FieldHasValueValidator
 
-This abstract class is itself a subclass of `BaseValidator`, and is useful as a superclass for any validator that needs to check if fields have a value. This functionality is used in the [`RequiredFieldsValidator`](#requiredfieldsvalidator), [`WarningFieldsValidator`](#warningfieldsvalidator), and [`DependentRequiredFieldsValidator`](#dependentrequiredfieldsvalidator).
+This abstract class is itself a subclass of `BaseValidator`, and is useful as a superclass for any validator that needs to check if fields have a value. This functionality is used in the [`WarningFieldsValidator`](#warningfieldsvalidator) and [`DependentRequiredFieldsValidator`](#dependentrequiredfieldsvalidator).
 
 ```php
 // Get the actual FormField for the named field.
@@ -254,7 +248,7 @@ class MyFieldValueExtension extends Extension
 
 ## ValidatesMultipleFields
 
-This trait is used in both the [`RequiredFieldsValidator`](#requiredfieldsvalidator) and [`WarningFieldsValidator`](#warningfieldsvalidator). It is useful for any validator that can be fed an array of field names that need to be validated.
+This trait is used in the [`WarningFieldsValidator`](#warningfieldsvalidator). It is useful for any validator that can be fed an array of field names that need to be validated.
 
 ### Usage
 

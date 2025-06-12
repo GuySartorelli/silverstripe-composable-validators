@@ -28,8 +28,6 @@ If you're using the `AjaxCompositeValidator` on a form that uses [undefinedoffse
 
 - **[`AjaxCompositeValidator`][5]**  
 Subclass of [`CompositeValidator`][6] that provides AJAX validation. Resolves [an issue with losing data][7], faster turn-around for fixing validation problems, and provides a way to use the same validation for 'client-side' validation of frontend forms.
-- **[`RequiredFieldsValidator`][9]**  
-Like Silverstripe's [`RequiredFields`][10] validator, but more convenient for use in a `CompositeValidator`.
 - **[`WarningFieldsValidator`][11]**  
 Displays a warning if some field(s) doesn't have a value. Useful for alerting users about data that is technically valid but may not provide the results they expect
 - **[`DependentRequiredFieldsValidator`][12]**  
@@ -59,10 +57,8 @@ Like `ValidatesMultipleFields` but requires a configuration array for each field
 [3]: https://github.com/UndefinedOffset/silverstripe-nocaptcha
 [4]: docs/en/01-validators.md
 [5]: docs/en/01-validators.md#ajaxcompositevalidator
-[6]: https://api.silverstripe.org/4/SilverStripe/Forms/CompositeValidator.html
+[6]: https://api.silverstripe.org/6/SilverStripe/Forms/Validation/CompositeValidator.html
 [7]: https://github.com/silverstripe/silverstripe-elemental/issues/764
-[9]: docs/en/01-validators.md#requiredfieldsvalidator
-[10]: https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html
 [11]: docs/en/01-validators.md#warningfieldsvalidator
 [12]: docs/en/01-validators.md#dependentrequiredfieldsvalidator
 [13]: https://docs.silverstripe.org/en/developer_guides/model/searchfilters/
