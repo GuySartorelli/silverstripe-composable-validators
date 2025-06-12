@@ -15,7 +15,7 @@ class WarningFieldsValidatorTest extends SapphireTest
     public function testValidationMessageIfEmpty(): void
     {
         $form = TestFormGenerator::getForm(['FieldOne'], new WarningFieldsValidator(['FieldOne']));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertCount(1, $messages);
@@ -34,7 +34,7 @@ class WarningFieldsValidatorTest extends SapphireTest
     public function testNoValidationMessageIfNotEmpty(): void
     {
         $form = TestFormGenerator::getForm(['FieldOne' => 'someValue'], new WarningFieldsValidator(['FieldOne']));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -46,7 +46,7 @@ class WarningFieldsValidatorTest extends SapphireTest
     public function testNoValidationMessageIfFieldMissing(): void
     {
         $form = TestFormGenerator::getForm(['FieldOne'], new WarningFieldsValidator(['MissingField']));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);

@@ -28,7 +28,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
             ],
             new DependentRequiredFieldsValidator(['FieldOne' => ['FieldTwo' => 'SomeValue']])
         );
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -51,7 +51,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
             new DependentRequiredFieldsValidator(['FieldOne' => ['FieldTwo:StartsWith:nocase' => 'some']])
         );
         // Check that when the required field is empty, there is a validation error.
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertCount(1, $messages);
@@ -60,7 +60,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
 
         // Check that when the required field has a value, there is no validation error.
         $form->Fields()->dataFieldByName('FieldOne')->setValue('anything');
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -83,7 +83,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
             new DependentRequiredFieldsValidator(['FieldOne' => ['FieldTwo' => null]])
         );
         // Check that when the required field is empty, there is a validation error.
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertCount(1, $messages);
@@ -103,7 +103,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
             ],
             new DependentRequiredFieldsValidator(['FieldOne' => ['MissingField' => null]])
         );
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -121,7 +121,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
             ],
             new DependentRequiredFieldsValidator(['MissingField' => ['FieldTwo' => null]])
         );
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -149,7 +149,7 @@ class DependentRequiredFieldsValidatorTest extends SapphireTest
         ]);
         $form = new Form(null, 'testForm', $fields, new FieldList([/* no actions */]), $validator);
         $expectedMessages = $this->setupExpectedMessages($fields);
-        $messages = $form->validationResult()->getMessages();
+        $messages = $form->validate()->getMessages();
         foreach ($messages as $message) {
             $this->assertEquals($expectedMessages[$message['fieldName']], $message['message']);
         }

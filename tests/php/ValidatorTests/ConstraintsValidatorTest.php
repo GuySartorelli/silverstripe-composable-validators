@@ -2,6 +2,7 @@
 
 namespace Signify\ComposableValidators\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Signify\ComposableValidators\Validators\ConstraintsValidator;
 use SilverStripe\Dev\SapphireTest;
 use Symfony\Component\Validator\Constraints\Ip;
@@ -9,7 +10,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ConstraintsValidatorTest extends SapphireTest
 {
-    public function provideValidation(): array
+    public static function provideValidation(): array
     {
         return [
             [
@@ -25,13 +26,11 @@ class ConstraintsValidatorTest extends SapphireTest
         ];
     }
 
-    /**
-     * @dataProvider provideValidation
-     */
+    #[DataProvider('provideValidation')]
     public function testValidation(array $fields, array $constraints, bool $isValid): void
     {
         $form = TestFormGenerator::getForm($fields, new ConstraintsValidator($constraints));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertSame($isValid, $result->isValid());
         $messages = $result->getMessages();
         if ($isValid) {

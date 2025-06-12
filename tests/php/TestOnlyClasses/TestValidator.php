@@ -3,7 +3,7 @@
 namespace Signify\ComposableValidators\Tests;
 
 use SilverStripe\Dev\TestOnly;
-use SilverStripe\Forms\Validator;
+use SilverStripe\Forms\Validation\Validator;
 
 /**
  * Simple validator that always fails in the same way.

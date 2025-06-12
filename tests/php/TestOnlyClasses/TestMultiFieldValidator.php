@@ -5,7 +5,7 @@ namespace Signify\ComposableValidators\Tests;
 use Signify\ComposableValidators\Traits\ValidatesMultipleFields;
 use SilverStripe\Dev\TestOnly;
 use SilverStripe\Forms\FormField;
-use SilverStripe\Forms\Validator;
+use SilverStripe\Forms\Validation\Validator;
 
 class TestMultiFieldValidator extends Validator implements TestOnly
 {

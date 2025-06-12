@@ -55,7 +55,10 @@ class AjaxCompositeValidator extends CompositeValidator
             $form->addExtraClass('js-multi-validator-ajax');
             $form->setAttribute('data-validation-link', $form->getRequestHandler()->Link($action));
         }
-        $oldForm = $this->form;
+        $oldForm = null;
+        if (isset($this->form)) {
+            $oldForm = $this->form;
+        }
         parent::setForm($form);
         $this->addValidationHint($oldForm);
         return $this;
@@ -139,7 +142,7 @@ class AjaxCompositeValidator extends CompositeValidator
      * normally called from validate() which has been overridden and no longer
      * calls this.
      *
-     * @see \SilverStripe\Forms\Validator::php()
+     * @see \SilverStripe\Forms\Validation\Validator::php()
      */
     public function php($data)
     {
