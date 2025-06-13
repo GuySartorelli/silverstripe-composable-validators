@@ -7,6 +7,7 @@ use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\ArrayLib;
 use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\Validation\CompositeValidator;
 use SilverStripe\Forms\Validation\Validator;
 use SilverStripe\View\Requirements;
@@ -51,6 +52,11 @@ class AjaxCompositeValidator extends CompositeValidator
     public function setForm(Form $form): static
     {
         if ($this->ajax) {
+            // We need to add a hidden validation-exempt action to prevent unexpected errors
+            $form->Actions()->add(
+                // Name matches the method in FormExtension that gets called to handle ajax validation.
+                FormAction::create('app_ajaxValidate')->setValidationExempt(true)->setTemplate('HiddenFormAction')
+            );
             Requirements::javascript(
                 'guysartorelli/silverstripe-composable-validators:client/dist/AjaxCompositeValidator.js',
                 ['defer' => true]
