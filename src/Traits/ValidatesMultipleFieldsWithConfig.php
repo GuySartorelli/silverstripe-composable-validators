@@ -3,7 +3,7 @@
 namespace Signify\ComposableValidators\Traits;
 
 use InvalidArgumentException;
-use SilverStripe\ORM\ArrayLib;
+use SilverStripe\Core\ArrayLib;
 
 trait ValidatesMultipleFieldsWithConfig
 {
@@ -30,7 +30,6 @@ trait ValidatesMultipleFieldsWithConfig
      * Adds multiple fields to be validated.
      *
      * @param string[][] $fields
-     * @return $this
      */
     public function addFields(array $fields): self
     {
@@ -45,7 +44,6 @@ trait ValidatesMultipleFieldsWithConfig
      *
      * @param string $field Name of the field to add as a dependent required field.
      * @param string[] $config The config for the field. See documentation for the validator as to what is valid.
-     * @return $this
      */
     public function addField(string $field, array $config): self
     {

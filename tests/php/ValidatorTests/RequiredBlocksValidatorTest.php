@@ -45,7 +45,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => 0,
             ],
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -61,7 +61,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
         ], new RequiredBlocksValidator([
             ElementContent::class,
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -79,7 +79,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
         ], new RequiredBlocksValidator([
             ElementContent::class,
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -101,7 +101,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'max' => 1,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -117,7 +117,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'max' => 0,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -139,7 +139,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'max' => 3,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -152,7 +152,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'max' => 0,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -173,7 +173,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'min' => 2,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -186,7 +186,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'min' => 1,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -207,7 +207,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'min' => 2,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -229,7 +229,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => 0,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -245,7 +245,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => 1,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -267,7 +267,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => 0,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -283,7 +283,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => 1,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -299,7 +299,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => 1,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -321,7 +321,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => -1,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -337,7 +337,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => -2,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -359,7 +359,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => -1,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -375,7 +375,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => -2,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -391,7 +391,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => -1,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -416,7 +416,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => 0,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -441,7 +441,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'pos' => 0,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -465,7 +465,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'min' => 2,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -490,7 +490,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'min' => 2,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -515,7 +515,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'max' => 2,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -540,7 +540,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'max' => 2,
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);
@@ -567,7 +567,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 'AreaFieldName' => 'AreaField2',
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertFalse($result->isValid());
         $messages = $result->getMessages();
         $this->assertNotEmpty($messages);
@@ -596,7 +596,7 @@ class RequiredBlocksValidatorTest extends SapphireTest
                 ],
             ]
         ]));
-        $result = $form->validationResult();
+        $result = $form->validate();
         $this->assertTrue($result->isValid());
         $messages = $result->getMessages();
         $this->assertEmpty($messages);

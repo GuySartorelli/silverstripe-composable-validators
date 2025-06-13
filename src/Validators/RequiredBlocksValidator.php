@@ -7,7 +7,7 @@ use DNADesign\Elemental\Models\ElementalArea;
 use NumberFormatter;
 use SilverStripe\Config\MergeStrategy\Priority;
 use SilverStripe\i18n\i18n;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\List\ArrayList;
 
 // This validator needn't exist if the elemental classes don't.
 if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class)) {
@@ -17,20 +17,18 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
      * A minimum and/or maximum number of blocks of each class can be set, as well as the
      * positions within the elemental area in which those blocks must sit.
      *
-     * This validator is best used within an AjaxCompositeValidator in conjunction with
-     * a SimpleFieldsValidator.
+     * This validator is best used within an AjaxCompositeValidator
      */
     class RequiredBlocksValidator extends BaseValidator
     {
         /**
          * List of required blocks and their requirement configuration.
-         * @var array
          */
-        protected $required;
+        protected array $required;
 
-        protected const TOO_FEW_ERROR = 'toofew';
-        protected const TOO_MANY_ERROR = 'toomany';
-        protected const POSITION_ERROR = 'outofposition';
+        protected const string TOO_FEW_ERROR = 'toofew';
+        protected const string TOO_MANY_ERROR = 'toomany';
+        protected const string POSITION_ERROR = 'outofposition';
 
         public function __construct(array $required = [])
         {
@@ -41,9 +39,8 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
          * Validates that the required blocks exist in the configured positions.
          *
          * @param array $data
-         * @return bool
          */
-        public function php($data)
+        public function php($data): bool
         {
             $elementalAreaFields = $this->getElementalAreaFields();
             $elementClassesToCheck = $this->required;
@@ -70,16 +67,12 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
 
         /**
          * Add an error for each missing elemental block type if the config for the class states a minimum.
-         *
-         * @param ArrayList $elementalAreaFields
-         * @param array $elementClassesToCheck
-         * @param array $errors
          */
         protected function validateMissingBlocks(
             ArrayList $elementalAreaFields,
             array $elementClassesToCheck,
             array &$errors
-        ) {
+        ): void {
             foreach ($elementClassesToCheck as $className => $requiredConfig) {
                 if (isset($requiredConfig['min'])) {
                     $relevantFields = $this->getRelevantFields($elementalAreaFields, $requiredConfig);
@@ -95,18 +88,13 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
 
         /**
          * Validate a specific ElementalArea.
-         *
-         * @param ElementalAreaField $field
-         * @param ArrayList $elementalAreaFields
-         * @param array $elementClassesToCheck
-         * @param array $errors
          */
         protected function validateElementalArea(
             ElementalAreaField $field,
             ArrayList $elementalAreaFields,
             array &$elementClassesToCheck,
             array &$errors
-        ) {
+        ): void {
             $fieldName = $field->Name;
             $area = $field->getArea();
             if ($area) {
@@ -161,18 +149,13 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
 
         /**
          * Validate that the minimum or maximum number of blocks for this class has not been exceeded.
-         *
-         * @param int[] $requiredConfig
-         * @param int $numberOfBlocks
-         * @param ArrayList $relevantFields
-         * @param string[] $errors
          */
         protected function validateMinMax(
             array $requiredConfig,
             int $numberOfBlocks,
             ArrayList $relevantFields,
             array &$errors
-        ) {
+        ): void {
             if (isset($requiredConfig['min']) || isset($requiredConfig['max'])) {
                 if (isset($requiredConfig['min']) && $numberOfBlocks < $requiredConfig['min']) {
                     foreach ($relevantFields as $field) {
@@ -194,7 +177,7 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
          * @param int[] $blockPositions
          * @param string[] $errors
          */
-        protected function validatePosition(array $requiredConfig, array $blockPositions, array &$errors)
+        protected function validatePosition(array $requiredConfig, array $blockPositions, array &$errors): void
         {
             if (isset($requiredConfig['pos'])) {
                 if (!in_array($requiredConfig['pos'], $blockPositions)) {
@@ -205,10 +188,8 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
 
         /**
          * Set error messages against the ElementalArea(s) which did not pass validation checks.
-         *
-         * @param array $errors
          */
-        protected function setErrorMessages(array $errors)
+        protected function setErrorMessages(array $errors): void
         {
             foreach ($errors as $fieldName => $blockErrors) {
                 $message = _t(
@@ -299,9 +280,6 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
         /**
          * Get the positions of all elemental blocks within the elemental area.
          * Both the positive 0-indexed position (from top) and negative position (from bottom) are provided.
-         *
-         * @param ElementalArea $area
-         * @return array
          */
         protected function getBlockPositions(ElementalArea $area): array
         {
@@ -322,10 +300,6 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
 
         /**
          * Get the names of ElementalAreas that need to be validated against.
-         *
-         * @param ArrayList $elementalAreaFields
-         * @param array $requiredConfig
-         * @return ArrayList
          */
         protected function getRelevantFields(ArrayList $elementalAreaFields, array $requiredConfig): ArrayList
         {
@@ -340,10 +314,6 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
 
         /**
          * Get the number of blocks of a given class that are held in the relevant ElementalAreas.
-         *
-         * @param string $blockClass
-         * @param ArrayList $relevantFields
-         * @return int
          */
         protected function getNumberOfBlocks(string $blockClass, ArrayList $relevantFields): int
         {
@@ -357,9 +327,6 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
         /**
          * Get the localised ordinal string for the number.
          * e.g. in 'en' locales 1 becomes '1st'
-         *
-         * @param int $num
-         * @return string
          */
         protected function ordinal(int $num): string
         {
@@ -369,9 +336,6 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
 
         /**
          * Set appropriate defaults and normalise the configuration for this validator.
-         *
-         * @param array $required
-         * @return array
          */
         protected function normaliseRequiredConfig(array $required): array
         {
@@ -408,8 +372,6 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
 
         /**
          * Declare that this validator can be cached if there are no fields to validate.
-         *
-         * @return bool
          */
         public function canBeCached(): bool
         {
@@ -418,8 +380,6 @@ if (class_exists(ElementalAreaField::class) && class_exists(ElementalArea::class
 
         /**
          * Get all of the ElementalAreaFields available in this form.
-         *
-         * @return ArrayList
          */
         private function getElementalAreaFields(): ArrayList
         {

@@ -1,17 +1,7 @@
 ---
 Name: guysartorelli-composable-validators-config
 ---
-# Don't validate the NocaptchaField during AJAX validation as it can only be validated once.
-Signify\ComposableValidators\Validators\SimpleFieldsValidator:
-  ignore_field_classes_on_ajax:
-    - UndefinedOffset\NoCaptcha\Forms\NocaptchaField
-
 # Add styling to CMS
 SilverStripe\Admin\LeftAndMain:
   extra_requirements_css:
     - 'guysartorelli/silverstripe-composable-validators:client/dist/left-and-main.css'
-
-# Replace new FieldsValidator with our SimpleFieldsValidator
-SilverStripe\Core\Injector\Injector:
-  SilverStripe\Forms\FieldsValidator:
-    class: Signify\ComposableValidators\Validators\SimpleFieldsValidator

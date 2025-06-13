@@ -3,12 +3,14 @@
 namespace Signify\ComposableValidators\Validators;
 
 use SilverStripe\CMS\Controllers\CMSMain;
+use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Forms\CompositeValidator;
+use SilverStripe\Core\ArrayLib;
 use SilverStripe\Forms\Form;
-use SilverStripe\Forms\Validator;
-use SilverStripe\ORM\ArrayLib;
+use SilverStripe\Forms\Validation\CompositeValidator;
+use SilverStripe\Forms\Validation\Validator;
 use SilverStripe\View\Requirements;
+use UndefinedOffset\NoCaptcha\Forms\NocaptchaField;
 
 /**
  * An implementation of CompositeValidator that can contain between 0 and many different types of Validators
@@ -20,33 +22,33 @@ class AjaxCompositeValidator extends CompositeValidator
 {
     /**
      * Whether the validation hint data attribute should be applied to forms.
-     *
-     * @var bool
-     * @config
      */
-    private static $add_validation_hint = true;
+    private static bool $add_validation_hint = true;
+
+    /**
+     * Field classes to remove before AJAX validation.
+     * This is useful e.g. to avoid errors from validating
+     * a recaptcha token twice. Instead it only gets validated
+     * during the actual form submission.
+     */
+    private static array $remove_before_ajax_validation = [
+        NocaptchaField::class,
+    ];
 
     /**
      * Per-instance override for add_validation_hint
-     *
-     * @var bool|null
      */
-    private $addValidationHint;
+    private ?bool $addValidationHint = null;
 
     /**
      * Whether ajax validation should be used.
-     *
-     * @var bool
      */
-    private $ajax = true;
+    private bool $ajax = true;
 
     /**
      * Sends the form to each validator
-     *
-     * @param Form $form
-     * @return AjaxCompositeValidator
      */
-    public function setForm($form)
+    public function setForm(Form $form): static
     {
         if ($this->ajax) {
             Requirements::javascript(
@@ -65,7 +67,10 @@ class AjaxCompositeValidator extends CompositeValidator
             $form->addExtraClass('js-multi-validator-ajax');
             $form->setAttribute('data-validation-link', $form->getRequestHandler()->Link($action));
         }
-        $oldForm = $this->form;
+        $oldForm = null;
+        if (isset($this->form)) {
+            $oldForm = $this->form;
+        }
         parent::setForm($form);
         $this->addValidationHint($oldForm);
         return $this;
@@ -73,15 +78,10 @@ class AjaxCompositeValidator extends CompositeValidator
 
     public function validate(bool $isValidAjax = false)
     {
-        // Skip if this is not an expected request.
-        if (!$this->isValidRequest($isValidAjax)) {
-            $this->resetResult();
-            return $this->result;
-        }
         // Let superclass handle validation of child validators.
         parent::validate();
         // Don't store the validation result in the session for AJAX validation requests.
-        if ($isValidAjax) {
+        if (Director::is_ajax()) {
             $this->getRequest()->getSession()->clear("FormInfo.{$this->form->FormName()}.result");
         }
         return $this->result;
@@ -91,7 +91,6 @@ class AjaxCompositeValidator extends CompositeValidator
      * Add multiple Validators at once.
      *
      * @param Validator[] $validator
-     * @return CompositeValidator
      */
     public function addValidators(array $validators): CompositeValidator
     {
@@ -105,7 +104,6 @@ class AjaxCompositeValidator extends CompositeValidator
      * Get a validator if one by that type exists - otherwise, create and add a new one.
      *
      * @param string $validatorClass The class of the validator to get or create.
-     * @return Validator The existing or new validator.
      */
     public function getOrAddValidatorByType(string $validatorClass): Validator
     {
@@ -119,30 +117,7 @@ class AjaxCompositeValidator extends CompositeValidator
     }
 
     /**
-     * Check whether this is a legitimate validation request.
-     *
-     * @param bool $validAjax
-     * @return bool
-     */
-    protected function isValidRequest(bool $validAjax): bool
-    {
-        $request = $this->getRequest();
-        // Not valid if action is validation exempt.
-        if (isset($request->requestVars()['_original_action'])) {
-            $clickedAction = $request->requestVars()['_original_action'];
-            $clickedButton = $this->form->Actions()->dataFieldByName($clickedAction);
-            if ($clickedButton && $clickedButton->getValidationExempt()) {
-                return false;
-            }
-        }
-        // Not valid if the FormRequestHandler attempts to validate prior to passing to our validation handler.
-        return !$request->isAjax() || $validAjax || $request->allParams()['Action'] !== 'httpSubmission';
-    }
-
-    /**
      * Get the HTTPRequest used to submit the form or perform validation.
-     *
-     * @return HTTPRequest|null
      */
     protected function getRequest(): ?HTTPRequest
     {
@@ -156,7 +131,7 @@ class AjaxCompositeValidator extends CompositeValidator
      * normally called from validate() which has been overridden and no longer
      * calls this.
      *
-     * @see \SilverStripe\Forms\Validator::php()
+     * @see \SilverStripe\Forms\Validation\Validator::php()
      */
     public function php($data)
     {
@@ -165,9 +140,6 @@ class AjaxCompositeValidator extends CompositeValidator
 
     /**
      * Set whether this validator is configured to add a validation hint to the form.
-     *
-     * @param bool $addHint
-     * @return $this
      */
     public function setAddValidationHint(bool $addHint): self
     {
@@ -177,8 +149,6 @@ class AjaxCompositeValidator extends CompositeValidator
 
     /**
      * True if this validator is configured to add a validation hint to the form.
-     *
-     * @return bool
      */
     public function getAddValidationHint(): bool
     {
@@ -190,9 +160,6 @@ class AjaxCompositeValidator extends CompositeValidator
 
     /**
      * Set whether this validator is configured to use AJAX validation.
-     *
-     * @param bool $ajax
-     * @return $this
      */
     public function setAjax(bool $ajax): self
     {
@@ -202,8 +169,6 @@ class AjaxCompositeValidator extends CompositeValidator
 
     /**
      * True if this validator is configured to use AJAX validation.
-     *
-     * @return bool
      */
     public function getAjax(): bool
     {
@@ -213,8 +178,6 @@ class AjaxCompositeValidator extends CompositeValidator
     /**
      * Add a typehint data attribute that indicates what validation is necessary.
      * This is useful to ensure automated tests know what values will be valid for which fields.
-     *
-     * @param Form|null $oldForm
      */
     private function addValidationHint(?Form $oldForm): void
     {

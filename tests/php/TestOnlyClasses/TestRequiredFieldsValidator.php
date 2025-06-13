@@ -1,9 +1,11 @@
 <?php
 
-namespace Signify\ComposableValidators\Validators;
+namespace Signify\ComposableValidators\Tests;
 
 use Signify\ComposableValidators\Traits\ValidatesMultipleFields;
+use Signify\ComposableValidators\Validators\FieldHasValueValidator;
 use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Dev\TestOnly;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField;
 
@@ -13,7 +15,7 @@ use SilverStripe\Forms\FormField;
  * This validator is best used within an AjaxCompositeValidator in conjunction with
  * a SimpleFieldsValidator.
  */
-class RequiredFieldsValidator extends FieldHasValueValidator
+class TestRequiredFieldsValidator extends FieldHasValueValidator implements TestOnly
 {
     use ValidatesMultipleFields;
 

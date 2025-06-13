@@ -12,7 +12,7 @@ class DataObjectValidationExemptionExtension extends Extension
      * @see SiteTree::getCMSActions()
      * @see GridFieldItemRequestValidationExemptionExtension::updateFormActions()
      */
-    public function updateCMSActions(FieldList $actions)
+    protected function updateCMSActions(FieldList $actions): void
     {
         // Can't just use dataFieldByName because sometimes action_save is there twice which throws an exception.
         $ignoreValidationActions = [

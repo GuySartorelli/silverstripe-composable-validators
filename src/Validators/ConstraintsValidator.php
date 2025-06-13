@@ -21,8 +21,7 @@ use SilverStripe\Core\Validation\ConstraintValidator;
  *
  * See https://symfony.com/doc/current/reference/constraints.html for a list of constraints.
  *
- * This validator is best used within an AjaxCompositeValidator in conjunction with
- * a SimpleFieldsValidator.
+ * This validator is best used within an AjaxCompositeValidator
  */
 class ConstraintsValidator extends BaseValidator
 {
@@ -32,9 +31,8 @@ class ConstraintsValidator extends BaseValidator
      * Validates that the required blocks exist in the configured positions.
      *
      * @param array $data
-     * @return bool
      */
-    public function php($data)
+    public function php($data): bool
     {
         foreach ($this->getFields() as $fieldName => $constraint) {
             $value = isset($data[$fieldName]) ? $data[$fieldName] : null;

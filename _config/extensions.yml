@@ -5,6 +5,6 @@ SilverStripe\Forms\Form:
   extensions:
     - Signify\ComposableValidators\Extensions\FormExtension
 
-SilverStripe\Forms\FormField:
+SilverStripe\Admin\LeftAndMain:
   extensions:
-    - Signify\ComposableValidators\Extensions\FormFieldExtension
+    - Signify\ComposableValidators\Extensions\LeftAndMainAjaxValidationExtension

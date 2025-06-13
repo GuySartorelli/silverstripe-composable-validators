@@ -6,27 +6,28 @@ All of these validators can be used in the CMS _and_ in the front-end.
 
 ## AjaxCompositeValidator
 
-**Important:** See the [extensions docs](./02-extensions.md) for extensions that are highly recommended if you intend to use this validator.
+> [!IMPORTANT]
+> See the [extensions docs](./02-extensions.md) for extensions that are highly recommended if you intend to use this validator.
 
 Note that to use this validator on the frontend, you will need to expose `jQuery` as a global variable. To avoid providing outdated or redundant copies of jQuery this module doesn't come packaged with it.
 
-As of Silverstripe 4.7.0, all `DataObject`s have a [`CompositeValidator`](https://api.silverstripe.org/4/SilverStripe/Forms/CompositeValidator.html) automatically for CMS forms. The `AjaxCompositeValidator` is a subclass of that validator and provides AJAX validation that takes affect prior to form submission. When you click a form action that isn't validation exempt, an AJAX request is made to validate the form _prior_ to form submission. If there are any validation errors, form submission will be blocked and validation messages displayed.
+All `DataObject`s have a [`CompositeValidator`](https://api.silverstripe.org/6/SilverStripe/Forms/Validation/CompositeValidator.html) automatically for CMS forms. The `AjaxCompositeValidator` is a subclass of that validator and provides AJAX validation that takes affect prior to form submission. When you click a form action that isn't validation exempt, an AJAX request is made to validate the form _prior_ to form submission. If there are any validation errors, form submission will be blocked and validation messages displayed.
 
-This is useful for situations where data can be lost with the normal Silverstripe validation pipeline (e.g. validating fields on a page that has an [elemental area](https://github.com/silverstripe/silverstripe-elemental) - see [this issue](https://github.com/silverstripe/silverstripe-elemental/issues/764)), and is also faster as it doesn't need to reload the form after validating to display the error messages.
+This is typically faster as it doesn't need to reload and re-render the form after validating to display the error messages.
 
 This validator is also extremely useful for front-end forms, as it provides client-side-esque validation without having to re-write all of your validation logic. It even checks for Google Recaptcha v2, and will produce an error if it identifies that a Recaptcha v2 exists for the form but was not completed.
 
 ### Usage
 
-If the [`DataObjectDefaultAjaxExtension`](./02-extensions.md#dataobjectdefaultajaxextension) extension has been applied, calling `parent::getCMSCompositeValidator()` inside the `getCMSCompositeValidator()` method will return an `AjaxCompositeValidator`, which can then be manipulated.
+> [!HINT]
+> See the [optional configuration](./02-extensions.md) for information about replacing the default `CompositeValidator` with `AjaxCompositeValidator`.
 
-You can also opt to just return a new `AjaxCompositeValidator` from that method - and in front-end situations, you can instantiate a new `AjaxCompositeValidator` (preferably [via injection](https://docs.silverstripe.org/en/developer_guides/extending/injector/) i.e. `AjaxCompositeValidator::create()`).
+You can also opt to just return a new `AjaxCompositeValidator` from `getCMSCompositeValidator()` - and in front-end situations, you can instantiate a new `AjaxCompositeValidator` (preferably [via injection](https://docs.silverstripe.org/en/developer_guides/extending/injector/) i.e. `AjaxCompositeValidator::create()`).
 
 Ajax validation can also be disabled at any stage, if there is a cause for doing so.
 
 ```PHP
-// This example assumes use of the validator in the CMS, with the DataObjectDefaultAjaxExtension extension applied.
-// If this was for frontend use, you would be well-advised to explicitly include a SimpleFieldsValidator.
+// This example assumes use of the validator in the CMS, with the optional configuration applied.
 public function getCMSCompositeValidator(): CompositeValidator
 {
     $validator = parent::getCMSCompositeValidator();
@@ -48,74 +49,29 @@ public function getCMSCompositeValidator(): CompositeValidator
 }
 ```
 
-### Known Issues
+### Exclude fields from AJAX validation
 
-Some actions (such as delete, archive, and restore) should be allowed even if the data is not valid (we should be allowed to delete an object _especially_ if its data is invalid), but those actions are not validation exempt by default. [Two extensions](./02-extensions.md#dataobjectvalidationexemptionextension-and-gridfielditemrequestvalidationexemptionextension) are provided with this module to remedy this and we strongly recommend applying them.
+You may also want to omit certain `FormField` subclasses from validation during AJAX validation calls, and only validate them during the final form submission.
 
-## SimpleFieldsValidator
+This can be useful if (as in the case of the [undefinedoffset/silverstripe-nocaptcha](https://github.com/UndefinedOffset/silverstripe-nocaptcha) module's `NocaptchaField`) the field cannot be validated more than once with the same value.
 
-This validator simply calls validate on all fields in the form, ensuring the internal validation of form fields. It should _always_ be included in an `AjaxCompositeValidator` unless some other validator being used also performs that function (such as Silverstripe's own `RequiredFields` validator - though you should generally use this module's `RequiredFieldsValidator` instead).
-
-### Usage
-
-In most situations this validator will require no configuration at all.
-
-However, this validator comes with [an extension](02-extensions.md#formfieldextension) which adds `setOmitFieldValidation()` and `getOmitFieldValidation()` methods to all `FormField`s. This can be used if, for specific use cases, internal field validation should be conditional. In that case you can set `OmitFieldValidation` to true, and handle the conditional validation of the field in a separate validator.
-
-```PHP
-// In the DataObject which needs the custom validation
-public function getCMSFields()
-{
-    $fields = parent::getCMSFields();
-    $fields->add(SomeField::create('FieldName')->setOmitFieldValidation(true));
-    return $fields;
-}
-public function getCMSCompositeValidator() : CompositeValidator
-{
-    $validator = parent::getCMSCompositeValidator();
-    $validator->addValidator(CustomValidator::create());
-    return $validator;
-}
-
-// In your CustomValidator
-public function php($data)
-{
-    $valid = true;
-    /* Other custom validation here */
-    if ($fieldNeedsValidation) {
-        $someField = $this->form->Fields()->dataFieldByName('FieldName');
-        $valid = $someField->validate($this) && $valid;
-    }
-    return $valid;
-}
-```
-
-You may also want to omit certain `FormField` subclasses from validation during AJAX validation calls (assuming you're using the `AjaxCompositeValidator`), and only validate them during the final form submission. This can be useful if (as in the case of the [undefinedoffset/silverstripe-nocaptcha](https://github.com/UndefinedOffset/silverstripe-nocaptcha) module's `NocaptchaField`) the field cannot be validated more than once with the same value.
-
-You can do this by setting the class name for that `FormField` in the `SimpleFieldsValidator`'s `ignore_field_classes_on_ajax` config array.
+You can do this by setting the class name for that `FormField` in the `AjaxCompositeValidator`'s `remove_before_ajax_validation` config array.
 
 ```yml
-Signify\ComposableValidators\Validators\SimpleFieldsValidator:
-  ignore_field_classes_on_ajax:
+Signify\ComposableValidators\Validators\AjaxCompositeValidator:
+  remove_before_ajax_validation:
     - UndefinedOffset\NoCaptcha\Forms\NocaptchaField
 ```
 
 That specific class is already added by default, but you can add others if you find similar situations.
 
-## RequiredFieldsValidator
-
-This is a composable replacement for [`RequiredFields`](https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html). It doesn't perform the internal field validation that validator does, with the assumption that it will be paired with a `SimpleFieldsValidator`. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFields`](#validatesmultiplefields) trait.
-
-Displays a validation error if the field(s) has no value.
-
 ### Known Issues
 
-While this validator can be used to require data in `GridField`s, as of writing this documentation GridFields don't display validation errors. This [was resolved](https://github.com/silverstripe/silverstripe-framework/pull/10015) in Silverstripe 4.10.0, but for anyone using an older version in the meantime [an extension](./02-extensions.md#gridfieldmessagesextension) is included with this module to fix this problem. The `AjaxCompositeValidator` will display validation error messages against GridFields even without that extension.  
-This applies to the `WarningFieldsValidator` as well.
+Some actions (such as delete, archive, and restore) should be allowed even if the data is not valid (we should be allowed to delete an object _especially_ if its data is invalid), but those actions are not validation exempt by default. [Two extensions](./02-extensions.md#dataobjectvalidationexemptionextension-and-gridfielditemrequestvalidationexemptionextension) are provided with this module to remedy this and we strongly recommend applying them.
 
 ## WarningFieldsValidator
 
-Similar to `RequiredFieldsValidator` except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFields`](#validatesmultiplefields) trait.
+Similar to [`RequiredFieldsValidator`](https://api.silverstripe.org/6/SilverStripe/Forms/Validation/RequiredFields.html) except instead of blocking the item from saving, this allows the item to save and displays a warning rather than a full validation error. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFields`](#validatesmultiplefields) trait.
 
 This can be very useful for alerting users about data that is technically valid but may not provide the results they expect.
 
@@ -240,29 +196,6 @@ See the Symfony [validation constraints reference](https://symfony.com/doc/curre
 
 See [validation using `symfony/validator` constraints](https://docs.silverstripe.org/en/developer_guides/model/validation/#symfony-validator) in the Silverstripe CMS documentation for any limitations imposed by Silverstripe CMS itself on this kind of validation.
 
-## RegexFieldsValidator
-
-> [!WARNING]
-> Deprecated! Use `ConstraintsValidator` with a [`Regex` constraint](https://symfony.com/doc/current/reference/constraints/Regex.html) instead.
-
-This validator is used to require field values to match a specific regex pattern. Often it will make sense to have this validation inside a custom `FormField` implementation, but for one-off specific pattern validation of fields that don't warrant their own `FormField` this validator is perfect. It uses (so has all of the functionality and methods of) the [`ValidatesMultipleFieldsWithConfig`](#validatesmultiplefieldswithconfig) trait.
-
-Any value that cannot be converted to a string cannot be checked against regex and so is ignored, and therefore implicitly passes validation.
-
-In the below example, the `NotOnlyNumbersField` field must match one of the specified regex patterns.
-
-```php
-RegexFieldsValidator::create([
-    'NotOnlyNumbersField' => [
-        '/(?!^\d+$)^.*?$/' => 'must not consist entirely of numbers',
-        '/^[\d]$/' => 'must have only one digit',
-    ]
-]);
-```
-
-**Note:** If any one of the patterns is matched, it passes validation. If none of the patterns match, all of the corresponding messages are displayed, including a generic prefix. So in the above example, if none of the patterns match the value of `NotOnlyNumbersField`, the following validation error message will display:  
-`The value for "NotOnlyNumbersField" must not consist entirely of numbers or must have only one digit`
-
 ## Abstract Validators
 
 ### BaseValidator
@@ -283,7 +216,7 @@ It also has an abstract method `getValidationHints()` which has implications for
 
 ### FieldHasValueValidator
 
-This abstract class is itself a subclass of `BaseValidator`, and is useful as a superclass for any validator that needs to check if fields have a value. This functionality is used in the [`RequiredFieldsValidator`](#requiredfieldsvalidator), [`WarningFieldsValidator`](#warningfieldsvalidator), and [`DependentRequiredFieldsValidator`](#dependentrequiredfieldsvalidator).
+This abstract class is itself a subclass of `BaseValidator`, and is useful as a superclass for any validator that needs to check if fields have a value. This functionality is used in the [`WarningFieldsValidator`](#warningfieldsvalidator) and [`DependentRequiredFieldsValidator`](#dependentrequiredfieldsvalidator).
 
 ```php
 // Get the actual FormField for the named field.
@@ -331,7 +264,7 @@ class MyFieldValueExtension extends Extension
 
 ## ValidatesMultipleFields
 
-This trait is used in both the [`RequiredFieldsValidator`](#requiredfieldsvalidator) and [`WarningFieldsValidator`](#warningfieldsvalidator). It is useful for any validator that can be fed an array of field names that need to be validated.
+This trait is used in the [`WarningFieldsValidator`](#warningfieldsvalidator). It is useful for any validator that can be fed an array of field names that need to be validated.
 
 ### Usage
 

@@ -22,16 +22,12 @@ composer require guysartorelli/silverstripe-composable-validators
 
 The `AjaxCompositeValidator` adds a submit handler to your form. This doesn't always interact well with other submit handlers, and can result in either front-end validation being skipped or the form not submitting the way you expect it to, depending on which submit handler gets the event first. For best results, don't add additional submit handlers to the form.
 
-If you're using the `AjaxCompositeValidator` on a form that uses [undefinedoffset/silverstripe-nocaptcha][3] 2.3.0 or higher, you should disable form submission handling for the `NocaptchaField` in that form (see instructions in the nocaptcha docs).
+If you're using the `AjaxCompositeValidator` on a form that uses [undefinedoffset/silverstripe-nocaptcha][3], you should disable form submission handling for the `NocaptchaField` in that form (see instructions in the nocaptcha docs).
 
 ## [Available Validators][4]
 
 - **[`AjaxCompositeValidator`][5]**  
 Subclass of [`CompositeValidator`][6] that provides AJAX validation. Resolves [an issue with losing data][7], faster turn-around for fixing validation problems, and provides a way to use the same validation for 'client-side' validation of frontend forms.
-- **[`SimpleFieldsValidator`][8]**  
-Ensures the internal validation of form fields by calling `validate()` on them.
-- **[`RequiredFieldsValidator`][9]**  
-Like Silverstripe's [`RequiredFields`][10] validator, but more convenient for use in a `CompositeValidator`.
 - **[`WarningFieldsValidator`][11]**  
 Displays a warning if some field(s) doesn't have a value. Useful for alerting users about data that is technically valid but may not provide the results they expect
 - **[`DependentRequiredFieldsValidator`][12]**  
@@ -40,8 +36,6 @@ Uses [`SearchFilter`s][13] to define fields as required conditionally, based on 
 Require a specific [elemental block(s)][15] to exist in the `ElementalArea`, with optional minimum and maximum numbers of blocks and optional positional validation.
 - **[`ConstraintsValidator`][16]**  
 Validate values against [`symfony/validation` constraints](https://symfony.com/doc/current/reference/constraints.html). This is super powerful - definitely check it out.
-- **[`RegexFieldsValidator`][17]** (deprecated)  
-Ensure some field(s) matches a specified regex pattern.
 
 ### [Abstract Validators][18]
 
@@ -63,18 +57,14 @@ Like `ValidatesMultipleFields` but requires a configuration array for each field
 [3]: https://github.com/UndefinedOffset/silverstripe-nocaptcha
 [4]: docs/en/01-validators.md
 [5]: docs/en/01-validators.md#ajaxcompositevalidator
-[6]: https://api.silverstripe.org/4/SilverStripe/Forms/CompositeValidator.html
+[6]: https://api.silverstripe.org/6/SilverStripe/Forms/Validation/CompositeValidator.html
 [7]: https://github.com/silverstripe/silverstripe-elemental/issues/764
-[8]: docs/en/01-validators.md#simplefieldsvalidator
-[9]: docs/en/01-validators.md#requiredfieldsvalidator
-[10]: https://api.silverstripe.org/4/SilverStripe/Forms/RequiredFields.html
 [11]: docs/en/01-validators.md#warningfieldsvalidator
 [12]: docs/en/01-validators.md#dependentrequiredfieldsvalidator
 [13]: https://docs.silverstripe.org/en/developer_guides/model/searchfilters/
 [14]: docs/en/01-validators.md#requiredblocksvalidator
 [15]: https://github.com/silverstripe/silverstripe-elemental
 [16]: docs/en/01-validators.md#constraintsvalidator
-[17]: docs/en/01-validators.md#regexfieldsvalidator
 [18]: docs/en/01-validators.md#abstract-validators
 [19]: docs/en/01-validators.md#basevalidator
 [20]: docs/en/01-validators.md#fieldhasvaluevalidator
