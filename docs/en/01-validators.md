@@ -49,6 +49,22 @@ public function getCMSCompositeValidator(): CompositeValidator
 }
 ```
 
+### Exclude fields from AJAX validation
+
+You may also want to omit certain `FormField` subclasses from validation during AJAX validation calls, and only validate them during the final form submission.
+
+This can be useful if (as in the case of the [undefinedoffset/silverstripe-nocaptcha](https://github.com/UndefinedOffset/silverstripe-nocaptcha) module's `NocaptchaField`) the field cannot be validated more than once with the same value.
+
+You can do this by setting the class name for that `FormField` in the `AjaxCompositeValidator`'s `remove_before_ajax_validation` config array.
+
+```yml
+Signify\ComposableValidators\Validators\AjaxCompositeValidator:
+  remove_before_ajax_validation:
+    - UndefinedOffset\NoCaptcha\Forms\NocaptchaField
+```
+
+That specific class is already added by default, but you can add others if you find similar situations.
+
 ### Known Issues
 
 Some actions (such as delete, archive, and restore) should be allowed even if the data is not valid (we should be allowed to delete an object _especially_ if its data is invalid), but those actions are not validation exempt by default. [Two extensions](./02-extensions.md#dataobjectvalidationexemptionextension-and-gridfielditemrequestvalidationexemptionextension) are provided with this module to remedy this and we strongly recommend applying them.

@@ -10,6 +10,7 @@ use SilverStripe\Forms\Form;
 use SilverStripe\Forms\Validation\CompositeValidator;
 use SilverStripe\Forms\Validation\Validator;
 use SilverStripe\View\Requirements;
+use UndefinedOffset\NoCaptcha\Forms\NocaptchaField;
 
 /**
  * An implementation of CompositeValidator that can contain between 0 and many different types of Validators
@@ -23,6 +24,16 @@ class AjaxCompositeValidator extends CompositeValidator
      * Whether the validation hint data attribute should be applied to forms.
      */
     private static bool $add_validation_hint = true;
+
+    /**
+     * Field classes to remove before AJAX validation.
+     * This is useful e.g. to avoid errors from validating
+     * a recaptcha token twice. Instead it only gets validated
+     * during the actual form submission.
+     */
+    private static array $remove_before_ajax_validation = [
+        NocaptchaField::class,
+    ];
 
     /**
      * Per-instance override for add_validation_hint

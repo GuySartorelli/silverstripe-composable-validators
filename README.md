@@ -22,7 +22,7 @@ composer require guysartorelli/silverstripe-composable-validators
 
 The `AjaxCompositeValidator` adds a submit handler to your form. This doesn't always interact well with other submit handlers, and can result in either front-end validation being skipped or the form not submitting the way you expect it to, depending on which submit handler gets the event first. For best results, don't add additional submit handlers to the form.
 
-If you're using the `AjaxCompositeValidator` on a form that uses [undefinedoffset/silverstripe-nocaptcha][3] 2.3.0 or higher, you should disable form submission handling for the `NocaptchaField` in that form (see instructions in the nocaptcha docs).
+If you're using the `AjaxCompositeValidator` on a form that uses [undefinedoffset/silverstripe-nocaptcha][3], you should disable form submission handling for the `NocaptchaField` in that form (see instructions in the nocaptcha docs).
 
 ## [Available Validators][4]
 
