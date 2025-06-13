@@ -14,7 +14,9 @@ class FormExtension extends Extension
     public function app_ajaxValidate(array $data, Form $form): HTTPResponse
     {
         $msg = null;
-        $result = $form->getValidator()->validate(true);
+        $form->getRequestHandler()->setButtonClicked(null);
+        $result = $form->validate();
+        $form->getRequestHandler()->setButtonClicked('action_app_ajaxValidate');
         if ($result->isValid()) {
             $msg = true;
         } else {

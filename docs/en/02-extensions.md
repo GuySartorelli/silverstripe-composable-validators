@@ -3,7 +3,7 @@
 You may want to replace the default `CompositeValidator` that all `DataObject`s have (see `DataObject::getCMSCompositeValidator()`) with this module's [`AjaxCompositeValidator`](./01-validators.md#ajaxcompositevalidator).
 
 ```yml
-Injector:
+SilverStripe\Core\Injector\Injector:
   SilverStripe\Forms\Validation\CompositeValidator:
     class: 'Signify\ComposableValidators\Validators\AjaxCompositeValidator'
 ```

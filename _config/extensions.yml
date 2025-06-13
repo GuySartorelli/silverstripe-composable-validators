@@ -4,3 +4,7 @@ Name: signify-composable-validators-extensions
 SilverStripe\Forms\Form:
   extensions:
     - Signify\ComposableValidators\Extensions\FormExtension
+
+SilverStripe\Admin\LeftAndMain:
+  extensions:
+    - Signify\ComposableValidators\Extensions\LeftAndMainAjaxValidationExtension

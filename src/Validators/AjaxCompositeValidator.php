@@ -3,6 +3,7 @@
 namespace Signify\ComposableValidators\Validators;
 
 use SilverStripe\CMS\Controllers\CMSMain;
+use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\ArrayLib;
 use SilverStripe\Forms\Form;
@@ -66,15 +67,10 @@ class AjaxCompositeValidator extends CompositeValidator
 
     public function validate(bool $isValidAjax = false)
     {
-        // Skip if this is not an expected request.
-        if (!$this->isValidRequest($isValidAjax)) {
-            $this->resetResult();
-            return $this->result;
-        }
         // Let superclass handle validation of child validators.
         parent::validate();
         // Don't store the validation result in the session for AJAX validation requests.
-        if ($isValidAjax) {
+        if (Director::is_ajax()) {
             $this->getRequest()->getSession()->clear("FormInfo.{$this->form->FormName()}.result");
         }
         return $this->result;
@@ -107,24 +103,6 @@ class AjaxCompositeValidator extends CompositeValidator
             $this->addValidator($validator);
         }
         return $validator;
-    }
-
-    /**
-     * Check whether this is a legitimate validation request.
-     */
-    protected function isValidRequest(bool $validAjax): bool
-    {
-        $request = $this->getRequest();
-        // Not valid if action is validation exempt.
-        if (isset($request->requestVars()['_original_action'])) {
-            $clickedAction = $request->requestVars()['_original_action'];
-            $clickedButton = $this->form->Actions()->dataFieldByName($clickedAction);
-            if ($clickedButton && $clickedButton->getValidationExempt()) {
-                return false;
-            }
-        }
-        // Not valid if the FormRequestHandler attempts to validate prior to passing to our validation handler.
-        return !$request->isAjax() || $validAjax || $request->allParams()['Action'] !== 'httpSubmission';
     }
 
     /**
